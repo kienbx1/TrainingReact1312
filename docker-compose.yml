@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  mongodb:
+    image: mongo
+    # command: [--auth]
+    ports:
+      - '27017:27017' # host:container
+    # networks:
+    #   - nodeapp-network
+    # mounting volumes does not work in Windows and MacOS for mongodb
+    # https://docs.docker.com/samples/library/mongo/ - See 'Caveats'
+    volumes:
+      - ./data:/data/db
+    # volumes:
+      # - ./dump:/dump
+    # restart: always
