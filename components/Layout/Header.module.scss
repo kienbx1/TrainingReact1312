@@ -1,0 +1,100 @@
+@import "../../assets/_variables.scss";
+
+.header {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  gap: 20px;
+
+  .headerLogo {
+    cursor: pointer;
+  }
+
+  .headerSearch {
+    flex: 6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $bgInput;
+    padding: 8px 12px 8px 24px;
+    border-radius: 36px;
+
+    .headerInput {
+      width: 100%;
+      background-color: $bgInput;
+      border: none;
+      font-size: 16px;
+      font-weight: 400;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .headerBtnSearch {
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      .iconBtnSearch {
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .headerNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex: 3;
+    gap: 16px;
+
+    .headerNavAboutUs {
+      display: flex;
+      justify-content: space-around;
+      flex: 5;
+
+      .aboutUsOption {
+        font-size: 16px;
+        font-weight: 600;
+        color: $colorBlack;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .headerNavButton {
+      display: flex;
+      justify-content: space-around;
+      flex: 4;
+
+      .buttonLogin {
+        width: 70px;
+        height: 40px;
+        border-radius: 24px;
+        color: $colorWhite;
+        background-color: $redButton;
+      }
+
+      .buttonSignup {
+        width: 80px;
+        height: 40px;
+        border-radius: 24px;
+        color: $colorBlack;
+        background-color: $whiteButton;
+      }
+    }
+  }
+}
