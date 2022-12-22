@@ -1,0 +1,128 @@
+@import "../assets/variables";
+
+.message__dropdown {
+  .message__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 12px 6px 16px;
+    border-bottom: 2px solid $lineColor;
+
+    .header__message--title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .header__message--create-chat {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      transition: ease-in 0.2s;
+
+      &:hover {
+        background-color: $bgGrayHover;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .message__list {
+    overflow-y: auto;
+    scrollbar-color: $commonGray transparent;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 0 20px 20px 0;
+      margin-left: -8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $commonGray;
+      border-radius: 20px;
+      border: 3px solid transparent;
+    }
+
+    .message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid $lineColor;
+      padding: 8px 4px 8px 4px;
+
+      &:first-child {
+        padding: 8px 4px 8px 4px;
+      }
+
+      &:last-child {
+        border-bottom: none;
+        padding: 8px 4px 8px 4px;
+      }
+
+      .user__avatar {
+        .avatar__image {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+
+      &:hover {
+        background-color: $bgGrayHover;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      .info__message {
+        min-width: 180px;
+        margin-left: 8px;
+
+        .user__name {
+          font-weight: 600;
+          margin-bottom: 2px;
+        }
+
+        .user__message,
+        .time__message {
+          font-size: 12px;
+          color: $messageColor;
+        }
+
+        .user__message {
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          width: 100px;
+        }
+
+        .time__message {
+          margin-left: 8px;
+        }
+      }
+
+      .icon__delete {
+        z-index: 2;
+        width: 20px;
+        height: 20px;
+        padding: 2px;
+        border-radius: 50%;
+        margin-left: 8px;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: $commonGray;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.dropdown {
+  position: absolute;
+  width: 300px;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+  top: 50px;
+  padding: 4px 0 4px 4px;
+  gap: 8px;
+  font-size: 16px;
+  border-radius: 16px;
+  box-shadow: 0px 3px 10px -1px #00000066;
+  overflow: hidden;
+  right: 0;
+  transition: all 0.5s;
+  background-color: #fff;
+  z-index: 99;
+  animation: growOut 300ms ease-in-out forwards;
+  transform-origin: top center;
+
+  @keyframes growOut {
+    0% {
+      transform: scale(0);
+    }
+    80% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}

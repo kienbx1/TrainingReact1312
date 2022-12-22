@@ -1,0 +1,77 @@
+@import "../../assets/_variables.scss";
+
+.header {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  gap: 20px;
+
+  .header__Logo {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    border: solid $redButton;
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .header__create {
+    display: flex;
+    gap: 4px;
+    padding: 12px;
+    font-weight: 600;
+    border-radius: 24px;
+    transition: ease 0.2s;
+    font-size: 20px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $bgGrayHover;
+    }
+  }
+
+  .header__search {
+    flex: 6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $bgInput;
+    padding: 8px 12px 8px 24px;
+    border-radius: 36px;
+
+    .header__input {
+      width: 100%;
+      background-color: $bgInput;
+      border: none;
+      font-size: 16px;
+      font-weight: 400;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .header__btn--search {
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+
+      .icon__btn--search {
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}

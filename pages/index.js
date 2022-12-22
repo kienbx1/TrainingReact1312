@@ -1,5 +1,5 @@
 import ListPosts from '../components/UI/ListPosts'
-export default function Home () {
+const Home = () => {
   return (
     <div>
       Home page
@@ -7,3 +7,5 @@ export default function Home () {
     </div>
   )
 }
+
+export default Home
