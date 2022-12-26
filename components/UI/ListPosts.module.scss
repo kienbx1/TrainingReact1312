@@ -1,0 +1,47 @@
+.row {
+    column-width: 240px;
+    column-width: 240px;
+    column-gap: 16px;
+    column-gap:16px; 
+   }
+   .listposts__posts {
+    display: inline-block;
+    margin-bottom: 10px;
+    width:  252px; 
+   }
+   .listposts__posts__items {
+    image-rendering: pixelated;
+    position:relative;
+    display: block;
+    margin: 8px;
+    &:hover{
+        .listposts__posts__btn{
+            opacity: 1;
+            margin: 10px;
+        }
+        .listposts__posts__img{
+            transform: scale(1.1);
+            transition: all .5s;
+        }
+    }
+    .listposts__posts__img{
+        cursor: pointer;
+        border-radius: 10%;
+        z-index: 1;
+        transition: transform 0.5s ease;
+        
+       } 
+    .listposts__posts__btn{
+        position: absolute;
+        height: 40px;
+        right: 0;
+        z-index: 10;
+        border-radius: 20px;
+        background-color:#e60023; //cần mã màu
+        color: white;
+        opacity: 0;
+    }
+   }
+ 
+  
+   
