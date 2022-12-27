@@ -1,98 +1,82 @@
 import React from 'react'
-import Image from 'next/image'
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import styles from './ListPosts.module.scss'
 import classNames from 'classnames'
-import { images } from '../../constant'
+import data from '../../constant/index'
 import Button from './Button'
-
-
-
-
+import { FaShare, FaDownload } from 'react-icons/fa'
+import Link from 'next/link'
 const ListPosts = () => {
-
-
-const handleOnclick=() => {
-  console.log("hehehehehe")
-}
-
+  const handleClick = async () => {
+    // Hàm xử lý nút down load
+    // const result = data.information.image
+    // try {
+    //   const image = await fetch(result, {
+    //     mode: 'no-cors',
+    //     headers: {
+    //       'Access-Control-Allow-Origin': '*'
+    //     }
+    //   })
+    //   const imageBlog = await image.blob()
+    //   const imageURL = URL.createObjectURL(imageBlog)
+    //   const link = document.createElement('a')
+    //   link.href = imageURL
+    //   link.download = `bookend2022.${result.split('.').pop() || 'png'}`
+    //   console.log(link, 'linkkk')
+    //   document.body.appendChild(link)
+    //   link.click()
+    //   document.body.removeChild(link)
+    // } catch (err) {
+    //   console.log(err)
+    // }
+    // FileSaver.saveAs(data.information.image, "image.jpg");
+  }
 
   return (
-    <div>
+    <>
       <div className='container'>
         <center>
-        <div className={classNames(styles.row,'justify-content-center')}>
-          <div className={classNames(styles.listposts__posts)}>
-            <div className={classNames(styles.listposts__posts__items)}>
-              <Button onClick={handleOnclick} type='button' className={styles.listposts__posts__btn}  >Save</Button>
-              <Image onClick={handleOnclick} className={classNames(styles.listposts__posts__img)}   src={images.avatar} />
-              <h5 >Cài đặt phần mềm định vị oto</h5>
-            </div>
+          <div className={styles.row}>
+            {data.information.map((info) => (
+              <div key={info.id}>
+                <div className={classNames(styles.listboxes__posts__items)}>
+                  <div
+                    className={classNames(styles.listboxes__posts__container)}
+                  >
+                    <Button
+                      type='button'
+                      className={styles['listboxes__posts__btn--save']}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      type='button'
+                      className={styles['listboxes__posts__btn--share']}
+                    >
+                      <FaShare />
+                    </Button>
+                    <Button
+                      onClick={handleClick}
+                      type='button'
+                      className={styles['listboxes__posts__btn--down']}
+                    >
+                      <FaDownload />
+                    </Button>
+                    <Link href='/detail-post'>
+                      <img
+                        onClick={handleClick}
+                        className={classNames(styles.listboxes__posts__img)}
+                        src={info.image}
+                      />
+                    </Link>
+                  </div>
+                  <h5 className='listboxes__posts__des'>{info.name}</h5>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className={classNames(styles.listposts__posts,'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}>
-            <Button onClick={handleOnclick} type='button' className={styles.listposts__posts__btn}>Save</Button>
-            <Image  className={classNames(styles.listposts__posts__img)} src={images.avatar6} />
-              <h5 >Cài đặt phần mềm định vị oto</h5>
-            </div>
-          </div>
-          <div className={classNames(styles.listposts__posts,'col-lg-2','col-md-4')}>
-           <div className={classNames(styles.listposts__posts__items)}>
-             <Image   className={classNames(styles.listposts__posts__img)} src={images.avatar2} />
-             <h5 >Cài đặt phần mềm định vị oto</h5>
-           </div>
-          </div>
-          <div className={classNames(styles.listposts__posts, 'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}> 
-             <Image className={classNames(styles.listposts__posts__img)} src={images.avatar3} />
-             <h5 >Cài đặt phần mềm định vị oto</h5>
-           </div>
-          </div>
-          <div className={classNames(styles.listposts__posts, 'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}>
-             <Image className={classNames(styles.listposts__posts__img)} src={images.avatar5} />
-             <h5 >Cài đặt phần mềm định vị oto</h5>
-            </div>
-          </div>
-          <div className={classNames(styles.listposts__posts, 'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}>
-             <Image className={classNames(styles.listposts__posts__img)} src={images.avatar3} />
-             <h5 >Cài đặt phần mềm định vị oto</h5>
-            </div>
-          </div>
-          <div className={classNames(styles.listposts__posts , 'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}>
-             <Image className={classNames(styles.listposts__posts__img)} src={images.avatar2} />
-             <h5 >Cài đặt phần mềm định vị oto</h5>
-            </div>
-          </div>
-          <div className={classNames(styles.listposts__posts , 'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}>
-             <Image className={classNames(styles.listposts__posts__img)} src={images.avatar8} />
-             <h5 >Cài đặt phần mềm định vị oto</h5></div>
-          </div>
-          <div className={classNames(styles.listposts__posts, 'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}>
-             <Image className={classNames(styles.listposts__posts__img)} src={images.avatar6} />
-             <h5 >Cài đặt phần mềm định vị oto</h5>
-            </div>
-          </div>
-          <div className={classNames(styles.listposts__posts, 'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}>
-             <Image className={classNames(styles.listposts__posts__img)} src={images.avatar7} />
-             <h5 >Cài đặt phần mềm định vị oto</h5>
-            </div>
-          </div>
-          <div className={classNames(styles.listposts__posts, 'col-lg-2','col-md-4')}>
-            <div className={classNames(styles.listposts__posts__items)}>
-             <Image className={classNames(styles.listposts__posts__img)} src={images.avatar9} />
-             <h5 >Cài đặt phần mềm định vị oto</h5>
-            </div>
-          </div>
-        </div>
-       </center>
+        </center>
       </div>
-    </div>
+    </>
   )
 }
 
