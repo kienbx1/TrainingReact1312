@@ -1,0 +1,62 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal__container {
+    max-width: 500px;
+    background-color: #fff;
+    padding: 36px;
+    text-align: center;
+    border-radius: 20px;
+    animation: modalFadeIn ease 0.4s forwards;
+
+    .modal__icon {
+      font-size: 40px;
+      color: #f16161;
+      margin: 24px 0;
+    }
+
+    .modal__title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .modal__btn {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+
+      &--no,
+      &--yes {
+        width: 100px;
+        font-size: 20px;
+        padding: 8px 12px;
+        border-radius: 24px;
+        box-shadow: 0px 4px 8px 0px #ccc;
+      }
+
+      &--yes {
+        background-color: #f16161;
+        color: #fff;
+      }
+    }
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      transform: translateY(-130px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
