@@ -1,0 +1,52 @@
+@import "../assets/variables";
+
+.menu-profile__dropdown {
+  padding: 12px 12px 0 8px;
+
+  .menu__info-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $bgGrayHover;
+      border-radius: 12px;
+    }
+
+    .info-user__avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .info-user__text {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      &--name {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      &--email {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .menu__option {
+    .option {
+      font-size: 16px;
+      padding: 12px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $bgGrayHover;
+        border-radius: 12px;
+      }
+    }
+  }
+}
