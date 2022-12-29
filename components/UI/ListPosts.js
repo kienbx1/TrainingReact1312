@@ -33,7 +33,7 @@ const ListPosts = () => {
 
   return (
     <>
-      <div className='container'>
+      <div className={classNames('container', styles['container__list-post'])}>
         <center>
           <div className={styles.row}>
             {data.information.map((info) => (
@@ -61,7 +61,7 @@ const ListPosts = () => {
                     >
                       <FaDownload />
                     </Button>
-                    <Link href='/detail-post'>
+                    <Link href='/detail-post' passHref legacyBehavior>
                       <img
                         onClick={handleClick}
                         className={classNames(styles.listboxes__posts__img)}

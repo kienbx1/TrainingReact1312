@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { AiFillMessage } from 'react-icons/ai'
 import { BiDownArrow } from 'react-icons/bi'
 import { IoMdNotifications } from 'react-icons/io'
@@ -15,15 +15,29 @@ const NavBar = (props) => {
   const [isOpenMessage, setIsOpenMessage] = useState(false)
   const [isOpenMenuProfile, setIsOpenMenuProfile] = useState(false)
 
+  const menuRef = useRef()
+
   const openNotificationHandler = () => {
+    if (isOpenMessage || isOpenMenuProfile) {
+      setIsOpenMessage(false)
+      setIsOpenMenuProfile(false)
+    }
     setIsOpenNotification(!isOpenNotification)
   }
 
   const openMessageHandler = () => {
+    if (isOpenNotification || isOpenMenuProfile) {
+      setIsOpenNotification(false)
+      setIsOpenMenuProfile(false)
+    }
     setIsOpenMessage(!isOpenMessage)
   }
 
   const openMenuProfileHandler = () => {
+    if (isOpenNotification || isOpenMessage) {
+      setIsOpenNotification(false)
+      setIsOpenMessage(false)
+    }
     setIsOpenMenuProfile(!isOpenMenuProfile)
   }
 
@@ -32,26 +46,30 @@ const NavBar = (props) => {
       {
         props.isLogin
           ? (
-            <div className={classes['header__nav--login']}>
-              <Button className={classes.btn__option}><IoMdNotifications className={classes.icon__option} onClick={openNotificationHandler} /></Button>
+            <div className={classes['header__nav--login']} ref={menuRef}>
+              <Button
+                className={classes.btn__option}
+              >
+                <IoMdNotifications className={classes.icon__option} onClick={openNotificationHandler} />
+              </Button>
               {
                 isOpenNotification
-                  ? <ListNotifications setIsOpenNotification={setIsOpenNotification} />
+                  ? <ListNotifications setIsOpenNotification={setIsOpenNotification} menuRef={menuRef} />
                   : <></>
               }
               <Button className={classes.btn__option}><AiFillMessage className={classes.icon__option} onClick={openMessageHandler} /></Button>
               {
                 isOpenMessage
-                  ? <ListMessages setIsOpenMessage={setIsOpenMessage} />
+                  ? <ListMessages setIsOpenMessage={setIsOpenMessage} menuRef={menuRef} />
                   : <></>
               }
-              <Link href='/user-profile' passHref>
+              <Link href='/user-profile' passHref legacyBehavior>
                 <Button className={classes.btn__option}><img src='/images/avatar_test.png' className={classes.icon__option} /></Button>
               </Link>
               <Button className={classes.btn__option}><BiDownArrow onClick={openMenuProfileHandler} /></Button>
               {
                 isOpenMenuProfile
-                  ? <MenuProfile setIsOpenMenuProfile={setIsOpenMenuProfile} />
+                  ? <MenuProfile setIsOpenMenuProfile={setIsOpenMenuProfile} menuRef={menuRef} />
                   : <></>
               }
             </div>
@@ -59,13 +77,13 @@ const NavBar = (props) => {
           : (
             <div className={classes['header__nav--logout']}>
               <div className={classes['header__nav--about-us']}>
-                <Link href='/about'>
+                <Link href='/about' passHref legacyBehavior>
                   <p className={classes['about__us--option']}>About</p>
                 </Link>
-                <Link href='/business'>
+                <Link href='/business' passHref legacyBehavior>
                   <p className={classes['about__us--option']}>Business</p>
                 </Link>
-                <Link href='/blog'>
+                <Link href='/blog' passHref legacyBehavior>
                   <p className={classes['about__us--option']}>Blog</p>
                 </Link>
               </div>

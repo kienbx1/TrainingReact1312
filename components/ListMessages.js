@@ -12,7 +12,7 @@ const ListMessages = (props) => {
 
   useEffect(() => {
     const handler = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (menuRef.current && !menuRef.current.contains(e.target) && !props.menuRef.current.contains(e.target)) {
         props.setIsOpenMessage(false)
       }
     }
