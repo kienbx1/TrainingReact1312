@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from './ListPosts.module.scss'
-import classNames from 'classnames'
 import data from '../../constant/index'
 import Button from './Button'
 import { FaShare, FaDownload } from 'react-icons/fa'
 import Link from 'next/link'
+
 const ListPosts = () => {
   const handleClick = async () => {
-    // Hàm xử lý nút down load
+    // Hàm xử lý nút download
     // const result = data.information.image
     // try {
     //   const image = await fetch(result, {
@@ -28,20 +28,18 @@ const ListPosts = () => {
     // } catch (err) {
     //   console.log(err)
     // }
-    // FileSaver.saveAs(data.information.image, "image.jpg");
+    // FileSaver.saveAs(data.information.image, 'image.jpg');
   }
 
   return (
     <>
-      <div className={classNames('container', styles['container__list-post'])}>
+      <div className={styles['container__list-post']}>
         <center>
           <div className={styles.row}>
             {data.information.map((info) => (
               <div key={info.id}>
-                <div className={classNames(styles.listboxes__posts__items)}>
-                  <div
-                    className={classNames(styles.listboxes__posts__container)}
-                  >
+                <div className={styles.listboxes__posts__items}>
+                  <div className={styles.listboxes__posts__container}>
                     <Button
                       type='button'
                       className={styles['listboxes__posts__btn--save']}
@@ -61,10 +59,21 @@ const ListPosts = () => {
                     >
                       <FaDownload />
                     </Button>
-                    <Link href='/detail-post' passHref legacyBehavior>
+                    <Link
+                      passHref
+                      legacyBehavior
+                      href={{
+                        pathname: `/detail-post/${info.id}`,
+                        query: {
+                          img: info.image,
+                          name: info.name,
+                          avatar: info.avatar
+                        }
+                      }}
+                    >
                       <img
                         onClick={handleClick}
-                        className={classNames(styles.listboxes__posts__img)}
+                        className={styles.listboxes__posts__img}
                         src={info.image}
                       />
                     </Link>
