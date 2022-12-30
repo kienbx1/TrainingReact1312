@@ -1,0 +1,73 @@
+.profile__container {
+  width: fit-content;
+  margin-top: 100px;
+  .profile__avatar {
+    .profile__avatar--img {
+      max-width: 150px;
+      max-height: 150px;
+      width: 100%;
+      border-radius: 100%;
+    }
+    .profile__avatar--name {
+      font-size: 30px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+    .profile__avatar--uid {
+      font-size: 15px;
+      font-weight: 300;
+      margin-top: 20px;
+    }
+    .profile__avatar--des {
+      margin-top: 17px;
+    }
+    .profile__follow {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      .profile__follow--follower,
+      .profile__follow--following {
+        font-weight: 500;
+        font-size: 17px;
+        cursor: pointer;
+        margin-left: 45px;
+      }
+    }
+    .profile__contact__buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      .profile__contact__button {
+        border-radius: 25px;
+        width: fit-content;
+        padding: 10px;
+        height: 50px;
+        margin: 10px;
+        &:last-child {
+          background-color: red;
+          color: white;
+        }
+      }
+    }
+  }
+}
+.profile__saved__buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  .profile__saved__button {
+    border-radius: 15px;
+    width: 100px;
+    height: 40px;
+    margin: 5px;
+    background-color: white;
+    &::after {
+      background-color: black;
+      width: 4px;
+      height: 20px;
+    }
+    &:hover {
+      opacity: 1.2;
+    }
+  }
+}
