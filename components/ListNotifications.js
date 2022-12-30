@@ -9,7 +9,7 @@ const ListNotifications = (props) => {
 
   useEffect(() => {
     const handler = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (menuRef.current && !menuRef.current.contains(e.target) && !props.menuRef.current.contains(e.target)) {
         props.setIsOpenNotification(false)
       }
     }

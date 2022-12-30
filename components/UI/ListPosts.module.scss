@@ -1,86 +1,89 @@
-.row {
-  column-width: 240px;
-  column-width: 240px;
-  column-gap: 16px;
-  column-gap: 16px;
-}
-.listboxes__posts {
-  display: inline-block;
-  margin-bottom: 10px;
-  width: 252px;
-}
-.listboxes__posts__items {
-  .listboxes__posts__container {
+.container__list-post {
+  margin-top: 80px;
+  .row {
+    column-width: 240px;
+    column-width: 240px;
+    column-gap: 16px;
+    column-gap: 16px;
+  }
+  .listboxes__posts {
+    display: inline-block;
+    margin-bottom: 10px;
     width: 252px;
-    height: auto;
-    position: relative;
-    display: block;
-    margin: 8px;
-    &:hover {
-      .listboxes__posts__btn--save {
-        display: block;
+  }
+  .listboxes__posts__items {
+    .listboxes__posts__container {
+      width: 252px;
+      height: auto;
+      position: relative;
+      display: block;
+      margin: 8px;
+      &:hover {
+        .listboxes__posts__btn--save {
+          display: block;
+        }
+        .listboxes__posts__img {
+          transform: scale(1.02);
+          transition: all 0.5s;
+          overflow: hidden;
+        }
+        .listboxes__posts__btn--share {
+          display: block;
+        }
+        .listboxes__posts__btn--down {
+          display: block;
+        }
       }
       .listboxes__posts__img {
-        transform: scale(1.02);
-        transition: all 0.5s;
-        overflow: hidden;
+        width: 252px;
+        position: relative;
+        cursor: pointer;
+        border-radius: 20px;
+        z-index: 1;
+        transition: transform 0.5s ease;
+      }
+      .listboxes__posts__btn--save {
+        position: absolute;
+        height: 40px;
+        right: 0;
+        z-index: 10;
+        border-radius: 20px;
+        background-color: #e60023; //cần mã màu
+        color: white;
+        display: none;
+        margin: 10px 15px 0 0;
       }
       .listboxes__posts__btn--share {
-        display: block;
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        right: 0;
+        z-index: 10;
+        border-radius: 20px;
+        background-color: white; //cần mã màu
+        color: black;
+        display: none;
+        bottom: 0;
+        margin: 0 75px 10px 0;
       }
       .listboxes__posts__btn--down {
-        display: block;
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        right: 0;
+        z-index: 10;
+        border-radius: 20px;
+        background-color: white; //cần mã màu
+        color: black;
+        display: none;
+        bottom: 0;
+        margin: 0 15px 10px 0;
       }
     }
-    .listboxes__posts__img {
-      width: 252px;
-      position: relative;
-      cursor: pointer;
-      border-radius: 20px;
-      z-index: 1;
-      transition: transform 0.5s ease;
+    .listboxes__posts__des {
+      position: fixed;
+      text-align: left;
+      text-indent: 10px;
     }
-    .listboxes__posts__btn--save {
-      position: absolute;
-      height: 40px;
-      right: 0;
-      z-index: 10;
-      border-radius: 20px;
-      background-color: #e60023; //cần mã màu
-      color: white;
-      display: none;
-      margin: 10px 15px 0 0;
-    }
-    .listboxes__posts__btn--share {
-      position: absolute;
-      height: 40px;
-      width: 40px;
-      right: 0;
-      z-index: 10;
-      border-radius: 20px;
-      background-color: white; //cần mã màu
-      color: black;
-      display: none;
-      bottom: 0;
-      margin: 0 75px 10px 0;
-    }
-    .listboxes__posts__btn--down {
-      position: absolute;
-      height: 40px;
-      width: 40px;
-      right: 0;
-      z-index: 10;
-      border-radius: 20px;
-      background-color: white; //cần mã màu
-      color: black;
-      display: none;
-      bottom: 0;
-      margin: 0 15px 10px 0;
-    }
-  }
-  .listboxes__posts__des {
-    position: fixed;
-    text-align: left;
-    text-indent: 10px;
   }
 }

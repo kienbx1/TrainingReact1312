@@ -9,7 +9,7 @@ const MenuProfile = (props) => {
 
   useEffect(() => {
     const handler = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (menuRef.current && !menuRef.current.contains(e.target) && !props.menuRef.current.contains(e.target)) {
         props.setIsOpenMenuProfile(false)
       }
     }
@@ -23,7 +23,7 @@ const MenuProfile = (props) => {
   return (
     <Dropdown>
       <div className={classes['menu-profile__dropdown']} ref={menuRef}>
-        <Link href='/user-profile'>
+        <Link href='/user-profile' passHref legacyBehavior>
           <div className={classes['menu__info-user']}>
             <img className={classes['info-user__avatar']} src='/images/avatar_test.png' />
             <div className={classes['info-user__text']}>

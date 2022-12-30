@@ -24,7 +24,7 @@ const Header = (props) => {
 
   return (
     <header className={classes.header}>
-      <Link href='/'>
+      <Link href='/' passHref legacyBehavior>
         <img
           className={classes.header__Logo}
           src='/images/logo_header.png'
@@ -34,7 +34,7 @@ const Header = (props) => {
       {
         isLogin
           ? (
-            <Link href='/create-post'>
+            <Link href='/create-post' passHref legacyBehavior>
               <span className={classes.header__create}>Tạo <IoMdCreate /></span>
             </Link>
             )
