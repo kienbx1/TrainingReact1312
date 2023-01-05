@@ -1,20 +1,93 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 * {
 	box-sizing: border-box;
 }
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -23,32 +96,45 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
 	display: block;
 }
 body {
 	line-height: 1;
 }
-ol, ul {
+ol,
+ul {
 	list-style: none;
 }
 
 a {
-  color: inherit;
-  text-decoration: inherit;
+	color: inherit;
+	text-decoration: inherit;
 }
 
 a:hover {
-  color: inherit;
+	color: inherit;
 }
 
-blockquote, q {
+blockquote,
+q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
 	content: none;
 }
 table {
@@ -56,60 +142,65 @@ table {
 	border-spacing: 0;
 }
 * {
-  font-family: 'Poppins', sans-serif!important;
+	font-family: "Poppins", sans-serif !important;
 }
 .font-medium {
-  font-weight: 500!important;
+	font-weight: 500 !important;
 }
 .text-sm {
-  font-size: .875rem!important;
-  line-height: 1.25rem!important;
+	font-size: 0.875rem !important;
+	line-height: 1.25rem !important;
 }
 
 html body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	font-family: Poppins,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
-	font-family: var(--font-body),ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font-family: Poppins, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue,
+		Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+		"Noto Color Emoji";
 }
 
 :root {
 	--font-display: Poppins;
 	--font-body: Poppins;
-	
-	--c-primary-50: 238,242,255;
-	--c-primary-100: 224,231,255;
-	--c-primary-200: 199,210,254;
-	--c-primary-300: 165,180,252;
-	--c-primary-400: 129,140,248;
-	--c-primary-500: 99,102,241;
-	--c-primary-600: 79,70,229;
-	--c-primary-700: 67,56,202;
-	--c-primary-800: 55,48,163;
-	--c-primary-900: 49,46,129;
-	--c-secondary-50: 240,253,250;
-	--c-secondary-100: 204,251,241;
-	--c-secondary-200: 153,246,228;
-	--c-secondary-300: 153,246,228;
-	--c-secondary-400: 45,212,191;
-	--c-secondary-500: 20,184,166;
-	--c-secondary-600: 13,148,136;
-	--c-secondary-700: 15,118,110;
-	--c-secondary-800: 17,94,89;
-	--c-secondary-900: 19,78,74;
-	--c-neutral-50: 249,250,251;
-	--c-neutral-100: 243,244,246;
-	--c-neutral-200: 229,231,235;
-	--c-neutral-300: 209,213,219;
-	--c-neutral-400: 156,163,175;
-	--c-neutral-500: 107,114,128;
-	--c-neutral-600: 75,85,99;
-	--c-neutral-700: 55,65,81;
-	--c-neutral-800: 31,41,55;
-	--c-neutral-900: 17,24,39;
+
+	--c-primary-50: 238, 242, 255;
+	--c-primary-100: 224, 231, 255;
+	--c-primary-200: 199, 210, 254;
+	--c-primary-300: 165, 180, 252;
+	--c-primary-400: 129, 140, 248;
+	--c-primary-500: 99, 102, 241;
+	--c-primary-600: 79, 70, 229;
+	--c-primary-700: 67, 56, 202;
+	--c-primary-800: 55, 48, 163;
+	--c-primary-900: 49, 46, 129;
+	--c-secondary-50: 240, 253, 250;
+	--c-secondary-100: 204, 251, 241;
+	--c-secondary-200: 153, 246, 228;
+	--c-secondary-300: 153, 246, 228;
+	--c-secondary-400: 45, 212, 191;
+	--c-secondary-500: 20, 184, 166;
+	--c-secondary-600: 13, 148, 136;
+	--c-secondary-700: 15, 118, 110;
+	--c-secondary-800: 17, 94, 89;
+	--c-secondary-900: 19, 78, 74;
+	--c-neutral-50: 249, 250, 251;
+	--c-neutral-100: 243, 244, 246;
+	--c-neutral-200: 229, 231, 235;
+	--c-neutral-300: 209, 213, 219;
+	--c-neutral-400: 156, 163, 175;
+	--c-neutral-500: 107, 114, 128;
+	--c-neutral-600: 75, 85, 99;
+	--c-neutral-700: 55, 65, 81;
+	--c-neutral-800: 31, 41, 55;
+	--c-neutral-900: 17, 24, 39;
 }
 
-*, :after, :before {
+*,
+:after,
+:before {
 	--tw-translate-x: 0;
 	--tw-translate-y: 0;
 	--tw-rotate: 0;
@@ -129,7 +220,7 @@ html body {
 	--tw-ring-inset: ;
 	--tw-ring-offset-width: 0px;
 	--tw-ring-offset-color: #fff;
-	--tw-ring-color: rgba(59,130,246,.5);
+	--tw-ring-color: rgba(59, 130, 246, 0.5);
 	--tw-ring-offset-shadow: 0 0 #0000;
 	--tw-ring-shadow: 0 0 #0000;
 	--tw-shadow: 0 0 #0000;
@@ -154,6 +245,7 @@ html body {
 	--tw-backdrop-sepia: ;
 }
 
-:after, :before {
+:after,
+:before {
 	--tw-content: "";
 }
