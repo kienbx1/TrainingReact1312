@@ -1,10 +1,7 @@
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import Link from 'next/link'
-import { useState } from 'react'
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
-const NavBar = () => {
-  const [active, setActive] = useState(0)
-
+const NavBar = ({ active, setActive }) => {
   const activeHandler = (idx) => {
     setActive(idx)
   }
