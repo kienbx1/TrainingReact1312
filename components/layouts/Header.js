@@ -9,7 +9,6 @@ import NavBar from '../NavBar'
 const Header = () => {
   const [isSearchBar, setIsSearchBar] = useState(false)
   const [inputValue, setInputValue] = useState('')
-  const [active, setActive] = useState(0)
 
   const changeSearchBarHandler = (e) => {
     setInputValue(e.target.value)
@@ -19,18 +18,14 @@ const Header = () => {
     setIsSearchBar(!isSearchBar)
   }
 
-  const activeHandler = (idx) => {
-    setActive(idx)
-  }
-
   return (
     <div className='bg-orange-primary pb-[100px]'>
       <div className='mx-auto md:max-w-[85%] sm:max-w-full h-20 bg-white rounded shadow-3xl fixed left-0 right-0 top-2.5 flex items-center z-[2]'>
         <div className='w-full px-10 flex items-center justify-between'>
           <Link href='/'>
-            <img src='/Images/king-shoes-low-resolution-logo-black-on-transparent-background.png' className='w-20 cursor-pointer hover:scale-110 duration-500' onClick={() => activeHandler(0)} />
+            <img src='/Images/king-shoes-low-resolution-logo-black-on-transparent-background.png' className='w-20 cursor-pointer hover:scale-110 duration-500' />
           </Link>
-          <NavBar active={active} setActive={setActive} />
+          <NavBar />
           <div className='flex flex-row gap-x-8'>
             <AiOutlineSearch className='text-2xl cursor-pointer hover:scale-105 duration-500' onClick={searchClickHandler} />
             <Link href='/cart'>

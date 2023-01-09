@@ -1,11 +1,13 @@
 import Banner from '../components/layouts/body/Banner'
-import ProductsOnSale from '../components/productsOnSale/products-on-sale'
+import ListProducts from '../components/ListProducts'
+import CustomerServicePolicy from '../components/layouts/body/CustomerServicePolicy'
 
 export default function Home () {
   return (
     <>
       <Banner />
-      <ProductsOnSale />
+      <ListProducts />
+      <CustomerServicePolicy />
     </>
   )
 }
