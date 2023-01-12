@@ -1,3 +1,4 @@
+import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
 
 const Nike = () => {
@@ -17,4 +18,7 @@ const Nike = () => {
   )
 }
 
+Nike.getLayout = function getLayout (page) {
+  return <UserLayout>{page}</UserLayout>
+}
 export default Nike

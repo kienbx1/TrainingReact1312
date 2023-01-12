@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FaPlus, FaMinus } from 'react-icons/fa'
+import UserLayout from '../../components/layouts/UserLayout'
 
 const detailImg = [
   {
@@ -109,4 +110,7 @@ const DetailProduct = () => {
   )
 }
 
+DetailProduct.getLayout = function getLayout (page) {
+  return <UserLayout>{page}</UserLayout>
+}
 export default DetailProduct
