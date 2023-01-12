@@ -1,6 +1,36 @@
 import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
 
+const datas = [
+  {
+    name: 'giay converse',
+    price: 400,
+    id: 3,
+    saleOff: false,
+    discount: 0,
+    image: '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/Black/display.jpg',
+    branch: 'converse'
+  },
+  {
+    name: 'giay converse',
+    price: 400,
+    id: 6,
+    saleOff: false,
+    discount: 0,
+    image: '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/White/display.jpg',
+    branch: 'converse'
+  },
+  {
+    name: 'giay converse',
+    price: 400,
+    id: 9,
+    saleOff: true,
+    discount: 10,
+    image: '/Images/Converse/Converse x DRKSHDW TURBOWPN High Top/display.jpg',
+    branch: 'converse'
+  }
+]
+
 const Converse = () => {
   return (
     <>
@@ -21,7 +51,7 @@ const Converse = () => {
         />
       </div>
       <div className='xl:px-28 lg:px-24 md:px-16 sm:px-0 py-12'>
-        <ListProducts branch='converse' />
+        <ListProducts datas={datas} />
       </div>
     </>
   )

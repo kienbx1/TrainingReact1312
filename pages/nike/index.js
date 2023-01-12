@@ -1,6 +1,36 @@
 import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
 
+const datas = [
+  {
+    name: 'giay nike',
+    price: 200,
+    id: 1,
+    saleOff: true,
+    discount: 12,
+    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
+    branch: 'nike'
+  },
+  {
+    name: 'giay nike',
+    price: 200,
+    id: 4,
+    saleOff: false,
+    discount: 0,
+    image: '/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp',
+    branch: 'nike'
+  },
+  {
+    name: 'giay nike',
+    price: 200,
+    id: 7,
+    saleOff: false,
+    discount: 0,
+    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
+    branch: 'nike'
+  }
+]
+
 const Nike = () => {
   return (
     <>
@@ -12,7 +42,7 @@ const Nike = () => {
         <img src='/Images/shape-2.png' className='absolute z-0 right-0 top-[40%]' />
       </div>
       <div className='xl:px-28 lg:px-24 md:px-16 sm:px-0 py-12'>
-        <ListProducts branch='nike' />
+        <ListProducts datas={datas} />
       </div>
     </>
   )
