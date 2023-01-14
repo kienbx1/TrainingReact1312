@@ -48,7 +48,7 @@ const Header = () => {
             <Link href='/'>
               <img src='/Images/king-shoes-low-resolution-logo-black-on-transparent-background.png' className='w-20 cursor-pointer hover:scale-110 duration-500' />
             </Link>
-            <NavBar />
+            <NavBar isOpenMenu={isOpenMenu} />
             <div className='flex flex-row gap-5 md:gap-8'>
               <AiOutlineSearch className='text-2xl cursor-pointer hover:scale-105 duration-500' onClick={searchClickHandler} />
               <Link href='/cart'>

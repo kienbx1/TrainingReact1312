@@ -39,7 +39,7 @@ const ordersSchema = new mongoose.Schema(
     checking: {
       type: Boolean,
       default: false
-    },
+    }
   },
   {
     timestamps: true

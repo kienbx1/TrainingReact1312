@@ -205,7 +205,7 @@ const data = {
     {
       id: 10,
       name: 'Adidas continental 80',
-      brand: 'converse',
+      brand: 'adidas',
       price: 2000000,
       isNew: true,
       saleOff: true,
