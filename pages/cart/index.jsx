@@ -2,7 +2,7 @@ import { useState } from 'react'
 import UserLayout from '../../components/layouts/UserLayout'
 import OrderSummary from '../../components/OrderSummary'
 import ProductsListInCart from '../../components/ProductsListInCart'
-import SubCustomerServicePolicy from '../../components/layouts/body/SubCustomerServicePolicy'
+import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import data from '../../utils/db'
 
 const Cart = () => {
@@ -40,7 +40,7 @@ const Cart = () => {
             )
         }
       </div>
-      <SubCustomerServicePolicy />
+      <CustomerServicePolicy />
     </>
   )
 }

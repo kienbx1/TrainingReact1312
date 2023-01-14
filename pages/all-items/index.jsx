@@ -1,9 +1,13 @@
+import { BsBasket } from 'react-icons/bs'
+
+import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
-import SubCustomerServicePolicy from '../../components/layouts/body/SubCustomerServicePolicy'
 import data from '../../utils/db'
 
 const AllItems = () => {
+  const productsList = data?.productsList
+
   return (
     <>
       <div className='bg-orange-primary py-12 relative overflow-hidden'>
@@ -14,9 +18,18 @@ const AllItems = () => {
         <img src='/Images/shape-2.png' className='absolute z-0 right-0 top-[40%]' />
       </div>
       <div className='space-two-side pt-10 pb-7'>
-        <ListProducts data={data?.productsList} />
+        <div className='px-5'>
+          <div className='flex items-center gap-3'>
+            <div className='w-6 h-6 flex items-center justify-center rounded-[50%] bg-[#8c71db]'>
+              <BsBasket className='text-white text-xs' />
+            </div>
+            <p className='capitalize text-[#8c71db] text-sm font-semibold'>sản phẩm của chúng tôi</p>
+          </div>
+          <p className='capitalize font-semibold text-3xl mt-3'>Khám phá thêm các sản phẩm chúng tôi</p>
+        </div>
+        <ListProducts data={productsList} />
       </div>
-      <SubCustomerServicePolicy />
+      <CustomerServicePolicy />
     </>
   )
 }

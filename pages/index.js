@@ -1,12 +1,14 @@
 import Banner from '../components/layouts/body/Banner'
-import CustomerServicePolicy from '../components/layouts/body/CustomerServicePolicy'
+import FlashSale from '../components/layouts/body/FlashSale'
+import WhyChooseUs from '../components/layouts/body/WhyChooseUs'
 import UserLayout from '../components/layouts/UserLayout'
 
 export default function Home () {
   return (
     <>
       <Banner />
-      <CustomerServicePolicy />
+      <FlashSale />
+      <WhyChooseUs />
     </>
   )
 }
