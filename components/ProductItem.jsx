@@ -1,7 +1,10 @@
 import Link from 'next/link'
 import { AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai'
+import { useDispatch } from 'react-redux'
+import { getDetailsProduct } from '../redux/slices/productSlice'
 
 const ProductItem = (props) => {
+  const dispatch = useDispatch()
   const clickFavoriteHandle = (item) => {}
 
   return (
@@ -41,6 +44,7 @@ const ProductItem = (props) => {
               <p className='bg-[#ff497c] flex items-center p-2 rounded-md text-white text-sm capitalize font-semibold hover:scale-110 hover:text-white duration-300'>
                 Mua ngay
               </p>
+
             </Link>
             <div className='add__cart bg-white w-10 h-10 rounded-md'>
               <i className='icon__cart flex justify-center items-center bg-white w-10 h-10 rounded-md'>

@@ -5,7 +5,7 @@ import allCity from '../../cityDb.json'
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import { phoneRegExp, emailRegExp } from '../../constant/config'
-import { requiredMessage, invalidEmailMessage, invalidPhoneMessage, minLengthMessage, maxLengthMessage } from '../../constant/errorMessage'
+import { requiredMessage, invalidEmailMessage, invalidPhoneMessage, minLengthMessage, maxLengthMessage } from '../../constant/message'
 
 const Checkout = () => {
   const [selectCity, setSelectCity] = useState('')

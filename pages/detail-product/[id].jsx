@@ -16,32 +16,25 @@ import UserLayout from '../../components/layouts/UserLayout'
 import Loading from '../../components/Loading'
 import ShowProducts from '../../components/ShowProducts'
 import { DEFAULT_IMAGE, emailRegExp } from '../../constant/config'
-import { invalidMessage, maximumCountInStock, requiredMessage } from '../../constant/errorMessage'
+import { invalidMessage, loginToAddToCart, maximumCountInStock, outOfStockInStock, requiredMessage } from '../../constant/message'
+import { addToCart } from '../../redux/slices/cartSlice'
 import { getDetailsProduct, getProducts } from '../../redux/slices/productSlice'
 
 const DetailProduct = () => {
+  const { register, handleSubmit, reset, formState: { errors } } = useForm()
+  const { query } = useRouter()
+  const { id } = query
+
   const [displayProduct, setDisplayProduct] = useState(0)
   const [isSelectSize, setIsSelectSize] = useState(null)
   const [isMessageSize, setIsMessageSize] = useState(false)
   const [quantityProduct, setQuantityProduct] = useState(1)
-  const [, setInfoProductAddToCart] = useState({
-    brand: '',
-    name: '',
-    id: null,
-    size: null,
-    quantity: 0
-  })
 
-  const { query } = useRouter()
-  const { id } = query
   const dispatch = useDispatch()
   const { isLoading, isError, products, detailsProduct } = useSelector(state => state?.product)
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm()
+  const { user } = useSelector(state => state?.auth)
+
+  const relatedData = products.filter(item => item?.brand === detailsProduct?.brand).filter(item => item?._id !== detailsProduct?._id)
 
   useEffect(() => {
     if (id) {
@@ -55,24 +48,35 @@ const DetailProduct = () => {
     }
   }, [detailsProduct])
 
-  const relatedData = products.filter(item => item?.brand === detailsProduct?.brand).filter(item => item?._id !== detailsProduct?._id)
-
-  const clickExtraImgHandler = (index) => {
+  const clickExtraImgHandle = (index) => {
     return setDisplayProduct(index)
   }
 
-  const selectSizeHandler = (size) => {
+  const selectSizeHandle = (size) => {
+    if (detailsProduct.countInStock === 0) {
+      toast.error(outOfStockInStock, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
+      return
+    }
     setIsSelectSize(size)
     setIsMessageSize(false)
   }
 
-  const decreaseProductHandler = () => {
-    if (quantityProduct !== 0) {
+  const decreaseProductHandle = () => {
+    if (quantityProduct > 1) {
       setQuantityProduct(prevCount => prevCount - 1)
     }
   }
 
-  const increaseProductHandler = () => {
+  const increaseProductHandle = () => {
     if (quantityProduct < detailsProduct.countInStock) {
       setQuantityProduct(prevCount => prevCount + 1)
     } else {
@@ -89,7 +93,7 @@ const DetailProduct = () => {
     }
   }
 
-  const inputQuantityHandler = (e) => {
+  const inputQuantityHandle = (e) => {
     setQuantityProduct(Number(e.target.value))
   }
 
@@ -98,22 +102,34 @@ const DetailProduct = () => {
     setIsSelectSize(null)
   }
 
-  const addToCartHandler = () => {
+  const addToCartHandle = (detailsProduct) => {
     if (isSelectSize === null) {
       setIsMessageSize(true)
+      return
     }
-    if (isSelectSize && quantityProduct) {
-      setInfoProductAddToCart(
-        {
-          brand: detailsProduct.brand,
-          name: detailsProduct.name,
-          id: detailsProduct._id,
-          size: isSelectSize,
-          quantity: quantityProduct
-        }
-      )
-      resetInfoProductAddToCart()
+    if (isEmpty(user)) {
+      toast.error(loginToAddToCart, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
+      return
     }
+    dispatch(addToCart({
+      id: detailsProduct?._id,
+      name: detailsProduct?.name,
+      image: detailsProduct?.image[0],
+      size: isSelectSize,
+      price: detailsProduct?.price,
+      discount: detailsProduct?.discount,
+      quantity: quantityProduct
+    }))
+    resetInfoProductAddToCart()
   }
 
   const onSubmit = (data) => {
@@ -143,7 +159,7 @@ const DetailProduct = () => {
               <div className='grid grid-cols-2 md:flex gap-5'>
                 {detailsProduct?.image?.map((img, index) => {
                   return (
-                    <div key={index} className='hover:shadow-3xl hover:cursor-pointer' onClick={() => clickExtraImgHandler(index)}>
+                    <div key={index} className='hover:shadow-3xl hover:cursor-pointer' onClick={() => clickExtraImgHandle(index)}>
                       <img src={img} alt='extra image' className='hover:scale-105 duration-300' />
                     </div>
                   )
@@ -153,7 +169,7 @@ const DetailProduct = () => {
             <div className='flex-1 px-4 md:px-0'>
               <div className='border-b border-solid md:text-start border-[#e9e9e9]'>
                 <p className='text-xl font-semibold mb-3 uppercase'>{detailsProduct?.brand || ''}</p>
-                <h1 className='text-[28px] md:text-4xl font-semibold mb-2'>{detailsProduct?.name || ''}</h1>
+                <h1 className='text-2xl leading-7 md:text-4xl font-semibold mb-2'>{detailsProduct?.name || ''}</h1>
                 <div className='flex flex-col md:flex-row items-start md:items-center gap-[6px] mb-5'>
                   {
                 detailsProduct?.discount !== 0
@@ -170,23 +186,23 @@ const DetailProduct = () => {
                 }
                 </div>
               </div>
-              <p className='mt-5 text-base text-[#3577f0]'>Mô tả: <span className='ml-3 text-black font-semibold'>{detailsProduct?.description || ''}</span></p>
+              <p className='my-5 text-base text-[#777777]'>{detailsProduct?.description || ''}</p>
               {
                 detailsProduct?.countInStock > 0
                   ? (
-                    <p className='mt-2 text-base text-[#3277f0]'>Tình trạng: <span className='ml-3 text-black font-semibold'>Còn hàng (<span>{detailsProduct?.countInStock}</span>)</span></p>
+                    <p className='mt-2 text-xl font-medium text-[#292930]'>Tình trạng: <span className='ml-3 text-[#3577f0] text-base font-medium'>Còn hàng (<span>{detailsProduct?.countInStock}</span>)</span></p>
                     )
                   : (
-                    <p className='mt-2 text-base text-[#3577f0]'>Tình trạng: <span className='ml-3 text-[#ff497c] font-semibold'>Hết hàng</span></p>
+                    <p className='mt-2 text-xl font-medium text-[#292930]'>Tình trạng: <span className='ml-3 text-[#ff497c] text-base font-medium'>Hết hàng</span></p>
                     )
               }
-              <div className='flex gap-8 items-start md:items-center mt-2'>
-                <p className='text-base text-[#3577f0]'>Size:</p>
+              <div className='flex gap-8 items-center my-4 md:my-2'>
+                <p className='text-xl font-medium text-[#292930]'>Size:</p>
                 <div className='flex gap-2 md:gap-6'>
                   {detailsProduct?.sizes?.map((size, index) => {
                     return (
-                      <div key={index} className={`w-11 h-11 flex items-center justify-center rounded-[50%] hover:cursor-pointer hover:border hover:border-solid border-black ${isSelectSize === size ? 'bg-black' : 'bg-white'}`} onClick={() => selectSizeHandler(size)}>
-                        <p className={`text-[#777] font-semibold ${isSelectSize === size ? 'text-white' : ''}`}>{size}</p>
+                      <div key={index} className={`w-9 h-9 md:w-11 md:h-11 flex items-center justify-center rounded-[50%] hover:cursor-pointer hover:border hover:border-solid border-black ${isSelectSize === size ? 'bg-black' : 'bg-white'}`} onClick={() => selectSizeHandle(size)}>
+                        <p className={`text-[#777] text-sm font-semibold ${isSelectSize === size ? 'text-white' : ''}`}>{size}</p>
                       </div>
                     )
                   })}
@@ -195,14 +211,14 @@ const DetailProduct = () => {
               {isMessageSize && <p className='text-red-500 mt-2 font-semibold'>Vui lòng chọn size</p>}
               <div className='flex flex-col mt-2 gap-11'>
                 <div className='flex gap-8 items-center'>
-                  <p className='text-base text-[#3577f0] capitalize'>Số lượng:</p>
+                  <p className='text-xl font-medium text-[#292930] capitalize'>Số lượng:</p>
                   <div className='flex items-center gap-2'>
-                    <div className='flex w-8 h-8 bg-white items-center justify-center rounded-[50%] cursor-pointer hover:border hover:border-solid border-black' onClick={decreaseProductHandler}><AiOutlineMinus /></div>
-                    <input className='w-[50px] bg-transparent text-black text-center focus:outline-none text-xl font-semibold' value={quantityProduct} onChange={inputQuantityHandler} placeholder='0' />
-                    <div className='flex w-8 h-8 bg-white items-center justify-center rounded-[50%] cursor-pointer hover:border hover:border-solid border-black' onClick={increaseProductHandler}><AiOutlinePlus /></div>
+                    <div className='flex w-8 h-8 bg-white items-center justify-center rounded-[50%] cursor-pointer hover:border hover:border-solid border-black' onClick={decreaseProductHandle}><AiOutlineMinus /></div>
+                    <input className='w-[50px] bg-transparent text-black text-center focus:outline-none text-xl font-medium' value={quantityProduct} onChange={inputQuantityHandle} placeholder='0' />
+                    <div className='flex w-8 h-8 bg-white items-center justify-center rounded-[50%] cursor-pointer hover:border hover:border-solid border-black' onClick={increaseProductHandle}><AiOutlinePlus /></div>
                   </div>
                 </div>
-                <div className='py-6 px-3 w-[50%] md:w-[35%] mx-auto md:mx-0 bg-[#3577f0] rounded-md text-sm md:text-base text-center text-white capitalize font-semibold cursor-pointer md:hover:scale-105 duration-300' onClick={addToCartHandler}>Thêm vào giỏ hàng</div>
+                <div className='py-6 px-3 w-[50%] md:w-[35%] mx-auto md:mx-0 bg-[#3577f0] rounded-md text-sm md:text-base text-center text-white capitalize font-semibold cursor-pointer md:hover:scale-105 duration-300' onClick={() => addToCartHandle(detailsProduct)}>Thêm vào giỏ hàng</div>
               </div>
             </div>
           </div>
@@ -230,7 +246,7 @@ const DetailProduct = () => {
                 </div>
                 <p className='text-[#3577f0] font-semibold capitalize text-sm'>Tin tức</p>
               </div>
-              <p className='text-4xl font-semibold mb-3'>Nhận thông tin cập nhật hằng tuần</p>
+              <p className='text-2xl md:text-4xl font-semibold mb-3'>Nhận thông tin cập nhật hằng tuần</p>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='flex flex-col md:flex-row w-full md:w-[50%] gap-3 mt-9'>
                   <div className='flex-[2] bg-white flex px-6 py-5 rounded-md gap-3'>

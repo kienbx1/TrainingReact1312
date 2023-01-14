@@ -27,6 +27,16 @@ const ProductScreen = () => {
     }
   }, [query?.name])
 
+  if (isEmpty(products) || isLoading) {
+    return (
+      <Loading />
+    )
+  }
+  if (isError) {
+    return (
+      <Error />
+    )
+  }
   return (
     <>
       <div className='bg-orange-primary py-12 relative overflow-hidden'>
@@ -44,7 +54,7 @@ const ProductScreen = () => {
             </div>
             <p className='capitalize text-[#8c71db] text-sm font-semibold'>sản phẩm của chúng tôi</p>
           </div>
-          <p className='capitalize font-semibold text-3xl mt-3'>Khám phá thêm các sản phẩm chúng tôii</p>
+          <p className='capitalize font-semibold text-2xl md:text-3xl mt-3'>Khám phá thêm các sản phẩm chúng tôi</p>
         </div>
         {/* <ShowProducts data={listProduct} isLoading={isLoading} isError={isError} /> */}
         <ShowProducts data={products} isLoading={isLoading} isError={isError} />

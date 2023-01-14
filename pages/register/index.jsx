@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
-import { invalidEmailMessage, maxLengthMessage, minLengthMessage, passwordRuleMessage, requiredMessage } from '../../constant/errorMessage'
+import { invalidEmailMessage, maxLengthMessage, minLengthMessage, passwordRuleMessage, requiredMessage } from '../../constant/message'
 import { signUpUser } from '../../redux/slices/authSlice'
 
 const Register = () => {

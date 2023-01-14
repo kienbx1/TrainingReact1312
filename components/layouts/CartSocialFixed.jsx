@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { BsFacebook, BsInstagram, BsYoutube } from 'react-icons/bs'
 
-const CartSocialFixed = () => {
+const SocialFixed = () => {
   const [isOpenMiniCart, setIsOpenMiniCart] = useState(false)
 
   const clickCartFixedHandler = () => {
@@ -59,4 +59,4 @@ const CartSocialFixed = () => {
   )
 }
 
-export default CartSocialFixed
+export default SocialFixed
