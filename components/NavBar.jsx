@@ -4,21 +4,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
-// const navbarOptions = [
-//   {
-//     queryName: 'adidas',
-//     tagName: 'Adidas'
-//   },
-//   {
-//     queryName: 'nike',
-//     tagName: 'Nike'
-//   },
-//   {
-//     queryName: 'converse',
-//     tagName: 'Converse'
-//   }
-// ]
-
 const NavBar = () => {
   const router = useRouter()
   const [navbarOptions, setNavbarOptions] = useState([])

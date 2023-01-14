@@ -1,10 +1,8 @@
 import Link from 'next/link'
 import { AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai'
 import { useDispatch } from 'react-redux'
-import { getDetailsProduct } from '../redux/slices/productSlice'
 
 const ProductItem = (props) => {
-  const dispatch = useDispatch()
   const clickFavoriteHandle = (item) => {}
 
   return (
@@ -23,7 +21,7 @@ const ProductItem = (props) => {
       }
       <div className='group'>
         <div className='relative'>
-          <Link href={`/detail-product/${props?.item?._id}`}>
+          <Link href={`/details-product/${props?.item?._id}`}>
             <img
               className='relative p-3 rounded-2xl md:group-hover:scale-105 ease-linear duration-300 w-[314px] h-[314px] object-cover mx-auto md:mx-0 cursor-pointer'
               src={props?.item?.image[0] || '/Images/no_img_avaliable.jpg'}
@@ -44,7 +42,6 @@ const ProductItem = (props) => {
               <p className='bg-[#ff497c] flex items-center p-2 rounded-md text-white text-sm capitalize font-semibold hover:scale-110 hover:text-white duration-300'>
                 Mua ngay
               </p>
-
             </Link>
             <div className='add__cart bg-white w-10 h-10 rounded-md'>
               <i className='icon__cart flex justify-center items-center bg-white w-10 h-10 rounded-md'>
@@ -54,7 +51,7 @@ const ProductItem = (props) => {
           </div>
         </div>
         <div className='pt-3 px-10 pb-5 md:px-5 md:pb-5'>
-          <Link href={`/detail-product/${props?.item?._id}`}>
+          <Link href={`/details-product/${props?.item?._id}`}>
             <p
               className='px-3 block md:px-0 text-sm font-semibold tracking-tight text-gray-500 dark:text-white capitalize cursor-pointer'
               onClick={props?.resetInfoProductAddToCart}

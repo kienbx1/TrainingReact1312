@@ -33,6 +33,7 @@ const DetailProduct = () => {
   const dispatch = useDispatch()
   const { isLoading, isError, products, detailsProduct } = useSelector(state => state?.product)
   const { user } = useSelector(state => state?.auth)
+  const router = useRouter()
 
   const relatedData = products.filter(item => item?.brand === detailsProduct?.brand).filter(item => item?._id !== detailsProduct?._id)
 
@@ -94,6 +95,19 @@ const DetailProduct = () => {
   }
 
   const inputQuantityHandle = (e) => {
+    if (Number(e.target.value) > detailsProduct.countInStock) {
+      toast.error(maximumCountInStock, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
+      return
+    }
     setQuantityProduct(Number(e.target.value))
   }
 
@@ -127,6 +141,7 @@ const DetailProduct = () => {
       size: isSelectSize,
       price: detailsProduct?.price,
       discount: detailsProduct?.discount,
+      countInStock: detailsProduct?.countInStock,
       quantity: quantityProduct
     }))
     resetInfoProductAddToCart()

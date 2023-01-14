@@ -70,7 +70,13 @@ const Header = () => {
             <div className='flex flex-row gap-5 md:gap-8 items-center'>
               <AiOutlineSearch className='text-2xl cursor-pointer hover:scale-105 duration-500' onClick={searchClickHandler} />
               <Link href='/cart' className='relative'>
-                <p className='bg-red-500 w-5 h-5 rounded-[50%] absolute flex items-center justify-center text-white -top-[40%] -right-[50%] border border-solid border-white text-sm'>{cartQuantity}</p>
+                {
+                  cartQuantity
+                    ? (
+                      <p className='bg-red-500 w-5 h-5 rounded-[50%] absolute flex items-center justify-center text-white -top-[40%] -right-[50%] border border-solid border-white text-sm'>{cartQuantity}</p>
+                      )
+                    : ''
+                }
                 <AiOutlineShoppingCart className='text-2xl cursor-pointer hover:scale-105 duration-500' />
               </Link>
               {
