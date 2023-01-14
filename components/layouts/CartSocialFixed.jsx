@@ -31,14 +31,14 @@ const SocialFixed = () => {
       </div>
       {
         isOpenMiniCart &&
-        <div className='mini__cart w-[300px] max-h-[470px] bg-white absolute top-0 right-9 p-3 shadow-3xl'>
-          <div onClick={clickCartFixedHandler}>
-            <p className='text-xs font-semibold uppercase border-b-4 border-solid'>Giỏ hàng ({totalQuantity})</p>
-            <div className='max-h-[300px] overflow-y-scroll'>
-              {
+          <div className='mini__cart w-[300px] max-h-[470px] bg-white absolute top-0 right-9 p-3 shadow-3xl'>
+            <div onClick={clickCartFixedHandler}>
+              <p className='text-xs font-semibold uppercase border-b-4 border-solid'>Giỏ hàng ({totalQuantity})</p>
+              <div className='max-h-[300px] overflow-y-scroll'>
+                {
                 productsInMiniCart?.map(product => {
                   return (
-                    <div className='flex py-3 border-b border-dashed gap-4'>
+                    <div className='flex py-3 border-b border-dashed gap-4' key={product?.id}>
                       <img src={product?.image || DEFAULT_IMAGE} className='w-20 h-20 object-contain' />
                       <div className='w-full'>
                         <p className='text-xs font-semibold capitalize'>{product?.name || ''}</p>
@@ -56,21 +56,21 @@ const SocialFixed = () => {
                   )
                 })
               }
+              </div>
+              <div className='flex justify-between mt-2 text-sm font-semibold'>
+                <p className='capitalize'>Tổng cộng</p>
+                <p className='text-dot-active'>{totalAmount.toLocaleString()} VNĐ</p>
+              </div>
             </div>
-            <div className='flex justify-between mt-2 text-sm font-semibold'>
-              <p className='capitalize'>Tổng cộng</p>
-              <p className='text-dot-active'>{totalAmount.toLocaleString()} VNĐ</p>
-            </div>
+            <Link href='/cart'>
+              <p className='bg-dot-active w-[80%] block mx-auto text-center p-3 uppercase font-semibold mt-3 hover:cursor-pointer'>Thanh toán</p>
+            </Link>
           </div>
-          <Link href='/cart'>
-            <p className='bg-dot-active w-[80%] block mx-auto text-center p-3 uppercase font-semibold mt-3 hover:cursor-pointer'>Thanh toán</p>
-          </Link>
-        </div>
       }
       <div className='w-9 h-[110px] bg-gray-700 absolute top-[100px] text-xl text-white flex flex-col items-center justify-around shadow-3xl'>
-        <p target='_blank' href='https://www.facebook.com/ThinhhTeeNii/' rel='noreferrer'><BsFacebook /></p>
-        <p target='_blank' href='https://www.instagram.com/thinhhh_hhhh/' rel='noreferrer'><BsInstagram /></p>
-        <p target='_blank' href='https://www.youtube.com/channel/UCXO1FQgzQ4UXSPm4-qaty-Q' rel='noreferrer'><BsYoutube /></p>
+        <a target='_blank' href='https://www.facebook.com/ThinhhTeeNii/' rel='noreferrer'><BsFacebook /></a>
+        <a target='_blank' href='https://www.instagram.com/thinhhh_hhhh/' rel='noreferrer'><BsInstagram /></a>
+        <a target='_blank' href='https://www.youtube.com/channel/UCXO1FQgzQ4UXSPm4-qaty-Q' rel='noreferrer'><BsYoutube /></a>
       </div>
       {
         isOpenMiniCart && <div className='w-screen h-screen absolute right-0 -top-[320%] -z-[1]' onClick={clickCartFixedHandler} />

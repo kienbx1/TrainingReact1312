@@ -1,13 +1,14 @@
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { SHIP_FEE } from '../constant/config'
+import { CAL_PRICE, SHIP_FEE } from '../constant/config'
 import { sumTotalAmount } from '../redux/slices/cartSlice'
 
 const OrderSummary = () => {
-  const { cartTotalAmount ,cartProducts } = useSelector(state => state?.cart)
+  const { cartTotalAmount, cartProducts } = useSelector(state => state?.cart)
   const dispatch = useDispatch()
+  const router = useRouter()
 
   useEffect(() => {
     window.localStorage.setItem('cartTotalAmount', cartTotalAmount)
@@ -15,10 +16,14 @@ const OrderSummary = () => {
 
   useEffect(() => {
     if (cartProducts) {
-      const sum = cartProducts.reduce((total, item) => total + (item?.price - item?.price * item?.discount / 100) * item?.quantity, 0)
+      const sum = cartProducts.reduce((total, item) => total + (CAL_PRICE(item?.price, item?.discount)) * item?.quantity, 0)
       dispatch(sumTotalAmount(sum))
     }
   }, [cartProducts])
+
+  const checkoutHandle = () => {
+    router.push('/checkout')
+  }
 
   return (
     <div className='flex justify-center md:justify-end mb-20'>
@@ -36,9 +41,7 @@ const OrderSummary = () => {
           <span className='capitalize'>tổng tiền:</span>
           <span className='text-[#3577f0] font-semibold text-lg'>{(cartTotalAmount + SHIP_FEE).toLocaleString()} VND</span>
         </div>
-        <Link href='/checkout'>
-          <button className='mt-5 bg-[#3577f0] p-5 w-full rounded-md text-white uppercase font-semibold md:hover:scale-105 duration-300'>thanh toán</button>
-        </Link>
+        <button className='mt-5 bg-[#3577f0] p-5 w-full rounded-md text-white uppercase font-semibold md:hover:scale-105 duration-300' onClick={checkoutHandle}>thanh toán</button>
       </div>
     </div>
   )

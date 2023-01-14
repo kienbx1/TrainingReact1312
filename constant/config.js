@@ -3,3 +3,6 @@ export const emailRegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 export const ADMIN = 'admin'
 export const DEFAULT_IMAGE = '/Images/no_img_avaliable.jpg'
 export const SHIP_FEE = 30000
+export const CAL_PRICE = (price, discount) => {
+  return price - price * discount / 100
+}

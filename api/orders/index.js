@@ -5,25 +5,33 @@ const auth = require('../../middleware/auth')
 const Order = require('./model')
 const Product = require('../products/model')
 
-router.route('/').post(auth, async (req, res, next) => {
+router.route('/').post(async (req, res, next) => {
   // @route:  POST /api/orders
   // @desc:   Tạo đơn hàng mới
-  const { productId, userName, email, phone, totalPrice } = req.body
+  const { productId, quantityProduct, userName, email, phone, totalPrice, userId, city, district, address, status } = req.body
   const product = await Product.findOne({ _id: Mongoose.Types.ObjectId(productId) }).lean()
+  if (!product) {
+    return res.status(400).json({ msg: 'Không tìm thấy sản phầm' })
+  }
   const ordered = await Order.find({ productId: Mongoose.Types.ObjectId(productId), isCancel: false }).lean()
+
   const available = product.amount - ordered.length
   if (available === 0) {
     return res.status(400).json({ msg: 'Sản phẩm hết hàng', available })
   }
-  const userId = req.userId
   try {
     const order = new Order({
       productId,
+      quantityProduct,
       userId,
       userName,
       email,
       phone,
+      city,
+      district,
+      address,
       totalPrice,
+      status,
       isCancel: false
     })
     await order.save()

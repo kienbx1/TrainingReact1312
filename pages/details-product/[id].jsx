@@ -33,7 +33,6 @@ const DetailProduct = () => {
   const dispatch = useDispatch()
   const { isLoading, isError, products, detailsProduct } = useSelector(state => state?.product)
   const { user } = useSelector(state => state?.auth)
-  const router = useRouter()
 
   const relatedData = products.filter(item => item?.brand === detailsProduct?.brand).filter(item => item?._id !== detailsProduct?._id)
 
