@@ -6,8 +6,32 @@ const productsSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Nhập tên sản phẩm']
     },
-    avatar: {
-      type: String
+    brandId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Brands'
+    },
+    price: {
+      type: Number,
+      required: [true, 'Nhập giá tour']
+    },
+    new: {
+      type: Boolean,
+      default: false
+    },
+    discount: {
+      type: Number
+    },
+    image: {
+      type: Array
+    },
+    sizes: {
+      type: Array,
+      required: [true, 'Nhập size sản phẩm']
+    },
+    countInStock: {
+      type: Number,
+      required: [true, 'Nhập số lượng sản phẩm trong kho']
     },
     date: {
       type: String
@@ -15,10 +39,6 @@ const productsSchema = new mongoose.Schema(
     description: {
       type: String,
       required: [true, 'Nhập nội dung']
-    },
-    price: {
-      type: String,
-      required: [true, 'Nhập giá tour']
     }
   },
   {

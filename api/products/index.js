@@ -16,6 +16,19 @@ router.get('/', async (req, res) => {
     res.status(500).json({ msg: 'Server error' })
   }
 })
+router.get('/by-brand/:brandId', async (req, res) => {
+  try {
+    const limit = Number(req?.query?.limit || 10)
+    const skip = Number(req?.query?.skip || 0) * limit
+    const products = await Products.find({ "brandId": req.params.brandId }).sort({ createdAt: 1 }).skip(skip).limit(limit)
+    const count = await Products.find({ "brandId": req.params.brandId }).count()
+    console.log(count, products, 'products')
+
+    res.status(200).json({ products, count })
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' })
+  }
+})
 
 // @route:  POST /api/products/
 // @desc:   Thêm mới products

@@ -1,30 +1,29 @@
-import Link from 'next/link'
+import { isEmpty, size } from 'lodash'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 import { BsBasket } from 'react-icons/bs'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { HiOutlineMailOpen } from 'react-icons/hi'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast, ToastContainer } from 'react-toastify'
 
+import 'react-toastify/dist/ReactToastify.css'
+import Error from '../../components/Error'
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
+import Loading from '../../components/Loading'
 import ShowProducts from '../../components/ShowProducts'
-import Toast from '../../components/Toast'
-import { emailRegExp } from '../../constant/config'
-import { invalidMessage, requiredMessage } from '../../constant/errorMessage'
-import data from '../../utils/db'
+import { DEFAULT_IMAGE, emailRegExp } from '../../constant/config'
+import { invalidMessage, maximumCountInStock, requiredMessage } from '../../constant/errorMessage'
+import { getDetailsProduct, getProducts } from '../../redux/slices/productSlice'
 
 const DetailProduct = () => {
-  const { query } = useRouter()
-  const { id } = query
-  const product = data?.productsList?.find(item => item?.id === Number(id))
-
   const [displayProduct, setDisplayProduct] = useState(0)
   const [isSelectSize, setIsSelectSize] = useState(null)
   const [isMessageSize, setIsMessageSize] = useState(false)
   const [quantityProduct, setQuantityProduct] = useState(1)
-  const [openToast, setOpenToast] = useState(false)
   const [, setInfoProductAddToCart] = useState({
     brand: '',
     name: '',
@@ -32,7 +31,31 @@ const DetailProduct = () => {
     size: null,
     quantity: 0
   })
-  const relatedData = data.productsList.filter(item => item?.brand === product?.brand).filter(item => item?.id !== product?.id)
+
+  const { query } = useRouter()
+  const { id } = query
+  const dispatch = useDispatch()
+  const { isLoading, isError, products, detailsProduct } = useSelector(state => state?.product)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm()
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getDetailsProduct(id))
+    }
+  }, [id])
+
+  useEffect(() => {
+    if (size(products) === 0) {
+      dispatch(getProducts(detailsProduct.brand))
+    }
+  }, [detailsProduct])
+
+  const relatedData = products.filter(item => item?.brand === detailsProduct?.brand).filter(item => item?._id !== detailsProduct?._id)
 
   const clickExtraImgHandler = (index) => {
     return setDisplayProduct(index)
@@ -41,7 +64,6 @@ const DetailProduct = () => {
   const selectSizeHandler = (size) => {
     setIsSelectSize(size)
     setIsMessageSize(false)
-    setOpenToast(false)
   }
 
   const decreaseProductHandler = () => {
@@ -51,7 +73,20 @@ const DetailProduct = () => {
   }
 
   const increaseProductHandler = () => {
-    setQuantityProduct(prevCount => prevCount + 1)
+    if (quantityProduct < detailsProduct.countInStock) {
+      setQuantityProduct(prevCount => prevCount + 1)
+    } else {
+      toast.error(maximumCountInStock, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
+    }
   }
 
   const inputQuantityHandler = (e) => {
@@ -70,43 +105,43 @@ const DetailProduct = () => {
     if (isSelectSize && quantityProduct) {
       setInfoProductAddToCart(
         {
-          brand: product.brand,
-          name: product.name,
-          id: product.id,
+          brand: detailsProduct.brand,
+          name: detailsProduct.name,
+          id: detailsProduct._id,
           size: isSelectSize,
           quantity: quantityProduct
         }
       )
-      setOpenToast(true)
       resetInfoProductAddToCart()
     }
   }
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm()
 
   const onSubmit = (data) => {
     reset()
   }
 
+  if (isLoading) {
+    return (
+      <Loading />
+    )
+  }
+  if (isError) {
+    return (
+      <Error />
+    )
+  }
   return (
     <>
-      {
-        openToast && <Toast title='Đã thêm vào giỏ hàng' setOpenToast={setOpenToast} />
-      }
+      <ToastContainer style={{ top: 100 }} />
       <div className='bg-orange-primary'>
         <div className='space-two-side'>
           <div className='flex flex-col md:flex-row gap-10 md:gap-20 py-12'>
             <div className='flex-1 px-4 md:px-0'>
               <div className='hidden md:block w-[60%] mx-auto mt-0 mb-6 rounded-md overflow-hidden shadow-3xl'>
-                <img src={product?.image[displayProduct]} alt='image product' />
+                <img src={detailsProduct?.image?.[displayProduct] || DEFAULT_IMAGE} alt='image product' />
               </div>
               <div className='grid grid-cols-2 md:flex gap-5'>
-                {product?.image?.map((img, index) => {
+                {detailsProduct?.image?.map((img, index) => {
                   return (
                     <div key={index} className='hover:shadow-3xl hover:cursor-pointer' onClick={() => clickExtraImgHandler(index)}>
                       <img src={img} alt='extra image' className='hover:scale-105 duration-300' />
@@ -116,42 +151,41 @@ const DetailProduct = () => {
               </div>
             </div>
             <div className='flex-1 px-4 md:px-0'>
-              <div className='border-b border-solid text-center md:text-start border-[#e9e9e9]'>
-                <p className='text-xl font-semibold mb-3 uppercase'>{product?.brand || ''}</p>
-                <h1 className='text-[28px] md:text-4xl font-semibold mb-2'>{product?.name || ''}</h1>
-                <div className='flex items-center gap-[6px] mb-5'>
+              <div className='border-b border-solid md:text-start border-[#e9e9e9]'>
+                <p className='text-xl font-semibold mb-3 uppercase'>{detailsProduct?.brand || ''}</p>
+                <h1 className='text-[28px] md:text-4xl font-semibold mb-2'>{detailsProduct?.name || ''}</h1>
+                <div className='flex flex-col md:flex-row items-start md:items-center gap-[6px] mb-5'>
                   {
-                product?.saleOff
+                detailsProduct?.discount !== 0
                   ? (
                     <>
-                      <span className='text-xl md:text-2xl font-medium'>{`${(product?.price - product?.price * product?.discount * 0.01).toLocaleString() || '00.00'} VND`}</span>
-                      <span className='text-xl md:text-2xl ml-3 font-medium text-gray-400 line-through'>{`${product?.price.toLocaleString() || '00.00'} VND`}</span>
-                      <span className='text-[#3577f0] ml-10'>{product?.discount.toLocaleString() || ''}% Off</span>
+                      <p className='text-xl md:text-2xl font-medium'>{`${(detailsProduct?.price - detailsProduct?.price * detailsProduct?.discount * 0.01).toLocaleString() || '00.00'} VND`}</p>
+                      <span className='text-xl md:text-2xl md:ml-3 font-medium text-gray-400 line-through'>{`${detailsProduct?.price?.toLocaleString() || '00.00'} VND`}</span>
+                      <p className='text-[#3577f0] md:ml-10'>{detailsProduct?.discount?.toLocaleString() || ''}% Off</p>
                     </>
                     )
                   : (
-                    <span className='text-xl md:text-2xl font-medium'>{`${product?.price.toLocaleString() || '00.00'} VND`}</span>
+                    <span className='text-xl md:text-2xl font-medium'>{`${detailsProduct?.price?.toLocaleString() || '00.00'} VND`}</span>
                     )
                 }
                 </div>
               </div>
-              <p className='mt-5 text-base text-[#3577f0]'>Mã sản phẩm: <span className='ml-3 text-black font-semibold'>{product?.id || ''}</span></p>
-              <p className='mt-2 text-base text-[#3577f0]'>Mô tả: <span className='ml-3 text-black font-semibold'>{product?.desc || ''}</span></p>
+              <p className='mt-5 text-base text-[#3577f0]'>Mô tả: <span className='ml-3 text-black font-semibold'>{detailsProduct?.description || ''}</span></p>
               {
-                product?.countInStock > 0
+                detailsProduct?.countInStock > 0
                   ? (
-                    <p className='mt-2 text-base text-[#3277f0]'>Tình trạng: <span className='ml-3 text-black font-semibold'>Còn hàng</span></p>
+                    <p className='mt-2 text-base text-[#3277f0]'>Tình trạng: <span className='ml-3 text-black font-semibold'>Còn hàng (<span>{detailsProduct?.countInStock}</span>)</span></p>
                     )
                   : (
-                    <p className='mt-2 text-base text-[#3577f0]'>Tình trạng: <span className='ml-3 text-black font-semibold'>Hết hàng</span></p>
+                    <p className='mt-2 text-base text-[#3577f0]'>Tình trạng: <span className='ml-3 text-[#ff497c] font-semibold'>Hết hàng</span></p>
                     )
               }
               <div className='flex gap-8 items-start md:items-center mt-2'>
                 <p className='text-base text-[#3577f0]'>Size:</p>
                 <div className='flex gap-2 md:gap-6'>
-                  {product?.sizes?.map((size, index) => {
+                  {detailsProduct?.sizes?.map((size, index) => {
                     return (
-                      <div key={index} className={`w-11 h-11 flex items-center justify-center bg-white rounded-[50%] hover:cursor-pointer hover:border hover:border-solid border-black ${isSelectSize === size ? 'bg-black' : ''}`} onClick={() => selectSizeHandler(size)}>
+                      <div key={index} className={`w-11 h-11 flex items-center justify-center rounded-[50%] hover:cursor-pointer hover:border hover:border-solid border-black ${isSelectSize === size ? 'bg-black' : 'bg-white'}`} onClick={() => selectSizeHandler(size)}>
                         <p className={`text-[#777] font-semibold ${isSelectSize === size ? 'text-white' : ''}`}>{size}</p>
                       </div>
                     )
@@ -168,12 +202,7 @@ const DetailProduct = () => {
                     <div className='flex w-8 h-8 bg-white items-center justify-center rounded-[50%] cursor-pointer hover:border hover:border-solid border-black' onClick={increaseProductHandler}><AiOutlinePlus /></div>
                   </div>
                 </div>
-                <div className='flex gap-10 justify-center md:justify-start'>
-                  <div className='p-6 bg-[#3577f0] rounded-md text-sm md:text-base text-white capitalize font-semibold cursor-pointer md:hover:scale-105 duration-300' onClick={addToCartHandler}>Thêm vào giỏ hàng</div>
-                  <Link href='/checkout'>
-                    <p className='p-6 bg-[#ff497c] rounded-md text-sm md:text-base text-white capitalize font-semibold cursor-pointer md:hover:text-white hover:scale-105 duration-300'>Mua ngay</p>
-                  </Link>
-                </div>
+                <div className='py-6 px-3 w-[50%] md:w-[35%] mx-auto md:mx-0 bg-[#3577f0] rounded-md text-sm md:text-base text-center text-white capitalize font-semibold cursor-pointer md:hover:scale-105 duration-300' onClick={addToCartHandler}>Thêm vào giỏ hàng</div>
               </div>
             </div>
           </div>
@@ -188,7 +217,7 @@ const DetailProduct = () => {
             <p className='capitalize text-[#8c71db] text-sm font-semibold'>sản phẩm của chúng tôi</p>
           </div>
           <p className='capitalize font-semibold text-3xl mt-3'>Các sản phẩm liên quan</p>
-          <ShowProducts data={relatedData} />
+          <ShowProducts data={relatedData} resetInfoProductAddToCart={resetInfoProductAddToCart} />
         </div>
       </div>
       <div className='space-two-side'>

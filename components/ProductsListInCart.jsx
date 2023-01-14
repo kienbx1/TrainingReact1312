@@ -23,7 +23,7 @@ const ProductsListInCart = ({ listProductsInCart, setListProductsInCart }) => {
         {
           listProductsInCart.map((item, index) => {
             return (
-              <tr className='border-solid border-b-2 border-[#F6F7FB]' key={item.id}>
+              <tr className='border-solid border-b-2 border-[#F6F7FB]' key={item._id}>
                 <td className='align-middle p-4'>
                   <div className='w-7 h-7 bg-[#F6F7FB] flex items-center justify-center rounded-[50%] cursor-pointer hover:border border-solid border-[#3577f0]'>
                     <FaTimes onClick={() => deleteProductHandel(index)} />
@@ -35,7 +35,7 @@ const ProductsListInCart = ({ listProductsInCart, setListProductsInCart }) => {
                 </td>
                 <td className='align-middle p-4'>
                   {
-                    item.saleOff
+                    !!item?.discount
                       ? (
                         <div>
                           <p className='font-semibold mb-2'>{`${(item?.price - item?.price * item?.discount * 0.01)?.toLocaleString() || ''} VND`}</p>
@@ -56,7 +56,7 @@ const ProductsListInCart = ({ listProductsInCart, setListProductsInCart }) => {
                 </td>
                 <td className='align-middle p-4 pr-0'>
                   {
-                    item.saleOff
+                    !!item?.discount
                       ? (
                         <p className='font-semibold'>{`${((item?.price - item?.price * item?.discount * 0.01) * item?.quantity)?.toLocaleString() || ''} VND`}</p>
                         )
@@ -74,7 +74,7 @@ const ProductsListInCart = ({ listProductsInCart, setListProductsInCart }) => {
         {
           listProductsInCart.map((item, index) => {
             return (
-              <div className='flex gap-8 mt-3 md:mt-0 py-2 items-center border-b-[2px] border-solid border-b-[#F6F7FB]' key={item.id}>
+              <div className='flex gap-8 mt-3 md:mt-0 py-2 items-center border-b-[2px] border-solid border-b-[#F6F7FB]' key={item._id}>
                 <div className='flex-1'>
                   <img src={item?.image} alt={`ảnh giày ${item?.branch}`} className='w-20 h-20 rounded-md object-cover' />
                 </div>
@@ -90,7 +90,7 @@ const ProductsListInCart = ({ listProductsInCart, setListProductsInCart }) => {
                   <tr className='flex items-center justify-between py-3 border-b-[2px] border-solid border-b-[#F6F7FB]'>
                     <td>Giá:</td>
                     {
-                      item.saleOff
+                      !!item?.discount
                         ? (
                           <td className='text-sm'>
                             <p>{`${(item?.price - item?.price * item?.discount * 0.01)?.toLocaleString() || ''} VND`}</p>
@@ -118,7 +118,7 @@ const ProductsListInCart = ({ listProductsInCart, setListProductsInCart }) => {
                     <td>Tổng tiền:</td>
                     <td>
                       {
-                      item.saleOff
+                      !!item?.discount
                         ? (
                           <p className='font-semibold'>{`${((item?.price - item?.price * item?.discount * 0.01) * item?.quantity)?.toLocaleString() || ''} VND`}</p>
                           )
