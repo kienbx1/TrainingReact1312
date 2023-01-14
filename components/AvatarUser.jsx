@@ -1,26 +1,39 @@
-import { HiOutlineUser } from 'react-icons/hi'
 import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import { ADMIN } from '../constant/config'
+import { resetState } from '../redux/slices/authSlice'
 
-const AvatarUser = ({ username }) => {
+const AvatarUser = ({ user }) => {
+  const dispatch = useDispatch()
+
+  const logoutHandler = () => {
+    dispatch(resetState())
+  }
+
   return (
     <div className='group w-6 relative cursor-pointer'>
-      <HiOutlineUser className='text-2xl hover:scale-105 duration-500' />
+      <img src={user?.profilePicUrl} className='rounded-[50%]' />
       <ul className='w-52 shadow-3xl absolute top-7 right-2/4 translate-x-2/4 py-4 px-3 rounded bg-white opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:mt-0 transition-all duration-500'>
-        <li className='p-2 cursor-auto font-semibold text-center border-b-2 border-solid border-black'>{username}</li>
+        <li className='p-2 cursor-auto font-semibold text-center border-b-2 border-solid border-black'>{user?.name}</li>
         <Link href='/setting-account'>
           <li className='mt-2 p-2 hover:bg-slate-200 cursor-pointer rounded'>Cài đặt tài khoản</li>
         </Link>
         <Link href='/history-orders'>
           <li className='p-2 hover:bg-slate-200 cursor-pointer rounded'>Lịch sử đơn hàng</li>
         </Link>
-        <Link
-          href={{
-            pathname: '/Admin/home'
-          }} passHref legacyBehavior
-        >
-          <li className='p-2 hover:bg-slate-200 cursor-pointer rounded'>Trang quản lý</li>
+        {
+          user?.role === ADMIN &&
+            <Link
+              href={{
+                pathname: '/Admin/home'
+              }}
+            >
+              <li className='p-2 hover:bg-slate-200 cursor-pointer rounded'>Trang quản lý</li>
+            </Link>
+        }
+        <Link href='/'>
+          <li className='p-2 hover:bg-slate-200 cursor-pointer rounded' onClick={logoutHandler}>Đăng xuất</li>
         </Link>
-        <li className='p-2 hover:bg-slate-200 cursor-pointer rounded '>Đăng xuất</li>
       </ul>
     </div>
   )

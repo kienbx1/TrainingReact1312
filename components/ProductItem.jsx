@@ -37,9 +37,9 @@ const ProductItem = (props) => {
               </i>
             </div>
             <Link href='/cart'>
-              <a className='bg-[#ff497c] flex items-center p-2 rounded-md text-white text-sm capitalize font-semibold hover:scale-110 hover:text-white duration-300'>
+              <p className='bg-[#ff497c] flex items-center p-2 rounded-md text-white text-sm capitalize font-semibold hover:scale-110 hover:text-white duration-300'>
                 Mua ngay
-              </a>
+              </p>
             </Link>
             <div className='add__cart bg-white w-10 h-10 rounded-md'>
               <i className='icon__cart flex justify-center items-center bg-white w-10 h-10 rounded-md'>
@@ -50,11 +50,11 @@ const ProductItem = (props) => {
         </div>
         <div className='pt-3 px-10 pb-5 md:px-5 md:pb-5'>
           <Link href={`/detail-product/${props?.item?.id}`}>
-            <a className='px-3 block md:px-0'>
+            <p className='px-3 block md:px-0'>
               <h5 className='text-sm font-semibold tracking-tight text-gray-500 dark:text-white capitalize'>
                 {props?.item?.name || ''}
               </h5>
-            </a>
+            </p>
           </Link>
           {
             props?.item?.saleOff

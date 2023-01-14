@@ -10,7 +10,6 @@ module.exports = (req, res, next) => {
     req.userId = userId
     next()
   } catch (error) {
-    console.error(error)
-    res.status(401).json({ msg: 'Unauthorized' })
+    res.status(401).json({ msg: 'Unauthorized', error })
   }
 }

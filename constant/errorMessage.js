@@ -1,4 +1,6 @@
 export const requiredMessage = 'Trường này không được để trống!'
-export const invalidMessage = 'Giá trị không hợp lệ!'
+export const invalidEmailMessage = 'Email không hợp lệ!'
+export const invalidPhoneMessage = 'Số điện thoại không hợp lệ!'
 export const minLengthMessage = 'Ít nhất value ký tự!'
 export const maxLengthMessage = 'Tối đa value ký tự!'
+export const passwordRuleMessage = 'Ít nhất value ký tự là số!'

@@ -1,7 +1,9 @@
+import { isEmpty } from 'lodash'
 import Link from 'next/link'
 import { useState } from 'react'
 import { AiOutlineMenuFold, AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 
 import AvatarUser from '../AvatarUser'
 import NavBar from '../NavBar'
@@ -11,6 +13,7 @@ const Header = () => {
   const [isSearchBar, setIsSearchBar] = useState(false)
   const [isOpenMenu, setIsOpenMenu] = useState(false)
   const [inputValue, setInputValue] = useState('')
+  const { user } = useSelector(state => state?.auth)
 
   const changeSearchBarHandler = (e) => {
     setInputValue(e.target.value)
@@ -49,12 +52,22 @@ const Header = () => {
               <img src='/Images/king-shoes-low-resolution-logo-black-on-transparent-background.png' className='w-20 cursor-pointer hover:scale-110 duration-500' />
             </Link>
             <NavBar isOpenMenu={isOpenMenu} />
-            <div className='flex flex-row gap-5 md:gap-8'>
+            <div className='flex flex-row gap-5 md:gap-8 items-center'>
               <AiOutlineSearch className='text-2xl cursor-pointer hover:scale-105 duration-500' onClick={searchClickHandler} />
               <Link href='/cart'>
                 <AiOutlineShoppingCart className='text-2xl cursor-pointer hover:scale-105 duration-500' />
               </Link>
-              <AvatarUser username='Trần Phúc Thịnh' />
+              {
+                (!isEmpty(user))
+                  ? (
+                    <AvatarUser user={user} />
+                    )
+                  : (
+                    <Link href='/login'>
+                      <p className='capitalize font-semibold hover:cursor-pointer'>đăng nhập</p>
+                    </Link>
+                    )
+              }
               <AiOutlineMenuFold className='md:hidden text-2xl' onClick={openMenuHandler} />
             </div>
           </div>
