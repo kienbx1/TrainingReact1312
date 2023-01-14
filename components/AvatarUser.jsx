@@ -2,12 +2,16 @@ import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { ADMIN } from '../constant/config'
 import { resetState } from '../redux/slices/authSlice'
+import { resetCart } from '../redux/slices/cartSlice'
 
 const AvatarUser = ({ user }) => {
   const dispatch = useDispatch()
 
   const logoutHandler = () => {
     dispatch(resetState())
+    dispatch(resetCart())
+    window.localStorage.removeItem('cart')
+    window.localStorage.removeItem('cartQuantity')
   }
 
   return (

@@ -1,9 +1,10 @@
 import { isEmpty } from 'lodash'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiOutlineMenuFold, AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
+import Cookies from 'universal-cookie'
 
 import AvatarUser from '../AvatarUser'
 import NavBar from '../NavBar'
@@ -13,7 +14,21 @@ const Header = () => {
   const [isSearchBar, setIsSearchBar] = useState(false)
   const [isOpenMenu, setIsOpenMenu] = useState(false)
   const [inputValue, setInputValue] = useState('')
+  const [accessCookies, setAccessCookies] = useState('')
+  const [cartQuantity, setCartQuantity] = useState(0)
+
+  const { cartTotalQuantity } = useSelector(state => state?.cart)
   const { user } = useSelector(state => state?.auth)
+
+  const cookies = new Cookies()
+
+  useEffect(() => {
+    setAccessCookies(cookies.get('token'))
+  }, [accessCookies])
+
+  useEffect(() => {
+    setCartQuantity(cartTotalQuantity)
+  }, [cartTotalQuantity])
 
   const changeSearchBarHandler = (e) => {
     setInputValue(e.target.value)
@@ -54,7 +69,14 @@ const Header = () => {
             <NavBar isOpenMenu={isOpenMenu} />
             <div className='flex flex-row gap-5 md:gap-8 items-center'>
               <AiOutlineSearch className='text-2xl cursor-pointer hover:scale-105 duration-500' onClick={searchClickHandler} />
-              <Link href='/cart'>
+              <Link href='/cart' className='relative'>
+                {
+                  cartQuantity
+                    ? (
+                      <p className='bg-red-500 w-5 h-5 rounded-[50%] absolute flex items-center justify-center text-white -top-[40%] -right-[50%] border border-solid border-white text-sm'>{cartQuantity}</p>
+                      )
+                    : ''
+                }
                 <AiOutlineShoppingCart className='text-2xl cursor-pointer hover:scale-105 duration-500' />
               </Link>
               {

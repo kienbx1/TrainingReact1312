@@ -10,7 +10,7 @@ const ProductList = (props) => {
           )
         : props?.data?.map(item => {
           return (
-            <ProductItem item={item} key={item?.id} />
+            <ProductItem item={item} key={item?._id} resetInfoProductAddToCart={props?.resetInfoProductAddToCart} />
           )
         })
       }

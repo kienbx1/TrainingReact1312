@@ -22,7 +22,7 @@ const FlashSale = () => {
           <div className='mb-10'>
             <CountdownFlashSale time={data?.productFlashSale?.time || ''} />
           </div>
-          <Link href={`/detail-product/${data?.productFlashSale?.id}`}>
+          <Link href={`/detail-product/${data?.productFlashSale?._id}`}>
             <p className='px-8 py-4 rounded-md capitalize bg-[#3577f0] cursor-pointer font-semibold text-white hover:text-white hover:scale-110 duration-300'>Xem sản phẩm</p>
           </Link>
         </div>

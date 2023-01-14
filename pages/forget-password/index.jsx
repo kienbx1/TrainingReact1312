@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { invalidEmailMessage } from '../../constant/errorMessage'
+import { invalidEmailMessage } from '../../constant/message'
 
 const Login = () => {
   const {
