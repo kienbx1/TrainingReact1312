@@ -1,6 +1,36 @@
 import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
 
+const datas = [
+  {
+    name: 'giay adidas',
+    price: 300,
+    id: 2,
+    saleOff: false,
+    discount: 0,
+    image: '/Images/Adidas/FORUM/black/display.webp',
+    branch: 'adidas'
+  },
+  {
+    name: 'giay adidas',
+    price: 300,
+    id: 5,
+    saleOff: true,
+    discount: 15,
+    image: '/Images/Adidas/FORUM/blue/display.webp',
+    branch: 'adidas'
+  },
+  {
+    name: 'giay adidas',
+    price: 300,
+    id: 8,
+    saleOff: false,
+    discount: 0,
+    image: '/Images/Adidas/FORUM/white/display.webp',
+    branch: 'adidas'
+  }
+]
+
 const Adidas = () => {
   return (
     <>
@@ -12,7 +42,7 @@ const Adidas = () => {
         <img src='/Images/shape-2.png' className='absolute z-0 right-0 top-[40%]' />
       </div>
       <div className='xl:px-28 lg:px-24 md:px-16 sm:px-0 py-12'>
-        <ListProducts branch='adidas' />
+        <ListProducts datas={datas} />
       </div>
     </>
   )

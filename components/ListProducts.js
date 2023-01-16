@@ -7,75 +7,10 @@ import {
   FaWindowClose
 } from 'react-icons/fa'
 
-const datas = [
-  {
-    name: 'giay nike',
-    price: 200,
-    id: 1,
-    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
-    branch: 'nike'
-  },
-  {
-    name: 'giay adidas',
-    price: 300,
-    id: 2,
-    image: '/Images/Adidas/FORUM/black/display.webp',
-    branch: 'adidas'
-  },
-  {
-    name: 'giay converse',
-    price: 400,
-    id: 3,
-    image: '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/Black/display.jpg',
-    branch: 'converse'
-  },
-  {
-    name: 'giay nike',
-    price: 200,
-    id: 4,
-    image: '/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp',
-    branch: 'nike'
-  },
-  {
-    name: 'giay adidas',
-    price: 300,
-    id: 5,
-    image: '/Images/Adidas/FORUM/blue/display.webp',
-    branch: 'adidas'
-  },
-  {
-    name: 'giay converse',
-    price: 400,
-    id: 6,
-    image: '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/White/display.jpg',
-    branch: 'converse'
-  },
-  {
-    name: 'giay nike',
-    price: 200,
-    id: 7,
-    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
-    branch: 'nike'
-  },
-  {
-    name: 'giay adidas',
-    price: 300,
-    id: 8,
-    image: '/Images/Adidas/FORUM/white/display.webp',
-    branch: 'adidas'
-  },
-  {
-    name: 'giay converse',
-    price: 400,
-    id: 9,
-    image: '/Images/Converse/Converse x DRKSHDW TURBOWPN High Top/display.jpg',
-    branch: 'converse'
-  }
-]
-
 const ListProducts = (props) => {
   const [showModal, setShowModal] = useState(false)
   const [countProduct, setCountProduct] = useState(1)
+
   const handleIncreaseProduct = () => {
     setCountProduct((countProduct) => countProduct + 1)
   }
@@ -224,100 +159,58 @@ const ListProducts = (props) => {
           </>
           )
         : null}
-      <div className='grid xl:grid-cols-4 gap-4 md:grid-cols-3 md:gap-3 sm:grid-cols-2 sm:gap-2 flex-col justify-center'>
+      <div className='grid xl:grid-cols-4 gap-6 md:grid-cols-3 md:gap-3 sm:grid-cols-2 sm:gap-2 flex-col justify-center'>
         {
-          datas.length === 0
+          props.datas.length === 0
             ? (
               <div>Hiện chưa có sản phẩm nào</div>
               )
-            : datas.filter(data => data?.branch.includes(props.branch)).map(data => {
+            : props.datas.map(data => {
               return (
-                <div className='w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700' key={data.id}>
+                <div className=' relative w-full max-w-sm bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700' key={data.id}>
+                  {
+                    data.saleOff &&
+                      <div className='w-16 h-8 absolute top-8 -right-2 bg-blue-400 shadow-blueShadow rounded z-[1] flex items-center justify-center text-xs text-white'>
+                        {data.discount}% Off
+                      </div>
+                  }
                   <div className='group/item flex flex-col justify-end items-center'>
                     <img
-                      className='relative p-3 rounded-2xl hover:-translate-y-3 ease-in-out duration-300'
+                      className='relative p-3 rounded-2xl hover:scale-105 hover:cursor-pointer ease-linear duration-300 w-[314px] h-[314px] object-cover'
                       src={data?.image}
                       alt='product image'
                     />
                     <button
                       onClick={() => setShowModal(!showModal)}
-                      className='hover:scale-125 hover:z-10 mr-40 w-10 h-10 z-0 rounded-xl group-hover/item:-translate-y-10 ease-in-out duration-300  group/edit invisible group-hover/item:visible flex flex-col justify-around items-center  absolute text-black bg-white focus:text-red-500'
+                      className='hover:scale-125 hover:z-10 mr-40 w-10 h-10 z-0 rounded-xl group-hover/item:-translate-y-10 ease-in-out duration-500 delay-150 group/edit invisible group-hover/item:visible flex flex-col justify-around items-center  absolute text-black bg-white focus:text-red-500'
                     >
                       <FaEye />
                     </button>
-                    <button className='hover:scale-125 hover:z-10 ml-40 w-10 h-10 z-0 rounded-xl group-hover/item:-translate-y-10 ease-in-out duration-300  group/edit invisible group-hover/item:visible flex flex-col justify-around items-center  absolute text-black bg-white focus:text-red-500'>
+                    <button className='hover:scale-125 hover:z-10 ml-40 w-10 h-10 z-0 rounded-xl group-hover/item:-translate-y-10 ease-in-out duration-500 delay-150 group/edit invisible group-hover/item:visible flex flex-col justify-around items-center  absolute text-black bg-white focus:text-red-500'>
                       <FaShoppingCart />
                     </button>
-                    <button className='hover:scale-125 hover:z-10 z-0 group-hover/item:-translate-y-10 ease-in-out duration-300  group/edit invisible group-hover/item:visible  absolute text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 capitalize'>
+                    <button className='hover:scale-125 hover:z-10 z-0 group-hover/item:-translate-y-10 ease-in-out duration-500 delay-150 group/edit invisible group-hover/item:visible  absolute text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 capitalize'>
                       Mua ngay
                     </button>
                   </div>
                   <div className='px-5 pb-5'>
                     <a href='#'>
-                      <h5 className='text-xl font-semibold tracking-tight text-gray-900 dark:text-white capitalize'>
+                      <h5 className='text-sm font-semibold tracking-tight text-gray-500 dark:text-white capitalize'>
                         {data?.name || 'Name Product'}
                       </h5>
                     </a>
-                    <div className='flex items-center mt-2.5 mb-5'>
-                      <svg
-                        aria-hidden='true'
-                        className='w-5 h-5 text-yellow-300'
-                        fill='currentColor'
-                        viewBox='0 0 20 20'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <title>First star</title>
-                        <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                      </svg>
-                      <svg
-                        aria-hidden='true'
-                        className='w-5 h-5 text-yellow-300'
-                        fill='currentColor'
-                        viewBox='0 0 20 20'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <title>Second star</title>
-                        <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                      </svg>
-                      <svg
-                        aria-hidden='true'
-                        className='w-5 h-5 text-yellow-300'
-                        fill='currentColor'
-                        viewBox='0 0 20 20'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <title>Third star</title>
-                        <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                      </svg>
-                      <svg
-                        aria-hidden='true'
-                        className='w-5 h-5 text-yellow-300'
-                        fill='currentColor'
-                        viewBox='0 0 20 20'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <title>Fourth star</title>
-                        <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                      </svg>
-                      <svg
-                        aria-hidden='true'
-                        className='w-5 h-5 text-yellow-300'
-                        fill='currentColor'
-                        viewBox='0 0 20 20'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <title>Fifth star</title>
-                        <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
-                      </svg>
-                      <span className='bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3'>
-                        5.0
-                      </span>
-                    </div>
-                    <div className='flex items-center justify-between'>
-                      <span className='text-3xl font-bold text-gray-900 dark:text-white'>
-                        {`$${data?.price || '00.00'}`}
-                      </span>
-                    </div>
+                    {
+                      data.saleOff
+                        ? (
+                          <div className='flex gap-2'>
+                            <p className='text-xl font-bold text-gray-900'>{`$${(data?.price - data?.price * data?.discount * 0.01).toFixed(2) || '00.00'}`}</p>
+                            <p className='text-xl font-bold text-gray-400 line-through'>{`$${data?.price || '00.00'}`}</p>
+                          </div>
+                          )
+                        : (
+                          <p className='text-xl font-bold text-gray-900'>{`$${data?.price || '00.00'}`}</p>
+                          )
+                    }
                   </div>
                 </div>
               )
