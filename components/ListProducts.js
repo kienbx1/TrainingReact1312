@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React, { useState } from 'react'
 import {
   FaEye,
@@ -167,7 +168,7 @@ const ListProducts = (props) => {
               )
             : props.datas.map(data => {
               return (
-                <div className=' relative w-full max-w-sm bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700' key={data.id}>
+                <div className='relative w-full max-w-sm bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700' key={data.id}>
                   {
                     data.saleOff &&
                       <div className='w-16 h-8 absolute top-8 -right-2 bg-blue-400 shadow-blueShadow rounded z-[1] flex items-center justify-center text-xs text-white'>
@@ -175,11 +176,13 @@ const ListProducts = (props) => {
                       </div>
                   }
                   <div className='group/item flex flex-col justify-end items-center'>
-                    <img
-                      className='relative p-3 rounded-2xl hover:scale-105 hover:cursor-pointer ease-linear duration-300 w-[314px] h-[314px] object-cover'
-                      src={data?.image}
-                      alt='product image'
-                    />
+                    <Link href={`/detail-product/${data?.id}`}>
+                      <img
+                        className='relative p-3 rounded-2xl hover:scale-105 hover:cursor-pointer ease-linear duration-300 w-[314px] h-[314px] object-cover'
+                        src={data?.image}
+                        alt='product image'
+                      />
+                    </Link>
                     <button
                       onClick={() => setShowModal(!showModal)}
                       className='hover:scale-125 hover:z-10 mr-40 w-10 h-10 z-0 rounded-xl group-hover/item:-translate-y-10 ease-in-out duration-500 delay-150 group/edit invisible group-hover/item:visible flex flex-col justify-around items-center  absolute text-black bg-white focus:text-red-500'
@@ -194,11 +197,13 @@ const ListProducts = (props) => {
                     </button>
                   </div>
                   <div className='px-5 pb-5'>
-                    <a href='#'>
-                      <h5 className='text-sm font-semibold tracking-tight text-gray-500 dark:text-white capitalize'>
-                        {data?.name || 'Name Product'}
-                      </h5>
-                    </a>
+                    <Link href={`/detail-product/${data?.id}`}>
+                      <a>
+                        <h5 className='text-sm font-semibold tracking-tight text-gray-500 dark:text-white capitalize'>
+                          {data?.name || 'Name Product'}
+                        </h5>
+                      </a>
+                    </Link>
                     {
                       data.saleOff
                         ? (

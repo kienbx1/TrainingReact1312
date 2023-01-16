@@ -18,6 +18,9 @@ module.exports = {
       colors: {
         'orange-primary': '#f9f3f0',
         'dot-active': '#ff497c'
+      },
+      backgroundImage: {
+        'img-newsletter': "url('/Images/banner_newsletter.jpg')"
       }
     }
   },

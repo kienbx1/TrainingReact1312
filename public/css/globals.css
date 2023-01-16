@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+	.space-two-side {
+		@apply xl:px-28 lg:px-24 md:px-16 sm:px-0;
+	}
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
@@ -144,7 +150,7 @@ table {
 	border-spacing: 0;
 }
 * {
-	font-family: "Poppins", sans-serif !important;
+	font-family: "DM Sans", sans-serif !important;
 }
 .font-medium {
 	font-weight: 500 !important;
@@ -251,3 +257,6 @@ html body {
 :before {
 	--tw-content: "";
 }
+
+/* -----------Animation-------------- */
+@import url("./animation.css");

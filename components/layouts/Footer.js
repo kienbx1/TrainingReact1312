@@ -3,8 +3,8 @@ import { MdEmail, MdPhoneEnabled, MdStore } from 'react-icons/md'
 
 const Footer = () => {
   return (
-    <footer className='xl:px-28 lg:px-24 md:px-16 sm:px-0'>
-      <div className='border-y-[1px] border-slate-200 border-solid flex md:flex-row md:py-12 md:gap-0 items-start justify-between sm:flex-col sm:gap-5 sm:py-7'>
+    <footer className='space-two-side'>
+      <div className='border-y-[1px] border-slate-200 border-solid flex flex-col gap-5 px-7 py-7 md:flex-row md:py-12 md:gap-0 items-start justify-between'>
         <img src='/Images/king-shoes-low-resolution-logo-black-on-transparent-background.png' className='w-20 md:block self-center sm:hidden' />
         <div className='flex flex-col gap-4'>
           <h1 className='font-semibold text-xl md:mb-2 sm:mb-0'>Về công ty</h1>

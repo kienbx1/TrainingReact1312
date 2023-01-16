@@ -24,7 +24,7 @@ const CustomerServicePolicy = () => {
         <div className='px-4'>
           <div className='2xl:w-72 xl:w-56 lg:w-44 rounded border-[1px] border-slate-100 xl:border-solid sm:border-none bg-white flex sm:flex-col sm:gap-6 lg:gap-0 lg:flex-row xl:flex-col items-center justify-center md:py-4 2xl:px-16 xl:px-8 min-h-[200px] xl:hover:shadow-3xl sm:hover:shadow-none'>
             <img src='/Images/service/service10.png' className='xl:mb-5 lg:mb-0' />
-            <p className='md:w-40 sm:w-36 font-semibold sm:text-sm xl:text-base text-center' capitalize>Hỗ trợ khách hàng chuyên nghiệp</p>
+            <p className='md:w-40 sm:w-36 font-semibold sm:text-sm xl:text-base text-center capitalize'>Hỗ trợ khách hàng chuyên nghiệp</p>
           </div>
         </div>
       </div>

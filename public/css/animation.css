@@ -1,0 +1,20 @@
+.toast {
+  animation: slideInLeft ease 0.3s, fadeOut linear 1s 1.5s forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
