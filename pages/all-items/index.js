@@ -62,7 +62,7 @@ const datas = [
     id: 7,
     saleOff: false,
     discount: 0,
-    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
+    image: '/Images/Nike/AirForce1XUNDEFEATED/AirForce1XUNDEFEATED_1.webp',
     branch: 'nike'
   },
   {
