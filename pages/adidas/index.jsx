@@ -1,3 +1,4 @@
+import SubCustomerServicePolicy from '../../components/layouts/body/SubCustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
 
@@ -44,6 +45,7 @@ const Adidas = () => {
       <div className='xl:px-28 lg:px-24 md:px-16 sm:px-0 py-12'>
         <ListProducts datas={datas} />
       </div>
+      <SubCustomerServicePolicy />
     </>
   )
 }
