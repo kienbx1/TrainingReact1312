@@ -10,7 +10,7 @@ const CartSocialFixed = () => {
   }
 
   return (
-    <div className='fixed z-[2] top-[30%] right-0'>
+    <div className='hidden md:block fixed z-[2] top-[30%] right-0'>
       <div className='w-9 h-[72px] bg-dot-active flex flex-col items-center justify-center gap-2 shadow-3xl hover:cursor-pointer' onClick={clickCartFixedHandler}>
         <p className='text-white'>1</p>
         <AiOutlineShoppingCart className='text-white' />

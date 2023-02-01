@@ -2,7 +2,7 @@ const SubCustomerServicePolicy = () => {
   return (
     <div className='space-two-side'>
       <div className='my-12'>
-        <div className='grid grid-cols-4 gap-7'>
+        <div className='flex flex-col px-3 md:grid grid-cols-4 gap-7'>
           <div className='flex items-center gap-5'>
             <img src='/Images/service/service1.png' />
             <div>

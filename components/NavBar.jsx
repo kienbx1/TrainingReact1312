@@ -6,7 +6,7 @@ const NavBar = () => {
   const router = useRouter()
 
   return (
-    <div className='flex items-center gap-x-10'>
+    <div className='hidden md:flex items-center gap-x-10'>
       <Link href='/all-items'>
         <div className={`font-bold capitalize cursor-pointer relative before:absolute before:-bottom-2 before:left-0 before:w-0 before:h-1 before:duration-500 before:bg-gradient-to-r before:from-gray-600 before:via-slate-400 before:to-zinc-500 ${router.pathname === '/all-items' ? 'before:w-full' : 'hover:before:w-full'}`}>
           <p>Tất cả</p>

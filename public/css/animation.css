@@ -2,6 +2,10 @@
   animation: slideInLeft ease 0.3s, fadeOut linear 1s 1.5s forwards;
 }
 
+.open-menu {
+  animation: openMenu linear 0.2s;
+}
+
 @keyframes slideInLeft {
   from {
     opacity: 0;
@@ -16,5 +20,16 @@
 @keyframes fadeOut {
   to {
     opacity: 0;
+  }
+}
+
+@keyframes openMenu {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

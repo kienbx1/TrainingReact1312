@@ -5,7 +5,7 @@ import Header from './Header'
 
 const UserLayout = ({ children }) => {
   return (
-    <div>
+    <div className='relative'>
       <Header />
       <main>{children}</main>
       <CartSocialFixed />
