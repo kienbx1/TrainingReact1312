@@ -2,7 +2,6 @@ import AdminLayout from '../../../components/layouts/AdminLayout'
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { DataGrid } from '@mui/x-data-grid'
-import { Button } from '@mui/material'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import { useState } from 'react'
 import Link from 'next/link'
@@ -29,7 +28,6 @@ const columns = [
     width: 110,
     editable: false
   },
-
   {
     field: 'quantityLeft',
     headerName: 'Còn lại',
@@ -148,23 +146,16 @@ const Products = () => {
           <div className='flex flex-row'>
             <div className='p-2'>
               <Link href='/Admin/product/AddNewProduct'>
-                <Button
-                  variant='contained'
-                  color='success'
-                  startIcon={<FaPlus />}
-                >
-                  Thêm mới
-                </Button>
+                <button className='uppercase flex flex-row bg-green-800 p-3 m-3 rounded-lg text-white hover:bg-green-600'>
+                  <FaPlus className='mr-1' /> Thêm mới
+                </button>
               </Link>
             </div>
             <div className='p-2'>
-              <Button
-                variant='contained'
-                color='error'
-                startIcon={<FaTrashAlt />}
-              >
+              <button className='uppercase flex flex-row bg-red-800 p-3 m-3 rounded-lg text-white hover:bg-red-600'>
+                <FaTrashAlt className='mr-1' />
                 Xoá
-              </Button>
+              </button>
             </div>
           </div>
           <DataGrid
