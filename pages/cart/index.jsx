@@ -14,7 +14,7 @@ const Cart = () => {
 
   return (
     <>
-      <div className='xl:px-28 lg:px-24 md:px-16 sm:px-0'>
+      <div className='space-two-side'>
         <div className='my-10 px-3 md:py-0 md:my-20'>
           <div className='flex items-center md:items-start justify-between mb-5'>
             <p className='text-xl md:text-2xl capitalize'>giỏ hàng của bạn</p>

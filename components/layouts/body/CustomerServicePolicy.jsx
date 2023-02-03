@@ -1,6 +1,6 @@
 const CustomerServicePolicy = () => {
   return (
-    <div className='xl:px-28 lg:px-24 md:px-16 sm:px-0 md:pb-16 sm:pb-0 pt-12 '>
+    <div className='space-two-side pt-12 '>
       <h1 className='text-black md:text-4xl sm:text-xl font-semibold capitalize text-center'>Chính sách chăm sóc khách hàng</h1>
       <div className='flex sm:flex-col lg:flex-row items-center justify-between md:mt-8 sm:mt-4'>
         <div className='px-4'>

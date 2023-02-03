@@ -40,11 +40,11 @@ const Checkout = () => {
                     required: requiredMessage,
                     minLength: {
                       value: 2,
-                      message: minLengthMessage(2)
+                      message: minLengthMessage.replace('value', 2)
                     },
                     maxLength: {
                       value: 35,
-                      message: maxLengthMessage(35)
+                      message: maxLengthMessage.replace('value', 35)
                     }
                   })}
                 />
@@ -129,11 +129,11 @@ const Checkout = () => {
                     required: requiredMessage,
                     minLength: {
                       value: 5,
-                      message: minLengthMessage(5)
+                      message: minLengthMessage.replace('value', 5)
                     },
                     maxLength: {
                       value: 50,
-                      message: maxLengthMessage(50)
+                      message: maxLengthMessage.replace('value', 50)
                     }
                   })}
                 />
@@ -179,7 +179,9 @@ const Checkout = () => {
                 <p>2430000 VND</p>
               </div>
             </div>
-            <button type='submit' value='Submit' form='formInfoOrder' className='mt-5 w-full bg-[#3577F0] py-4 rounded-md uppercase text-white font-semibold hover:scale-105 duration-300'>Gửi</button>
+            <div className='flex justify-center'>
+              <button type='submit' value='Submit' form='formInfoOrder' className='mt-5 w-[70%] bg-[#3577F0] py-5 rounded-md uppercase text-white font-semibold hover:scale-105 duration-300'>Gửi</button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,36 +1,9 @@
 import SubCustomerServicePolicy from '../../components/layouts/body/SubCustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
+import data from '../../utils/db'
 
-const datas = [
-  {
-    name: 'giay nike',
-    price: 200,
-    id: 1,
-    saleOff: true,
-    discount: 12,
-    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
-    branch: 'nike'
-  },
-  {
-    name: 'giay nike',
-    price: 200,
-    id: 4,
-    saleOff: false,
-    discount: 0,
-    image: '/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp',
-    branch: 'nike'
-  },
-  {
-    name: 'giay nike',
-    price: 200,
-    id: 7,
-    saleOff: false,
-    discount: 0,
-    image: '/Images/Nike/AirForce1XUNDEFEATED/AirForce1XUNDEFEATED_1.webp',
-    branch: 'nike'
-  }
-]
+const nikeProducts = data?.productsList?.filter(item => item?.brand === 'nike')
 
 const Nike = () => {
   return (
@@ -42,8 +15,8 @@ const Nike = () => {
         <img src='/Images/shape-1.png' className='absolute top-[10%] z-0 left-1/2 -translate-x-2/4' />
         <img src='/Images/shape-2.png' className='absolute z-0 right-0 top-[40%]' />
       </div>
-      <div className='xl:px-28 lg:px-24 md:px-16 sm:px-0 py-12'>
-        <ListProducts datas={datas} />
+      <div className='space-two-side py-12'>
+        <ListProducts data={nikeProducts} />
       </div>
       <SubCustomerServicePolicy />
     </>
