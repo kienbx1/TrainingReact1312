@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box'
-import Tab from '@material-ui/core/Tab'
-import TabContext from '@material-ui/lab/TabContext'
-import TabList from '@material-ui/lab/TabList'
-import TabPanel from '@material-ui/lab/TabPanel'
+import Tab from '@mui/material/Tab'
+import { TabContext } from '@mui/lab'
+import TabList from '@mui/lab/TabList'
+import TabPanel from '@mui/lab/TabPanel'
 import AdminLayout from '../../../components/layouts/AdminLayout'
 import { useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
@@ -178,12 +178,6 @@ const Statistical = () => {
             </Box>
           </TabPanel>
         </TabContext>
-        <button className='bg-green-800 p-3 m-3 rounded-lg text-white hover:bg-green-600'>
-          Xác nhận
-        </button>
-        <button className='bg-red-800 p-3 m-3 rounded-lg text-white hover:bg-red-600'>
-          Huỷ bỏ
-        </button>
       </Box>
     </div>
   )

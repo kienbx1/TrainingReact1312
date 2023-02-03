@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 
-
 const toursSchema = new mongoose.Schema(
   {
     name: {
@@ -20,7 +19,7 @@ const toursSchema = new mongoose.Schema(
     price: {
       type: String,
       required: [true, 'Nhập giá tour']
-    },
+    }
   },
   {
     timestamps: true
