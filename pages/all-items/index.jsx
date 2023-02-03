@@ -1,5 +1,6 @@
 import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
+import SubCustomerServicePolicy from '../../components/layouts/body/SubCustomerServicePolicy'
 
 const datas = [
   {
@@ -98,6 +99,7 @@ const AllItems = () => {
       <div className='xl:px-28 lg:px-24 md:px-16 sm:px-0 py-12'>
         <ListProducts datas={datas} />
       </div>
+      <SubCustomerServicePolicy />
     </>
   )
 }

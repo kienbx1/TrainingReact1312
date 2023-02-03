@@ -5,6 +5,10 @@
 .open-menu {
   animation: openMenu linear 0.2s;
 }
+.mini__cart {
+  transform-origin: top center;
+  animation: slideDown 0.3s ease-in-out forwards;
+}
 
 @keyframes slideInLeft {
   from {
@@ -31,5 +35,17 @@
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
