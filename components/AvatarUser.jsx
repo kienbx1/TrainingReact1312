@@ -18,7 +18,7 @@ const AvatarUser = ({ username }) => {
             pathname: '/Admin/home'
           }} passHref legacyBehavior
         >
-          <li className='mt-2 p-2 hover:bg-slate-200 cursor-pointer rounded'>Trang quản lý</li>
+          <li className='p-2 hover:bg-slate-200 cursor-pointer rounded'>Trang quản lý</li>
         </Link>
         <li className='p-2 hover:bg-slate-200 cursor-pointer rounded '>Đăng xuất</li>
       </ul>

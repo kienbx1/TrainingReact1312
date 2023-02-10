@@ -1,30 +1,35 @@
 const CustomerServicePolicy = () => {
   return (
-    <div className='space-two-side pt-12 '>
-      <h1 className='text-black md:text-4xl sm:text-xl font-semibold capitalize text-center'>Chính sách chăm sóc khách hàng</h1>
-      <div className='flex sm:flex-col lg:flex-row items-center justify-between md:mt-8 sm:mt-4'>
-        <div className='px-4'>
-          <div className='2xl:w-72 xl:w-56 lg:w-44 rounded border-[1px] border-slate-100 xl:border-solid sm:border-none bg-white flex sm:flex-col sm:gap-6 lg:gap-0 lg:flex-row xl:flex-col items-center justify-center md:py-4 2xl:px-16 xl:px-8 min-h-[200px] xl:hover:shadow-3xl sm:hover:shadow-none'>
-            <img src='/Images/service/service6.png' className='xl:mb-5 lg:mb-0' />
-            <p className='md:w-40 sm:w-36 font-semibold sm:text-sm xl:text-base text-center capitalize'>Giao hàng nhanh & bảo mật</p>
+    <div className='space-two-side'>
+      <div className='my-12'>
+        <div className='flex flex-col px-3 md:grid grid-cols-4 gap-7'>
+          <div className='flex items-center gap-5'>
+            <img src='/Images/service/service1.png' />
+            <div>
+              <p className='font-semibold text-sm capitalize'>Giao hàng nhanh & an toàn</p>
+              <p className='text-sm text-[#777]'>Thời gian giao hàng chỉ 3 ngày</p>
+            </div>
           </div>
-        </div>
-        <div className='px-4'>
-          <div className='2xl:w-72 xl:w-56 lg:w-44 rounded border-[1px] border-slate-100 xl:border-solid sm:border-none bg-white flex sm:flex-col sm:gap-6 lg:gap-0 lg:flex-row xl:flex-col items-center justify-center md:py-4 2xl:px-16 xl:px-8 min-h-[200px] xl:hover:shadow-3xl sm:hover:shadow-none'>
-            <img src='/Images/service/service7.png' className='xl:mb-5 lg:mb-0' />
-            <p className='md:w-40 sm:w-36 font-semibold sm:text-sm xl:text-base text-center capitalize'>Đảm bảo 100% về sản phẩm</p>
+          <div className='flex items-center gap-5'>
+            <img src='/Images/service/service2.png' />
+            <div>
+              <p className='font-semibold text-sm capitalize'>Đảm bảo hoàn lại tiền</p>
+              <p className='text-sm text-[#777]'>Trong vòng 10 ngày</p>
+            </div>
           </div>
-        </div>
-        <div className='px-4'>
-          <div className='2xl:w-72 xl:w-56 lg:w-44 rounded border-[1px] border-slate-100 xl:border-solid sm:border-none bg-white flex sm:flex-col sm:gap-6 lg:gap-0 lg:flex-row xl:flex-col items-center justify-center md:py-4 2xl:px-16 xl:px-8 min-h-[200px] xl:hover:shadow-3xl sm:hover:shadow-none'>
-            <img src='/Images/service/service8.png' className='xl:mb-5 lg:mb-0' />
-            <p className='md:w-40 sm:w-36 font-semibold sm:text-sm xl:text-base text-center capitalize'>Chính sách đổi trả trong 24h</p>
+          <div className='flex items-center gap-5'>
+            <img src='/Images/service/service3.png' />
+            <div>
+              <p className='font-semibold text-sm capitalize'>Chính sách đổi trả trong 24 giờ</p>
+              <p className='text-sm text-[#777]'>Đổi trả nếu có bất kỳ lỗi gì</p>
+            </div>
           </div>
-        </div>
-        <div className='px-4'>
-          <div className='2xl:w-72 xl:w-56 lg:w-44 rounded border-[1px] border-slate-100 xl:border-solid sm:border-none bg-white flex sm:flex-col sm:gap-6 lg:gap-0 lg:flex-row xl:flex-col items-center justify-center md:py-4 2xl:px-16 xl:px-8 min-h-[200px] xl:hover:shadow-3xl sm:hover:shadow-none'>
-            <img src='/Images/service/service10.png' className='xl:mb-5 lg:mb-0' />
-            <p className='md:w-40 sm:w-36 font-semibold sm:text-sm xl:text-base text-center capitalize'>Hỗ trợ khách hàng chuyên nghiệp</p>
+          <div className='flex items-center gap-5'>
+            <img src='/Images/service/service4.png' />
+            <div>
+              <p className='font-semibold text-sm capitalize'>Hỗ trợ chuyên nghiệp</p>
+              <p className='text-sm text-[#777]'>Hotline 24/7</p>
+            </div>
           </div>
         </div>
       </div>

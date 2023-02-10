@@ -5,9 +5,23 @@
 .open-menu {
   animation: openMenu linear 0.2s;
 }
+
 .mini__cart {
   transform-origin: top center;
   animation: slideDown 0.3s ease-in-out forwards;
+}
+
+.prev__button:hover i {
+  animation: prevNavSlide 0.4s;
+}
+
+.next__button:hover i {
+  animation: nextNavSlide 0.4s;
+}
+
+.add__favorite:hover .icon__favorite,
+.add__cart:hover .icon__cart {
+  animation: btnIconSlide 0.4s;
 }
 
 @keyframes slideInLeft {
@@ -47,5 +61,59 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes prevNavSlide {
+  0% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(-5px);
+    opacity: 0;
+  }
+  80% {
+    transform: translateX(5px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes nextNavSlide {
+  0% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(5px);
+    opacity: 0;
+  }
+  80% {
+    transform: translateX(-5px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes btnIconSlide {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+    opacity: 0;
+  }
+  80% {
+    transform: translateY(5px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

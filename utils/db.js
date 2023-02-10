@@ -1,4 +1,10 @@
 const data = {
+  productFlashSale: {
+    image: '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/Black/display.jpg',
+    discount: 35,
+    id: 3,
+    time: 'Feb 28, 2023 00:00:00'
+  },
   productsInCart: [
     {
       name: 'giay nike',
@@ -26,7 +32,8 @@ const data = {
       id: 1,
       name: 'Air Jordan VIP',
       brand: 'nike',
-      price: 1200000,
+      price: 2200000,
+      isNew: false,
       saleOff: true,
       discount: 12,
       image: [
@@ -45,7 +52,8 @@ const data = {
       id: 2,
       name: 'Adidas Forum Black',
       brand: 'adidas',
-      price: 1300000,
+      price: 1500000,
+      isNew: false,
       saleOff: false,
       discount: 0,
       image: [
@@ -63,9 +71,10 @@ const data = {
       id: 3,
       name: 'Chuck Taylor All Star Lugged 2.0 Counter Climate High Top Black',
       brand: 'converse',
-      price: 1400000,
-      saleOff: false,
-      discount: 0,
+      price: 2600000,
+      isNew: false,
+      saleOff: true,
+      discount: 35,
       image: [
         '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/Black/display.jpg',
         '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/Black/back.jpg',
@@ -82,6 +91,7 @@ const data = {
       name: 'Air Jordan 7 RetroSe',
       brand: 'nike',
       price: 1500000,
+      isNew: false,
       saleOff: false,
       discount: 0,
       image: [
@@ -101,6 +111,7 @@ const data = {
       name: 'Adidas Forum Blue',
       brand: 'adidas',
       price: 1600000,
+      isNew: false,
       saleOff: true,
       discount: 15,
       image: [
@@ -118,7 +129,8 @@ const data = {
       id: 6,
       name: 'Chuck Taylor All Star Lugged 2.0 Counter Climate High Top White',
       brand: 'converse',
-      price: 2600000,
+      price: 9000000,
+      isNew: false,
       saleOff: false,
       discount: 0,
       image: [
@@ -137,6 +149,7 @@ const data = {
       name: 'Air Force 1 UNDEFEATED',
       brand: 'nike',
       price: 3000000,
+      isNew: false,
       saleOff: false,
       discount: 0,
       image: [
@@ -156,6 +169,7 @@ const data = {
       name: 'Adidas Forum White',
       brand: 'adidas',
       price: 1600000,
+      isNew: false,
       saleOff: false,
       discount: 0,
       image: [
@@ -174,6 +188,7 @@ const data = {
       name: 'Converse x DRKSHDW TURBOWPN High Top',
       brand: 'converse',
       price: 3600000,
+      isNew: false,
       saleOff: true,
       discount: 10,
       image: [
@@ -182,6 +197,25 @@ const data = {
         '/Images/Converse/Converse x DRKSHDW TURBOWPN High Top/front.jpg',
         '/Images/Converse/Converse x DRKSHDW TURBOWPN High Top/up.jpg',
         '/Images/Converse/Converse x DRKSHDW TURBOWPN High Top/down.jpg'
+      ],
+      sizes: [39, 40, 41, 42, 43, 44],
+      countInStock: 13,
+      desc: 'lorem lorem lorem'
+    },
+    {
+      id: 10,
+      name: 'Adidas continental 80',
+      brand: 'converse',
+      price: 2000000,
+      isNew: true,
+      saleOff: true,
+      discount: 100,
+      image: [
+        '/Images/Adidas/CONTINENTAL 80/display.webp',
+        '/Images/Adidas/CONTINENTAL 80/back.webp',
+        '/Images/Adidas/CONTINENTAL 80/front.webp',
+        '/Images/Adidas/CONTINENTAL 80/up.webp',
+        '/Images/Adidas/CONTINENTAL 80/down.webp'
       ],
       sizes: [39, 40, 41, 42, 43, 44],
       countInStock: 13,

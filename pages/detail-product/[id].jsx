@@ -7,7 +7,7 @@ import { BsBasket } from 'react-icons/bs'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { HiOutlineMailOpen } from 'react-icons/hi'
 
-import SubCustomerServicePolicy from '../../components/layouts/body/SubCustomerServicePolicy'
+import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import ListProducts from '../../components/ListProducts'
 import Toast from '../../components/Toast'
@@ -181,12 +181,13 @@ const DetailProduct = () => {
       </div>
       <div className='space-two-side'>
         <div className='py-12 px-4 md:px-0'>
-          <div className='flex items-center gap-4 mb-6'>
-            <div className='w-6 h-6 bg-[#9571db] rounded[50%] flex items-center justify-center'>
-              <BsBasket className='text-white' />
+          <div className='flex items-center gap-3'>
+            <div className='w-6 h-6 flex items-center justify-center rounded-[50%] bg-[#8c71db]'>
+              <BsBasket className='text-white text-xs' />
             </div>
-            <p className='capitalize text-sm font-semibold text-[#9571db]'>Các sản phẩm liên quan</p>
+            <p className='capitalize text-[#8c71db] text-sm font-semibold'>sản phẩm của chúng tôi</p>
           </div>
+          <p className='capitalize font-semibold text-3xl mt-3'>Các sản phẩm liên quan</p>
           <ListProducts data={relatedData} />
         </div>
       </div>
@@ -225,7 +226,7 @@ const DetailProduct = () => {
           </div>
         </div>
       </div>
-      <SubCustomerServicePolicy />
+      <CustomerServicePolicy />
     </>
   )
 }

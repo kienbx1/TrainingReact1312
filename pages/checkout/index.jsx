@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import allCity from '../../cityDb.json'
-import SubCustomerServicePolicy from '../../components/layouts/body/SubCustomerServicePolicy'
+import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import { phoneRegExp, emailRegExp } from '../../constant/config'
 import { requiredMessage, invalidMessage, minLengthMessage, maxLengthMessage } from '../../constant/errorMessage'
@@ -185,7 +185,7 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      <SubCustomerServicePolicy />
+      <CustomerServicePolicy />
     </>
   )
 }
