@@ -13,7 +13,7 @@ const menu = [
     txtColor: 'text-red-500'
   },
   {
-    path: '/Admin/user',
+    path: '/Admin/user/users',
     des: 'Người dùng',
     icon: <FaUser className='mr-2 text-yellow-500' />,
     txtColor: 'text-yellow-500',
