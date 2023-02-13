@@ -18,6 +18,7 @@ connectDB()
 nextApp.prepare().then(() => {
   app.use('/api/auth', require('./api/auth'))
   app.use('/api/products', require('./api/products'))
+  app.use('/api/orders', require('./api/orders'))
 
   app.all('*', (req, res) => handle(req, res))
   server.listen(PORT, (err) => {
