@@ -1,12 +1,20 @@
+import { useEffect } from 'react'
 import { BsBasket } from 'react-icons/bs'
+import { useDispatch, useSelector } from 'react-redux'
+
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
-import ListProducts from '../../components/ListProducts'
-import data from '../../utils/db'
-
-const saleOffProducts = data?.productsList?.filter(item => item?.saleOff === true)
+import ShowProducts from '../../components/ShowProducts'
+import { getSaleOffProducts } from '../../redux/slices/productSlice'
 
 const SaleOff = () => {
+  const dispatch = useDispatch()
+  const { products, isLoading, isError } = useSelector(state => state?.product)
+
+  useEffect(() => {
+    dispatch(getSaleOffProducts())
+  }, [])
+
   return (
     <>
       <div className='bg-orange-primary py-12 relative overflow-hidden'>
@@ -26,7 +34,7 @@ const SaleOff = () => {
           </div>
           <p className='capitalize font-semibold text-3xl mt-3'>Sản phẩm đang giảm giá</p>
         </div>
-        <ListProducts data={saleOffProducts} />
+        <ShowProducts data={products} isLoading={isLoading} isError={isError} />
       </div>
       <CustomerServicePolicy />
     </>

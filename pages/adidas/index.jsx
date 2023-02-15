@@ -1,12 +1,20 @@
+import { useEffect } from 'react'
 import { BsBasket } from 'react-icons/bs'
+import { useDispatch, useSelector } from 'react-redux'
+
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
-import ListProducts from '../../components/ListProducts'
-import data from '../../utils/db'
-
-const adidasProducts = data?.productsList?.filter(item => item?.brand === 'adidas')
+import ShowProducts from '../../components/ShowProducts'
+import { getBrandProducts } from '../../redux/slices/productSlice'
 
 const Adidas = () => {
+  const dispatch = useDispatch()
+  const { products, isLoading, isError } = useSelector(state => state?.product)
+
+  useEffect(() => {
+    dispatch(getBrandProducts('adidas'))
+  }, [])
+
   return (
     <>
       <div className='bg-orange-primary py-12 relative overflow-hidden'>
@@ -26,7 +34,7 @@ const Adidas = () => {
           </div>
           <p className='capitalize font-semibold text-3xl mt-3'>Khám phá thêm về Adidas</p>
         </div>
-        <ListProducts data={adidasProducts} />
+        <ShowProducts data={products} isLoading={isLoading} isError={isError} />
       </div>
       <CustomerServicePolicy />
     </>

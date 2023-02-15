@@ -9,7 +9,7 @@ import { HiOutlineMailOpen } from 'react-icons/hi'
 
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
-import ListProducts from '../../components/ListProducts'
+import ShowProducts from '../../components/ShowProducts'
 import Toast from '../../components/Toast'
 import { emailRegExp } from '../../constant/config'
 import { invalidMessage, requiredMessage } from '../../constant/errorMessage'
@@ -188,7 +188,7 @@ const DetailProduct = () => {
             <p className='capitalize text-[#8c71db] text-sm font-semibold'>sản phẩm của chúng tôi</p>
           </div>
           <p className='capitalize font-semibold text-3xl mt-3'>Các sản phẩm liên quan</p>
-          <ListProducts data={relatedData} />
+          <ShowProducts data={relatedData} />
         </div>
       </div>
       <div className='space-two-side'>

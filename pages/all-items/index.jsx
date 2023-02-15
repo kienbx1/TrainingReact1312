@@ -1,12 +1,19 @@
+import { useEffect } from 'react'
 import { BsBasket } from 'react-icons/bs'
+import { useDispatch, useSelector } from 'react-redux'
 
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
-import ListProducts from '../../components/ListProducts'
-import data from '../../utils/db'
+import ShowProducts from '../../components/ShowProducts'
+import { getAllProducts } from '../../redux/slices/productSlice'
 
 const AllItems = () => {
-  const productsList = data?.productsList
+  const dispatch = useDispatch()
+  const { products, isLoading, isError } = useSelector(state => state?.product)
+
+  useEffect(() => {
+    dispatch(getAllProducts())
+  }, [])
 
   return (
     <>
@@ -27,7 +34,7 @@ const AllItems = () => {
           </div>
           <p className='capitalize font-semibold text-3xl mt-3'>Khám phá thêm các sản phẩm chúng tôi</p>
         </div>
-        <ListProducts data={productsList} />
+        <ShowProducts data={products} isLoading={isLoading} isError={isError} />
       </div>
       <CustomerServicePolicy />
     </>

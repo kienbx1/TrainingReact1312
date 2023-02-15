@@ -54,8 +54,7 @@ const SideBar = () => {
                 pathname: data?.path
               })
             }}
-            className={`flex flex-row ${data?.txtColor} 
-             hover:bg-red-100 rounded-lg w-full h-10 cursor-pointer items-center p-2 active:bg-red-100`}
+            className={`flex flex-row ${data?.txtColor} hover:bg-red-100 rounded-lg w-full h-10 cursor-pointer items-center p-2 active:bg-red-100`}
           >
             {data?.icon}
             {data?.des}
