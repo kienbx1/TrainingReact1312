@@ -147,7 +147,7 @@ const Products = () => {
         <Box sx={{ height: 600, width: '100%' }}>
           <div className='flex flex-row'>
             <div className='p-2'>
-              <Link href='/Admin/product/AddNewProduct'>
+              <Link href='/Admin/product/addNewProduct'>
                 <Button
                   variant='contained'
                   color='success'
