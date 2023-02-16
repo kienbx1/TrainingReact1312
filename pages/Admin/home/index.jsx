@@ -95,20 +95,17 @@ const overview = [
   {
     text: 'Tổng thu nhập',
     num: '200000',
-    percent: '25',
-    color: '#0088FE'
+    percent: '25'
   },
   {
     text: 'Tổng chi',
     num: '20000',
-    percent: '25',
-    color: '#FF8042'
+    percent: '25'
   },
   {
     text: 'Tổng số thành viên',
     num: '2000',
-    percent: '25',
-    color: '#00C49F'
+    percent: '25'
   },
   {
     text: 'Tỷ suất lợi nhuận',
@@ -222,16 +219,16 @@ const Home = () => {
 
   return (
     <div className='bg-white m-4'>
-      <div className='grid grid-cols-1 lg:grid-cols-4 sm:grid-cols-2 justify-center'>
+      <div className='grid grid-cols-2 gap-1 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 justify-center'>
         {overview.map((data) => (
           <div
             key={data.text}
-            className={`font-bold w-full bg-[${data.color}] sm:w-40 md:w-60 h-44 rounded-md mt-10 p-2 flex flex-col justify-around text-white`}
+            className='font-bold w-full bg-[#00C49F] sm:w-40 md:w-60 h-44 rounded-md mt-10 p-2 flex flex-col justify-around text-white'
           >
             <p className='lg:text-2xl sm:text-xl text-2xl'>{data.text}</p>
             <div className='lg:text-3xl flex flex-row sm:text-xl text-3xl'>
               <FaDollarSign />
-              <CountUp start={0} end={data.num} />
+              <CountUp end={data.num} />
             </div>
             <div className='text-white flex flex-row text-xl lg:text-xl sm:text-sm'>
               <span>Tăng&nbsp;</span>
@@ -244,7 +241,7 @@ const Home = () => {
         ))}
       </div>
       <div className='sm:flex sm:flex-col lg:flex-row md:justify-evenly'>
-        <div className='flex flex-col mt-10 border p-8 bg-slate-100 rounded-lg w-72 md:w-full lg:w-96'>
+        <div className='flex flex-col mt-10 border p-8 bg-slate-100 rounded-lg w-72 md:w-full lg:w-[50%]'>
           <p className='sm:text-xl lg:text-2xl mb-3'>
             Thống kê doanh thu theo tháng
           </p>
