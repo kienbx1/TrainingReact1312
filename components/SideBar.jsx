@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaHome, FaUser, FaHandHoldingUsd } from "react-icons/fa";
 import { GiConverseShoe } from "react-icons/gi";
 import { useRouter } from "next/router";
-import Popover from "@mui/material/Popover";
 import {
-  alertTitleClasses,
-  Button,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography,
 } from "@mui/material";
-import { resetState } from "../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useCookies from "universal-cookie";
 import { styled, useTheme } from "@mui/material/styles";
@@ -25,6 +21,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import { BsFillMenuAppFill, BsFillMenuButtonWideFill } from "react-icons/Bs";
+import { ImExit } from "react-icons/Im";
 const menu = [
   {
     path: "/Admin/home",
@@ -42,7 +39,7 @@ const menu = [
   },
   {
     path: "/Admin/statistical",
-    des: "Thống kê",
+    des: "Đơn hàng",
     icon: <FaHandHoldingUsd size={30} className="mr-2 text-green-500" />,
     txtColor: "text-green-500",
   },
@@ -52,9 +49,14 @@ const menu = [
     icon: <GiConverseShoe size={30} className="mr-2 text-blue-500" />,
     txtColor: "text-blue-900",
   },
+  {
+    path: "/",
+    des: "Thoát",
+    icon: <ImExit size={30} className="mr-2 text-red-500" />,
+    txtColor: "text-red-900",
+  },
 ];
 const drawerWidth = 200;
-const cookies = new useCookies();
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -126,10 +128,13 @@ const SideBar = () => {
     setOpen(true);
   };
 
+  const { user } = useSelector((state) => state?.auth);
+  console.log(user);
   const handleDrawerClose = () => {
     setOpen(false);
   };
   const router = useRouter();
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -144,15 +149,21 @@ const SideBar = () => {
               marginRight: 5,
               ...(open && { display: "none" }),
             }}>
-            <BsFillMenuButtonWideFill/>
+            <BsFillMenuButtonWideFill />
           </IconButton>
           <Typography className="uppercase" variant="h6" noWrap component="div">
             {title}
           </Typography>
+          <div className="flex flex-row items-center float-right absolute right-0">
+            <Typography>{user?.name}</Typography>
+            <img className="rounded-full w-10 mx-4" src={user?.profilePicUrl} />
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader className="flex flex-row-reverse justify-between" style={{ background: "#2E3B55" }}>
+        <DrawerHeader
+          className="flex flex-row-reverse justify-between"
+          style={{ background: "#2E3B55" }}>
           <BsFillMenuAppFill
             size={25}
             className="text-white cursor-pointer"
@@ -163,8 +174,13 @@ const SideBar = () => {
               <BsFillMenuAppFill />
             )}
           </BsFillMenuAppFill>
-          <Typography className="uppercase text-white" variant="h6" noWrap component="div">Admin page</Typography>
-
+          <Typography
+            className="uppercase text-white"
+            variant="h6"
+            noWrap
+            component="div">
+          King shoes
+          </Typography>
         </DrawerHeader>
         <Divider />
         <List>

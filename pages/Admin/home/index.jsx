@@ -12,63 +12,67 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { FaDollarSign } from "react-icons/fa";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import CountUp from "../../../components/CountUp";
+import { RiBillLine } from "react-icons/Ri";
+import { AiOutlinePlus } from "react-icons/Ai";
+import { BiUserPlus } from "react-icons/Bi";
+import { GiMoneyStack } from "react-icons/Gi";
+import { MdImportantDevices } from "react-icons/Md";
 
 const rows = [
   {
     id: 1,
-    shoe: "Nikeassahsaijdjdbsad",
+    shoe: "Nike Retro",
     branch: "Nike",
     image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
-    purchases: 35,
+    purchases: 315,
     total: "1.234.456",
   },
   {
     id: 2,
-    shoe: "Nike",
+    shoe: "Nike Air",
     branch: "Nike",
-    image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
-    purchases: 42,
+    image: "/Images/Nike/AirForce1XUNDEFEATED/AirForce1XUNDEFEATED_1.webp",
+    purchases: 142,
     total: "1.234.456",
   },
   {
     id: 3,
-    shoe: "Nike",
+    shoe: "Nike Max",
     branch: "Nike",
-    image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
-    purchases: 45,
+    image: "/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp",
+    purchases: 125,
     total: "1.234.456",
   },
   {
     id: 4,
-    shoe: "Nike",
+    shoe: "Nike Jordan",
     branch: "Nike",
     image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
-    purchases: 16,
+    purchases: 116,
     total: "1.234.456",
   },
   {
     id: 5,
-    shoe: "Nike",
+    shoe: "Nike 90",
     branch: "Nike",
-    image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
-    purchases: null,
+    image: "/Images/Nike/AirForce1XUNDEFEATED/AirForce1XUNDEFEATED_1.webp",
+    purchases: 111,
     total: "1.234.456",
   },
   {
     id: 6,
     shoe: "Nike",
     branch: "Nike",
-    image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
-    purchases: 150,
+    image: "/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp",
+    purchases: 89,
     total: "1.234.456",
   },
   {
     id: 7,
-    shoe: "Nike",
+    shoe: "Nike Air Jordan 1 Mid",
     branch: "Nike",
     image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
     purchases: 44,
@@ -76,7 +80,7 @@ const rows = [
   },
   {
     id: 8,
-    shoe: "Nike",
+    shoe: "Nike Air Max 97",
     branch: "Nike",
     image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
     purchases: 36,
@@ -84,48 +88,26 @@ const rows = [
   },
   {
     id: 9,
-    shoe: "Nike",
+    shoe: "Nike Dunk",
     branch: "Nike",
-    image: "/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp",
-    purchases: 65,
+    image: "/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp",
+    purchases: 5,
     total: "1.234.456",
   },
 ];
-const overview = [
-  {
-    text: "Tổng thu nhập",
-    num: "200000",
-    percent: "25",
-  },
-  {
-    text: "Tổng chi",
-    num: "20000",
-    percent: "25",
-  },
-  {
-    text: "Tổng số thành viên",
-    num: "2000",
-    percent: "25",
-  },
-  {
-    text: "Tỷ suất lợi nhuận",
-    num: "20",
-    percent: "25",
-    color: "#0088FE",
-  },
-];
+
 const data = [
   { name: "Jan", Nike: 4100, Adidas: 400, Converse: 2400 },
-  { name: "Feb", Nike: 4100, Adidas: 9400, Converse: 2400 },
-  { name: "Mar", Nike: 3400, Adidas: 2400, Converse: 2400 },
-  { name: "Apr", Nike: 400, Adidas: 2400, Converse: 2400 },
-  { name: "May", Nike: 400, Adidas: 2400, Converse: 2400 },
-  { name: "Jun", Nike: 400, Adidas: 2400, Converse: 2400 },
-  { name: "Jul", Nike: 400, Adidas: 2400, Converse: 2400 },
+  { name: "Feb", Nike: 4100, Adidas: 532, Converse: 2400 },
+  { name: "Mar", Nike: 3400, Adidas: 2400, Converse: 5125 },
+  { name: "Apr", Nike: 415, Adidas: 3400, Converse: 2400 },
+  { name: "May", Nike: 400, Adidas: 540, Converse: 3537 },
+  { name: "Jun", Nike: 3400, Adidas: 1400, Converse: 2400 },
+  { name: "Jul", Nike: 1231, Adidas: 125, Converse: 2400 },
   { name: "Aug", Nike: 400, Adidas: 2400, Converse: 2400 },
-  { name: "Sep", Nike: 400, Adidas: 1500, Converse: 2400 },
-  { name: "Oct", Nike: 400, Adidas: 2400, Converse: 2400 },
-  { name: "Nov", Nike: 400, Adidas: 2400, Converse: 2400 },
+  { name: "Sep", Nike: 400, Adidas: 1500, Converse: 3400 },
+  { name: "Oct", Nike: 3400, Adidas: 2400, Converse: 2400 },
+  { name: "Nov", Nike: 400, Adidas: 4547, Converse: 2362 },
   { name: "Dec", Nike: 400, Adidas: 2400, Converse: 2400 },
 ];
 const dataPie = [
@@ -217,34 +199,119 @@ const Home = () => {
   ];
 
   return (
-    <div className="bg-white m-4 mt-10">
-      {/* Pc */}
+    <div className="bg-slate-100 mt-10">
       <div className="grid grid-cols-2 gap-1 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 justify-center">
-        {overview.map((data) => (
-          <div
-            key={data.text}
-            className="font-bold w-full bg-[#00C49F] sm:w-40 md:w-[70%] lg:w-[90%] h-44 rounded-md mt-10 p-2 flex flex-col justify-around text-white">
-            <p className="lg:text-2xl sm:text-xl text-2xl">{data.text}</p>
-            <div className="lg:text-3xl flex flex-row sm:text-xl text-3xl">
-              <FaDollarSign />
-              <CountUp end={data.num} />
+        <div className="mt-14 bg-white sm:w-40 ml-3 md:w-[70%] lg:w-[90%] h-44 rounded-2xl relative drop-shadow-lg">
+          <div className="flex flex-row">
+            <div className=" bg-black w-16 h-16 ml-4 rounded-lg -mt-3 text-white drop-shadow-lg flex flex-col justify-around items-center">
+              <RiBillLine size={40} />
             </div>
-            <div className="text-white flex flex-row text-xl lg:text-xl md:text-xl">
-              <span>Tăng&nbsp;</span>
-              <span>
-                <CountUp start={0} end={data.percent} />
-              </span>
-              <span>%</span>
+            <div className="mt-2 right-6 absolute flex flex-col items-end">
+              <p className="font-thin  md:text-lg text-base text-gray-400">
+                Đơn hàng mới
+              </p>
+              <p className="font-bold text-3xl text-black">
+                <CountUp end={291} />
+              </p>
             </div>
           </div>
-        ))}
+          <div>
+            <Divider className="text-black mt-7" variant="middle" />
+            <div className="flex flex-row items-center bottom-0 mt-14 ml-3">
+              <AiOutlinePlus className="text-xl text-green-600" size={20} />
+              <p className="text-xl text-green-600">
+                <CountUp end={50} />
+              </p>
+              <p className="text-base font-thin text-gray-400 ml-1">
+                So với tuần trước
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-14 bg-white sm:w-40 ml-3 md:w-[70%] lg:w-[90%] h-44 rounded-2xl relative drop-shadow-lg">
+          <div className="flex flex-row">
+            <div className=" bg-blue-500 w-16 h-16 ml-4 rounded-lg -mt-3 text-white drop-shadow-lg flex flex-col justify-around items-center">
+              <BiUserPlus size={40} />
+            </div>
+            <div className="mt-2 right-6 absolute flex flex-col items-end">
+              <p className="font-thin  md:text-lg text-base text-gray-400">
+                Khách hàng mới
+              </p>
+              <p className="font-bold text-3xl text-blue-500">
+                <CountUp end={351} />
+              </p>
+            </div>
+          </div>
+          <div>
+            <Divider className="text-black mt-7" variant="middle" />
+            <div className="flex flex-row items-center bottom-0 mt-14 ml-3">
+              <AiOutlinePlus className="text-xl text-green-600" size={20} />
+              <p className="text-xl text-green-600">
+                <CountUp end={70} />
+              </p>
+              <p className="text-base font-thin text-gray-400 ml-1">
+                So với hôm qua
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-14 bg-white sm:w-40 ml-3 md:w-[70%] lg:w-[90%] h-44 rounded-2xl relative drop-shadow-lg">
+          <div className="flex flex-row">
+            <div className=" bg-green-500 w-16 h-16 ml-4 rounded-lg -mt-3 text-white drop-shadow-lg flex flex-col justify-around items-center">
+              <GiMoneyStack size={40} />
+            </div>
+            <div className="mt-2 right-6 absolute flex flex-col items-end">
+              <p className="font-thin  md:text-lg text-base text-gray-400">
+                Doanh thu
+              </p>
+              <p className="font-bold text-3xl text-green-500">
+                <CountUp end={514000} />
+              </p>
+            </div>
+          </div>
+          <div>
+            <Divider className="text-black mt-7" variant="middle" />
+            <div className="flex flex-row items-center bottom-0 mt-14 ml-3">
+              <AiOutlinePlus className="text-xl text-green-600" size={20} />
+              <p className="text-xl text-green-600">
+                <CountUp end={30} />
+              </p>
+              <p className="md:text-base text-base font-thin text-gray-400 ml-1">
+                % So với tháng trước
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-14 bg-white sm:w-40 ml-3 md:w-[70%] lg:w-[90%] h-44 rounded-2xl relative drop-shadow-lg">
+          <div className="flex flex-row">
+            <div className=" bg-red-500 w-16 h-16 ml-4 rounded-lg -mt-3 text-white drop-shadow-lg flex flex-col justify-around items-center">
+              <MdImportantDevices size={40} />
+            </div>
+            <div className="mt-2 right-6 absolute flex flex-col items-end">
+              <p className="font-thin  md:text-lg text-base text-gray-400">
+                Lượt truy cập
+              </p>
+              <p className="font-bold text-3xl text-red-500">
+                <CountUp end={2163} />
+              </p>
+            </div>
+          </div>
+          <div>
+            <Divider className="text-black mt-7" variant="middle" />
+            <div className="flex flex-row items-center bottom-0 mt-14 ml-3">
+              <AiOutlinePlus className="text-xl text-green-600" size={20} />
+              <p className="text-xl text-green-600">
+                <CountUp end={130} />
+              </p>
+              <p className=" text-base font-thin text-gray-400 ml-1">
+                So với tháng trước
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      {/* Mobile */}
-      <div className="sm:flex sm:flex-col lg:flex-row md:justify-evenly">
-        <div className="flex flex-col mt-10 border p-8 bg-slate-100 rounded-lg w-72 md:w-full lg:w-[50%]">
-          <p className="sm:text-xl lg:text-2xl mb-3">
-            Thống kê doanh thu theo tháng
-          </p>
+      <div className="sm:flex sm:flex-col lg:flex-row md:justify-evenly drop-shadow-lg">
+        <div className="flex flex-col mt-10 border p-8 bg-white rounded-lg w-72 md:w-full lg:w-[50%]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               width="100%"
@@ -280,9 +347,16 @@ const Home = () => {
               />
             </AreaChart>
           </ResponsiveContainer>
+          <Divider className="text-black mt-7" variant="middle" />
+          <p className="text-xl font-bold mt-3">
+            Thống kê doanh thu theo tháng
+          </p>
+          <p className="text-xl font-thin text-gray-500">
+            <span className="font-bold">(+15%)</span> Doanh số hôm nay
+          </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="mt-10 border-2 p-8 m-2 flex flex-col bg-slate-100 rounded-lg">
+          <div className="mt-10 border-2 p-8 m-2 flex flex-col drop-shadow-sm bg-white rounded-lg">
             <div>
               <p className="sm:text-xl lg:text-2xl">Thu nhập :</p>
             </div>
@@ -313,7 +387,7 @@ const Home = () => {
               </ul>
             </div>
           </div>
-          <div className="mt-10 border-2 p-8 m-2 flex flex-col bg-slate-100 rounded-lg">
+          <div className="mt-10 border-2 p-8 m-2 flex flex-col bg-white rounded-lg">
             <div>
               <p className="sm:text-xl lg:text-2xl">Chi phí :</p>
             </div>
@@ -346,7 +420,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="p-2 m-4 bg-slate-100 rounded-lg justify-around items-center flex flex-col">
+      <div className="p-2 m-4 bg-slate-50 rounded-lg justify-around items-center flex flex-col drop-shadow-lg">
         <Box
           sx={{
             height: 700,

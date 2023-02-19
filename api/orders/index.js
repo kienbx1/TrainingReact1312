@@ -109,52 +109,6 @@ router.route('/all-of-user').get(auth, async (req, res, next) => {
   return res.status(200).json({ msg: 'Chưa có đơn hàng nào được tạo' })
 })
 
-  // @route:  GET /api/orders/all-of-product
-
-router.route('/all-of-product').get(async (req, res, next) => {
-  const { userId } = req.body
-  const order = await Order.aggregate([
-    {
-      $match: { userId: Mongoose.Types.ObjectId(userId) }
-    },
-    {
-      $lookup: {
-        from: 'users',
-        localField: 'userId',
-        foreignField: '_id',
-        as: 'user'
-      }
-    },
-    {
-      $lookup: {
-        from: 'products',
-        localField: 'productId',
-        foreignField: '_id',
-        as: 'product'
-      }
-    },
-    {
-      $project: {
-        room: 1,
-        product: {
-          Image: 1,
-          name: 1,
-          branch: 1,
-
-        },
-        checking: 1,
-        createdAt: 1,
-        totalPrice: 1
-      }
-    }
-  ])
-  if (order.length > 0) {
-    return res.status(200).json({ msg: 'Danh sách đơn hàng thành công', order })
-  }
-  return res.status(200).json({ msg: 'Chưa có đơn hàng nào được tạo' })
-})
-
-
 router.route('/:id').get(auth, async (req, res, next) => {
 // @route:  GET /api/orders/:id
   // @desc:   Lấy thông tin đơn hàng cụ thể

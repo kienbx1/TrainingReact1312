@@ -145,7 +145,7 @@ router.put('/me', auth, upload.single('profilePic'), async (req, res) => {
     }
     // Check if username is already taken
     let user = await User.findOne({ email: email.toLowerCase() })
-    if (user && user._id.toString() !== req.userIdupdatedUser) {
+    if (user && user._id.toString() !== req.userId) {
       return res.status(400).json({ msg: 'Email đã được sử dụng' })
     }
     const updatedUser = {

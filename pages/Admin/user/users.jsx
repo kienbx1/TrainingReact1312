@@ -118,10 +118,13 @@ const User = () => {
   const [validationPass, setValidationPass] = useState(false);
   const [validationEmail, setValidationEmail] = useState(false);
   const [validationPhone, setValidationPhone] = useState(false);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setInputs("");
+  };
   const router = useRouter();
   // Toast
-  const mesageSucces = (res) => {
+  const messageSuccess = (res) => {
     toast.success(res?.data?.msg, {
       position: "top-right",
       autoClose: 5000,
@@ -133,7 +136,7 @@ const User = () => {
       theme: "light",
     });
   };
-  const mesageError = (value) => {
+  const messageError = (value) => {
     toast.error(value, {
       position: "top-right",
       autoClose: 5000,
@@ -170,13 +173,14 @@ const User = () => {
       .then((res) => {
         console.log(res);
         if (res) {
-          mesageSucces(res);
+          messageSuccess(res);
+          setInputs("");
         }
       })
       .catch((error) => {
         const err = error?.response?.data?.msg;
         if (error) {
-          mesageError(err);
+          messageError(err);
         }
       });
   };
@@ -188,12 +192,12 @@ const User = () => {
   const onHandleDel = () => {
     axios({ url: `/api/auth/${delId}`, method: "DELETE" })
       .then((res) => {
-        if (res) mesageSucces(res);
+        if (res) messageSuccess(res);
       })
       .catch((error) => {
         const err = error?.response?.data?.msg;
         if (error) {
-          mesageError(err);
+          messageError(err);
         }
       });
   };
@@ -220,12 +224,12 @@ const User = () => {
     })
       .then((res) => {
         console.log(res);
-        if (res) mesageSucces(res);
+        if (res) messageSuccess(res);
       })
       .catch((error) => {
         const err = error?.response?.data?.msg;
         if (error) {
-          mesageError(err);
+          messageError(err);
         }
       });
     return updatedRow;
@@ -297,6 +301,7 @@ const User = () => {
                 }}>
                 <TextField
                   label="Email"
+                  value={inputs ? inputs.email : ""}
                   variant="outlined"
                   error={validationEmail}
                   onChange={(e) => {
@@ -316,6 +321,7 @@ const User = () => {
                 />
                 <TextField
                   label="Mật khẩu"
+                  value={inputs ? inputs.password : ""}
                   variant="outlined"
                   required
                   onChange={(e) => {
@@ -338,6 +344,7 @@ const User = () => {
                 />
                 <TextField
                   key="Tên người dùng"
+                  value={inputs ? inputs.name : ""}
                   label="Tên người dùng"
                   variant="outlined"
                   onChange={handleChangeField}
@@ -345,6 +352,7 @@ const User = () => {
                 />
                 <TextField
                   label="Số điện thoại"
+                  value={inputs ? inputs.phoneNumber : ""}
                   variant="outlined"
                   error={validationPhone}
                   onChange={(e) => {
@@ -366,12 +374,14 @@ const User = () => {
                 />
                 <TextField
                   label="Địa chỉ"
+                  value={inputs ? inputs.address : ""}
                   variant="outlined"
                   onChange={handleChangeField}
                   name="address"
                 />
                 <TextField
                   label="Quản trị"
+                  value={inputs ? inputs.role : ""}
                   variant="outlined"
                   select
                   defaultValue="user"
