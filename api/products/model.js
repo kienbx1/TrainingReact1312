@@ -2,23 +2,31 @@ const mongoose = require('mongoose')
 
 const toursSchema = new mongoose.Schema(
   {
+    Image: {
+      type: String
+    },
     name: {
       type: String,
       required: [true, 'Nhập tên sản phẩm']
     },
-    avatar: {
-      type: String
-    },
-    date: {
-      type: String
-    },
-    description: {
+    branch: {
       type: String,
-      required: [true, 'Nhập nội dung']
+      require: [true, 'Nhập tên thương hiệu']
+    },
+    importQuantity: {
+      type: Number,
+      require: [true, 'Nhập số lượng hàng']
+    },
+    sellQuantity: {
+      type: Number,
+      require: [true, 'Nhập số lượng hàng']
     },
     price: {
       type: String,
-      required: [true, 'Nhập giá tour']
+      required: [true, 'Nhập giá sản phẩm']
+    },
+    date: {
+      type: String
     }
   },
   {
