@@ -42,14 +42,14 @@ const CartSocialFixed = () => {
               </div>
             </div>
             <Link href='/cart'>
-              <a className='bg-dot-active w-[80%] block mx-auto text-center p-3 uppercase font-semibold mt-3 hover:cursor-pointer'>Thanh toán</a>
+              <p className='bg-dot-active w-[80%] block mx-auto text-center p-3 uppercase font-semibold mt-3 hover:cursor-pointer'>Thanh toán</p>
             </Link>
           </div>
       }
       <div className='w-9 h-[110px] bg-gray-700 absolute top-[100px] text-xl text-white flex flex-col items-center justify-around shadow-3xl'>
-        <a target='_blank' href='https://www.facebook.com/ThinhhTeeNii/' rel='noreferrer'><BsFacebook /></a>
-        <a target='_blank' href='https://www.instagram.com/thinhhh_hhhh/' rel='noreferrer'><BsInstagram /></a>
-        <a target='_blank' href='https://www.youtube.com/channel/UCXO1FQgzQ4UXSPm4-qaty-Q' rel='noreferrer'><BsYoutube /></a>
+        <p target='_blank' href='https://www.facebook.com/ThinhhTeeNii/' rel='noreferrer'><BsFacebook /></p>
+        <p target='_blank' href='https://www.instagram.com/thinhhh_hhhh/' rel='noreferrer'><BsInstagram /></p>
+        <p target='_blank' href='https://www.youtube.com/channel/UCXO1FQgzQ4UXSPm4-qaty-Q' rel='noreferrer'><BsYoutube /></p>
       </div>
       {
         isOpenMiniCart && <div className='w-screen h-screen absolute right-0 -top-[320%] -z-[1]' onClick={clickCartFixedHandler} />

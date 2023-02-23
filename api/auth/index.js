@@ -9,7 +9,7 @@ const upload = require('../../middleware/imageUpload')
 // @route:  POST /api/auth/signup
 // @desc:   Register a new user
 router.post('/signup', async (req, res) => {
-  const { name, email, password } = req.body
+  const { name, email, password, role } = req.body
 
   if (password.length < 6) {
     return res.status(400).json({ msg: 'Mật khẩu tối thiểu 6 ký tự' })
@@ -25,7 +25,8 @@ router.post('/signup', async (req, res) => {
     user = new User({
       name,
       email: email.toLowerCase(),
-      password
+      password,
+      role
     })
     const error = user.validateSync()
     if (error) {

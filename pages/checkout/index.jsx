@@ -5,7 +5,7 @@ import allCity from '../../cityDb.json'
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import { phoneRegExp, emailRegExp } from '../../constant/config'
-import { requiredMessage, invalidMessage, minLengthMessage, maxLengthMessage } from '../../constant/errorMessage'
+import { requiredMessage, invalidEmailMessage, invalidPhoneMessage, minLengthMessage, maxLengthMessage } from '../../constant/errorMessage'
 
 const Checkout = () => {
   const [selectCity, setSelectCity] = useState('')
@@ -59,7 +59,7 @@ const Checkout = () => {
                     required: requiredMessage,
                     pattern: {
                       value: phoneRegExp,
-                      message: invalidMessage
+                      message: invalidPhoneMessage
                     }
                   })}
                 />
@@ -74,7 +74,7 @@ const Checkout = () => {
                     required: requiredMessage,
                     pattern: {
                       value: emailRegExp,
-                      message: invalidMessage
+                      message: invalidEmailMessage
                     }
                   })}
                 />

@@ -10,9 +10,7 @@ const OrderSummary = () => {
           <p>15,000,000 VND</p>
         </div>
         <Link href='/checkout'>
-          <a>
-            <button className='mt-5 bg-[#3577f0] p-5 w-full rounded-md text-white uppercase font-semibold md:hover:scale-105 duration-300'>thanh toán</button>
-          </a>
+          <button className='mt-5 bg-[#3577f0] p-5 w-full rounded-md text-white uppercase font-semibold md:hover:scale-105 duration-300'>thanh toán</button>
         </Link>
       </div>
     </div>

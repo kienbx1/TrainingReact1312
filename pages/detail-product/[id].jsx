@@ -24,7 +24,7 @@ const DetailProduct = () => {
   const [isSelectSize, setIsSelectSize] = useState(null)
   const [isMessageSize, setIsMessageSize] = useState(false)
   const [quantityProduct, setQuantityProduct] = useState(1)
-  const [showToast, setShowToast] = useState('')
+  const [openToast, setOpenToast] = useState(false)
   const [, setInfoProductAddToCart] = useState({
     brand: '',
     name: '',
@@ -41,7 +41,7 @@ const DetailProduct = () => {
   const selectSizeHandler = (size) => {
     setIsSelectSize(size)
     setIsMessageSize(false)
-    setShowToast('')
+    setOpenToast(false)
   }
 
   const decreaseProductHandler = () => {
@@ -77,7 +77,7 @@ const DetailProduct = () => {
           quantity: quantityProduct
         }
       )
-      setShowToast('success')
+      setOpenToast(true)
       resetInfoProductAddToCart()
     }
   }
@@ -96,7 +96,7 @@ const DetailProduct = () => {
   return (
     <>
       {
-        showToast === 'success' && <Toast title='Đã thêm vào giỏ hàng' setShowToast={setShowToast} />
+        openToast && <Toast title='Đã thêm vào giỏ hàng' setOpenToast={setOpenToast} />
       }
       <div className='bg-orange-primary'>
         <div className='space-two-side'>
@@ -171,7 +171,7 @@ const DetailProduct = () => {
                 <div className='flex gap-10 justify-center md:justify-start'>
                   <div className='p-6 bg-[#3577f0] rounded-md text-sm md:text-base text-white capitalize font-semibold cursor-pointer md:hover:scale-105 duration-300' onClick={addToCartHandler}>Thêm vào giỏ hàng</div>
                   <Link href='/checkout'>
-                    <a className='p-6 bg-[#ff497c] rounded-md text-sm md:text-base text-white capitalize font-semibold cursor-pointer md:hover:text-white hover:scale-105 duration-300'>Mua ngay</a>
+                    <p className='p-6 bg-[#ff497c] rounded-md text-sm md:text-base text-white capitalize font-semibold cursor-pointer md:hover:text-white hover:scale-105 duration-300'>Mua ngay</p>
                   </Link>
                 </div>
               </div>
