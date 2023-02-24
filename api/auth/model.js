@@ -4,25 +4,31 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please provide a name']
+      required: [true, 'Nhập tên người dùng']
     },
     email: {
       type: String,
-      required: [true, 'Please provide an email'],
+      required: [true, 'Nhập email'],
       unique: true,
+      operationType: 'update',
       match: [
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        'Please enter a valid email address'
+        'Nhập đúng định dạng email'
       ]
     },
     password: {
       type: String,
-      required: [true, 'Please provide a password'],
-      select: false
+      required: [true, 'Nhập mật khẩu']
     },
     profilePicUrl: {
       type: String,
       default: 'https://www.gravatar.com/avatar/?d=mp'
+    },
+    phoneNumber: {
+      type: String
+    },
+    address: {
+      type: String
     },
     role: {
       type: String,

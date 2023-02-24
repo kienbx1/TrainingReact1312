@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../../components/layouts/AdminLayout'
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import { TabContext } from '@mui/lab'
+import 'react-toastify/dist/ReactToastify.css'
 import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import {
@@ -14,207 +15,199 @@ import {
   DialogContent,
   DialogTitle,
   Stack,
-  TextField
+  TextField,
+  Avatar,
+  MenuItem
 } from '@mui/material'
+import { useRouter } from 'next/router'
+import Cookies from 'universal-cookie'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
 
-const data = [
-  {
-    id: 1,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: false
-  },
-  {
-    id: 2,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: false
-  },
-  {
-    id: 3,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: false
-  },
-  {
-    id: 4,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: false
-  },
-  {
-    id: 5,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: false
-  },
-  {
-    id: 6,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: false
-  },
-  {
-    id: 7,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: false
-  },
-  {
-    id: 8,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: false
-  },
-  {
-    id: 9,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: true
-  },
-  {
-    id: 10,
-    account: 'aa@gmail.com',
-    pass: '1234',
-    userName: 'Sows',
-    address: 'Đà Nẵng,Việt Nam',
-    phoneNumber: '123567890',
-    status: 'online',
-    isAdmin: true
-  }
-]
 const tabs = [
   { label: 'Người dùng', value: '1' },
   { label: 'Người quản trị', value: '2' }
 ]
-const textFields = [
-  {
-    label: 'Tài khoản'
-  },
-  {
-    label: 'Mật khẩu'
-  },
-  {
-    label: 'Tên người dùng'
-  },
-  {
-    label: 'Số điện thoại'
-  },
-  {
-    label: 'Địa chỉ'
-  },
-  {
-    label: 'Quản trị'
-  }
-]
 
 const User = () => {
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70, editable: false },
     {
-      field: 'account',
+      field: 'profilePicUrl',
+      headerName: 'Avatar',
+      width: 100,
+      editable: true,
+      renderCell: (params) => {
+        return (
+          <Avatar src={params.row.profilePicUrl} />
+        )
+      }
+    },
+    {
+      field: 'email',
       headerName: 'Tài khoản',
       width: 200,
+      flex: 1,
       editable: true
     },
     {
       field: 'pass',
       headerName: 'Mật khẩu',
+      flex: 1,
       width: 200,
-      editable: true
+      renderCell: (params) => {
+        return <Button>Reset</Button>
+      }
     },
     {
-      field: 'userName',
+      field: 'name',
       headerName: 'Tên người dùng',
+      flex: 1,
       width: 150,
       editable: true
     },
     {
-      field: 'status',
-      headerName: 'Trạng thái',
-      width: 100,
-      editable: false
-    },
-    {
       field: 'phoneNumber',
       headerName: 'Số điện thoại',
+      flex: 1,
       width: 150,
       editable: true
     },
     {
       field: 'address',
       headerName: 'Địa chỉ',
+      flex: 1,
       width: 250,
       editable: true
     },
     {
-      field: 'isAdmin',
+      field: 'role',
       headerName: 'Quản trị',
+      flex: 1,
       width: 100,
       editable: true
     },
     {
       field: 'actions',
-      headerName: 'Xoá',
-      width: 50,
+      headerName: 'Action',
+      width: 150,
+      flex: 1,
       renderCell: (params) => {
         return (
-          <button onClick={() => onHandleDelete(params.row)}>
-            <FaTrashAlt />
-          </button>
+          <Button
+            onClick={() => {
+              router.push({
+                pathname: '/Admin/user/[id]',
+                query: { id: params.id }
+              })
+            }}
+          >
+            Xem chi tiết
+          </Button>
         )
       }
     }
   ]
 
+  const cookies = new Cookies()
   const [value, setValue] = useState('1')
   const [open, setOpen] = useState(false)
-  const handleClose = () => setOpen(false)
+  const [inputs, setInputs] = useState({})
+  const [inf, setInf] = useState([])
+  const [delId, setDelId] = useState()
+  const [validationPass, setValidationPass] = useState(false)
+  const [validationEmail, setValidationEmail] = useState(false)
+  const [validationPhone, setValidationPhone] = useState(false)
+  const handleClose = () => {
+    setOpen(false)
+    setInputs('')
+  }
+  const router = useRouter()
+  // Toast
+  const messageSuccess = (res) => {
+    toast.success(res?.data?.msg)
+  }
+  const messageError = (value) => {
+    toast.error(value)
+  }
+  // Get all data
+  useEffect(() => {
+    axios({
+      url: '/api/auth/',
+      method: 'GET',
+      data: inputs
+    }).then((res) => {
+      setInf(res?.data?.user)
+    })
+  }, [value])
+  // Get value from textField
+  const handleChangeField = (e) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e?.target?.name]: e?.target?.value
+    }))
+  }
+  // Add new user
+  const handleConfirm = () => {
+    axios
+      .post('/api/auth/signup', inputs)
+      .then((res) => {
+        if (res) {
+          messageSuccess(res)
+          setInputs('')
+        }
+      })
+      .catch((error) => {
+        const err = error?.response?.data?.msg
+        if (error) {
+          messageError(err)
+        }
+      })
+  }
+  // Switch tabs
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  const onHandleDelete = (row) => {
-    // Gọi API xoá
+  // Delete user
+  const onHandleDel = () => {
+    axios({ url: `/api/auth/${delId}`, method: 'DELETE' })
+      .then((res) => {
+        if (res) messageSuccess(res)
+      })
+      .catch((error) => {
+        const err = error?.response?.data?.msg
+        if (error) {
+          messageError(err)
+        }
+      })
   }
+  // Update user
   const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false }
+    const updatedRow = { ...newRow }
+    const field = {
+      name: newRow.name,
+      email: newRow.email,
+      password: newRow.password,
+      role: newRow.role,
+      address: newRow.address,
+      phoneNumber: newRow.phoneNumber,
+      profilePicUrl: newRow.profilePicUrl
+    }
     // Gọi api update row
+    axios({
+      url: '/api/auth/me',
+      method: 'PUT',
+      data: field,
+      headers: { Authorization: `${cookies.get('token')}` }
+    })
+      .then((res) => {
+        if (res) messageSuccess(res)
+      })
+      .catch((error) => {
+        const err = error?.response?.data?.msg
+        if (error) {
+          messageError(err)
+        }
+      })
     return updatedRow
   }
   const EditToolbar = () => {
@@ -234,7 +227,7 @@ const User = () => {
             startIcon={<FaTrashAlt />}
             color='error'
             variant='outlined'
-            onClick={handleOpen}
+            onClick={onHandleDel}
           >
             Xoá
           </Button>
@@ -243,7 +236,19 @@ const User = () => {
     )
   }
   return (
-    <div>
+    <div className='mt-16'>
+      <ToastContainer
+        position='top-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
       <Box
         component='form'
         sx={{
@@ -275,20 +280,109 @@ const User = () => {
                   '& .MuiTextField-root': { m: 1, width: '100%' }
                 }}
               >
-                {textFields.map((textField) => (
-                  <TextField
-                    key={textField.label}
-                    label={textField.label}
-                    variant='outlined'
-                  />
-                ))}
+                <TextField
+                  label='Email'
+                  value={inputs ? inputs.email : ''}
+                  variant='outlined'
+                  error={validationEmail}
+                  onChange={(e) => {
+                    if (
+                      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                        e.target.value
+                      )
+                    ) {
+                      setValidationEmail(false)
+                      handleChangeField(e)
+                    } else {
+                      setValidationEmail(true)
+                    }
+                  }}
+                  name='email'
+                  required
+                />
+                <TextField
+                  label='Mật khẩu'
+                  value={inputs ? inputs.password : ''}
+                  variant='outlined'
+                  required
+                  onChange={(e) => {
+                    if (e.target.value.length >= 6) {
+                      setValidationPass(false)
+                      setInputs((prevState) => ({
+                        ...prevState,
+                        [e.target.name]: e.target.value
+                      }))
+                    } else {
+                      setInputs((prevState) => ({
+                        ...prevState,
+                        [e.target.name]: e.target.value
+                      }))
+                      setValidationPass(true)
+                    }
+                  }}
+                  name='password'
+                  error={validationPass}
+                />
+                <TextField
+                  key='Tên người dùng'
+                  value={inputs ? inputs.name : ''}
+                  label='Tên người dùng'
+                  variant='outlined'
+                  onChange={handleChangeField}
+                  name='name'
+                />
+                <TextField
+                  label='Số điện thoại'
+                  value={inputs ? inputs.phoneNumber : ''}
+                  variant='outlined'
+                  error={validationPhone}
+                  onChange={(e) => {
+                    if (e.target.value.length === 10) {
+                      setValidationPhone(false)
+                      setInputs((prevState) => ({
+                        ...prevState,
+                        [e.target.name]: e.target.value
+                      }))
+                    } else {
+                      setValidationPhone(true)
+                      setInputs((prevState) => ({
+                        ...prevState,
+                        [e.target.name]: e.target.value
+                      }))
+                    }
+                  }}
+                  name='phoneNumber'
+                />
+                <TextField
+                  label='Địa chỉ'
+                  value={inputs ? inputs.address : ''}
+                  variant='outlined'
+                  onChange={handleChangeField}
+                  name='address'
+                />
+                <TextField
+                  label='Quản trị'
+                  value={inputs ? inputs.role : ''}
+                  variant='outlined'
+                  select
+                  defaultValue='user'
+                  onChange={handleChangeField}
+                  name='role'
+                >
+                  <MenuItem value='user'>User</MenuItem>
+                  <MenuItem value='admin'>Admin</MenuItem>
+                </TextField>
               </Box>
             </DialogContent>
             <DialogActions>
               <Button variant='outlined' color='error' onClick={handleClose}>
                 Huỷ bỏ
               </Button>
-              <Button variant='outlined' color='success'>
+              <Button
+                variant='outlined'
+                color='success'
+                onClick={handleConfirm}
+              >
                 Xác nhận
               </Button>
             </DialogActions>
@@ -305,7 +399,8 @@ const User = () => {
           <TabPanel value='1'>
             <Box sx={{ height: 650, width: '100%' }}>
               <DataGrid
-                rows={data.filter((data) => !data.isAdmin)}
+                rows={inf?.filter((data) => data.role === 'user')}
+                getRowId={(row) => row._id}
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
@@ -315,13 +410,17 @@ const User = () => {
                 experimentalFeatures={{ newEditingApi: true }}
                 components={{ Toolbar: EditToolbar }}
                 checkboxSelection
+                onSelectionModelChange={(ids) => {
+                  setDelId(ids)
+                }}
               />
             </Box>
           </TabPanel>
           <TabPanel value='2'>
             <Box sx={{ height: 650, width: '100%' }}>
               <DataGrid
-                rows={data.filter((data) => data.isAdmin)}
+                rows={inf?.filter((data) => data.role === 'admin')}
+                getRowId={(row) => row._id}
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
@@ -331,6 +430,9 @@ const User = () => {
                 experimentalFeatures={{ newEditingApi: true }}
                 components={{ Toolbar: EditToolbar }}
                 checkboxSelection
+                onSelectionModelChange={(ids) => {
+                  setDelId(ids)
+                }}
               />
             </Box>
           </TabPanel>
