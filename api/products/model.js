@@ -3,23 +3,32 @@ const mongoose = require("mongoose");
 
 const productsSchema = new mongoose.Schema(
   {
+    Image: {
+      type: String
+    },
     name: {
       type: String,
       required: [true, "Nhập tên sản phẩm"],
     },
-    avatar: {
+    branch: {
       type: String,
+      require: [true, 'Nhập tên thương hiệu']
     },
-    date: {
-      type: String,
+    importQuantity: {
+      type: Number,
+      require: [true, 'Nhập số lượng hàng']
     },
-    branch:{
-      type:String
+    sellQuantity: {
+      type: Number,
+      require: [true, 'Nhập số lượng hàng']
     },
     price: {
       type: String,
-      required: [true, "Nhập giá tour"],
+      required: [true, 'Nhập giá sản phẩm']
     },
+    date: {
+      type: String
+    }
   },
   {
     timestamps: true,
