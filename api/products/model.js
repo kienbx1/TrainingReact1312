@@ -1,29 +1,29 @@
-const mongoose = require('mongoose')
+const { current } = require("@reduxjs/toolkit");
+const mongoose = require("mongoose");
 
 const productsSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Nhập tên sản phẩm']
+      required: [true, "Nhập tên sản phẩm"],
     },
     avatar: {
-      type: String
+      type: String,
     },
     date: {
-      type: String
-    },
-    description: {
       type: String,
-      required: [true, 'Nhập nội dung']
+    },
+    branch:{
+      type:String
     },
     price: {
       type: String,
-      required: [true, 'Nhập giá tour']
-    }
+      required: [true, "Nhập giá tour"],
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
-module.exports = mongoose.model('Products', productsSchema)
+module.exports = mongoose.model("Products", productsSchema);
