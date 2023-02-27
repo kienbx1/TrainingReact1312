@@ -217,7 +217,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="bg-white m-4">
+    <div className="bg-white m-4 mt-10">
       {/* Pc */}
       <div className="grid grid-cols-2 gap-1 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 justify-center">
         {overview.map((data) => (
