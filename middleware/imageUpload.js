@@ -11,7 +11,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'training_April_2022'
+    folder: 'training_des_2022'
   }
 })
 
