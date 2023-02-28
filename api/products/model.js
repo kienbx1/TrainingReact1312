@@ -6,8 +6,9 @@ const productsSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Nhập tên sản phẩm']
     },
-    avatar: {
-      type: String
+    images: {
+      type: Array,
+      required: [true, 'Nhập hình ảnh']
     },
     date: {
       type: String
@@ -17,7 +18,7 @@ const productsSchema = new mongoose.Schema(
       required: [true, 'Nhập nội dung']
     },
     price: {
-      type: String,
+      type: Number,
       required: [true, 'Nhập giá tour']
     }
   },

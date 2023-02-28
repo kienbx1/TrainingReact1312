@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
+const upload = require('../../middleware/imageUpload')
+const auth = require('../../middleware/auth')
 const Products = require('./model')
 
 // @route:  GET /api/products/
@@ -19,12 +21,25 @@ router.get('/', async (req, res) => {
 
 // @route:  POST /api/products/
 // @desc:   Thêm mới products
-router.post('/', async (req, res) => {
+router.post('/', auth, upload.array('images', 10), async (req, res) => {
   try {
-    if (!req.body) {
+    const dataProduct = {
+      ...req.body
+    }
+    const images = []
+    if (req.files && req.files.length) {
+      req.files.map(item => {
+        if (item.path) {
+          images.push(item.path)
+        }
+        return item
+      })
+    }
+    dataProduct.images = images
+    if (!dataProduct) {
       res.status(400).json({ msg: 'Vui lòng nhập đầy đủ thông tin' })
     }
-    const newProducts = new Products(req.body)
+    const newProducts = new Products(dataProduct)
     newProducts.save(function (error) {
       if (error) {
         const errors = []
