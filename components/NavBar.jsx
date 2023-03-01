@@ -9,9 +9,12 @@ const NavBar = () => {
   const [navbarOptions, setNavbarOptions] = useState([])
   const { name } = router.query
 
-  useEffect(async () => {
-    const response = await axios.get('/api/brand')
-    setNavbarOptions(response.data)
+  useEffect(() => {
+    const fetchBrand = async () => {
+      const response = await axios.get('/api/brand')
+      setNavbarOptions(response.data)
+    }
+    fetchBrand()
   }, [])
 
   return (

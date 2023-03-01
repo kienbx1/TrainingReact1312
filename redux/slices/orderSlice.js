@@ -6,12 +6,8 @@ export const createOrder = createAsyncThunk(
   async (data) => {
     try {
       const response = await axios.post('/api/orders', data)
-      console.log('response:', response)
-
       return response
     } catch (error) {
-      console.log('error:', error.response)
-
       return error.response
     }
   }

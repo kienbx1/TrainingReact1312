@@ -25,7 +25,7 @@ const Login = () => {
   } = useForm()
   const dispatch = useDispatch()
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = ({ email, password }) => {
     dispatch(loginUser({ email, password }))
     axios.interceptors.request.use(config => {
       const cookies = new Cookies()

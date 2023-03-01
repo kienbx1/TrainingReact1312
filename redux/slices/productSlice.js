@@ -20,9 +20,7 @@ export const getProductsBrand = createAsyncThunk(
       const response = axios.get(`/api/brand/${params}`)
         .then(async res => {
           if (res) {
-            console.log('res:', res)
             const products = await axios.get(`/api/products/by-brand/${res?.data?.brand?._id}`)
-            console.log('products:', products?.data?.products)
             return products?.data?.products
           }
         })
@@ -94,7 +92,6 @@ const productSlice = createSlice({
         }
       })
       .addCase(getProductsBrand.fulfilled, (state, action) => {
-        console.log('.addCase ~ action:', action)
         if (action.payload) {
           return {
             ...state,
