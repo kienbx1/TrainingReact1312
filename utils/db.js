@@ -10,7 +10,6 @@ const data = {
       name: 'giay nike',
       price: 2000000,
       id: 1,
-      saleOff: true,
       discount: 12,
       quantity: 2,
       image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
@@ -20,7 +19,6 @@ const data = {
       name: 'giay adidas',
       price: 3000000,
       id: 2,
-      saleOff: false,
       discount: 0,
       quantity: 2,
       image: '/Images/Adidas/FORUM/black/display.webp',
@@ -34,7 +32,6 @@ const data = {
       brand: 'nike',
       price: 2200000,
       isNew: false,
-      saleOff: true,
       discount: 12,
       image: [
         '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
@@ -54,7 +51,6 @@ const data = {
       brand: 'adidas',
       price: 1500000,
       isNew: false,
-      saleOff: false,
       discount: 0,
       image: [
         '/Images/Adidas/FORUM/black/display.webp',
@@ -73,7 +69,6 @@ const data = {
       brand: 'converse',
       price: 2600000,
       isNew: false,
-      saleOff: true,
       discount: 35,
       image: [
         '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/Black/display.jpg',
@@ -92,7 +87,6 @@ const data = {
       brand: 'nike',
       price: 1500000,
       isNew: false,
-      saleOff: false,
       discount: 0,
       image: [
         '/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp',
@@ -112,7 +106,6 @@ const data = {
       brand: 'adidas',
       price: 1600000,
       isNew: false,
-      saleOff: true,
       discount: 15,
       image: [
         '/Images/Adidas/FORUM/blue/display.webp',
@@ -131,7 +124,6 @@ const data = {
       brand: 'converse',
       price: 9000000,
       isNew: false,
-      saleOff: false,
       discount: 0,
       image: [
         '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/White/display.jpg',
@@ -150,7 +142,6 @@ const data = {
       brand: 'nike',
       price: 3000000,
       isNew: false,
-      saleOff: false,
       discount: 0,
       image: [
         '/Images/Nike/AirForce1XUNDEFEATED/AirForce1XUNDEFEATED_1.webp',
@@ -170,7 +161,6 @@ const data = {
       brand: 'adidas',
       price: 1600000,
       isNew: false,
-      saleOff: false,
       discount: 0,
       image: [
         '/Images/Adidas/FORUM/white/display.webp',
@@ -189,7 +179,6 @@ const data = {
       brand: 'converse',
       price: 3600000,
       isNew: false,
-      saleOff: true,
       discount: 10,
       image: [
         '/Images/Converse/Converse x DRKSHDW TURBOWPN High Top/display.jpg',
@@ -208,7 +197,6 @@ const data = {
       brand: 'adidas',
       price: 2000000,
       isNew: true,
-      saleOff: true,
       discount: 100,
       image: [
         '/Images/Adidas/CONTINENTAL 80/display.webp',

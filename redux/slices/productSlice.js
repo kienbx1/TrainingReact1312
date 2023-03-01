@@ -1,36 +1,47 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import data from '../../utils/db'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 
-export const getAllProducts = createAsyncThunk(
-  'products/getAllProducts',
+export const getProducts = createAsyncThunk(
+  'products/getProducts',
   async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    const response = await data
-    const productList = response?.productsList
-
-    return productList
+    try {
+      const response = await axios.get('/api/products')
+      return response?.data.products
+    } catch (error) {
+      return error
+    }
   }
 )
 
-export const getBrandProducts = createAsyncThunk(
-  'products/getBrandProducts',
-  async (brand) => {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    const response = await data
-    const productList = response?.productsList.filter(item => item?.brand === brand)
-
-    return productList
+export const getProductsBrand = createAsyncThunk(
+  'products/getProductsBrand',
+  async (params) => {
+    try {
+      const response = axios.get(`/api/brand/${params}`)
+        .then(async res => {
+          if (res) {
+            console.log('res:', res)
+            const products = await axios.get(`/api/products/by-brand/${res?.data?.brand?._id}`)
+            console.log('products:', products?.data?.products)
+            return products?.data?.products
+          }
+        })
+      return response
+    } catch (error) {
+      return error
+    }
   }
 )
 
-export const getSaleOffProducts = createAsyncThunk(
-  'products/getSaleOffProducts',
-  async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    const response = await data
-    const productList = response?.productsList.filter(item => item?.saleOff === true)
-
-    return productList
+export const getDetailsProduct = createAsyncThunk(
+  'products/getDetailsProduct',
+  async (id) => {
+    try {
+      const response = await axios.get(`/api/products/${id}`)
+      return response
+    } catch (error) {
+      return error.response
+    }
   }
 )
 
@@ -38,51 +49,100 @@ const initialState = {
   isLoading: false,
   isError: false,
   products: [],
-  product: {}
+  detailsProduct: {}
 }
 
 const productSlice = createSlice({
   name: 'product',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllProducts.pending, (state, action) => {
-        state.isLoading = true
-        state.isError = false
+      .addCase(getProducts.pending, (state, action) => {
+        return {
+          ...state,
+          isLoading: true,
+          isError: false
+        }
       })
-      .addCase(getAllProducts.fulfilled, (state, action) => {
-        state.products = action.payload
-        state.isLoading = false
+      .addCase(getProducts.fulfilled, (state, action) => {
+        if (action.payload) {
+          return {
+            ...state,
+            products: action.payload,
+            isLoading: false
+          }
+        } else {
+          return {
+            ...state,
+            isLoading: false,
+            isError: true
+          }
+        }
       })
-      .addCase(getAllProducts.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
+      .addCase(getProducts.rejected, (state, action) => {
+        return {
+          ...state,
+          isError: true
+        }
       })
-      .addCase(getBrandProducts.pending, (state, action) => {
-        state.isLoading = true
-        state.isError = false
+      .addCase(getProductsBrand.pending, (state, action) => {
+        return {
+          ...state,
+          isLoading: true,
+          isError: false
+        }
       })
-      .addCase(getBrandProducts.fulfilled, (state, action) => {
-        state.products = action.payload
-        state.isLoading = false
+      .addCase(getProductsBrand.fulfilled, (state, action) => {
+        console.log('.addCase ~ action:', action)
+        if (action.payload) {
+          return {
+            ...state,
+            products: action.payload,
+            isLoading: false
+          }
+        } else {
+          return {
+            ...state,
+            isLoading: false,
+            isError: true
+          }
+        }
       })
-      .addCase(getBrandProducts.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
+      .addCase(getProductsBrand.rejected, (state, action) => {
+        return {
+          ...state,
+          isError: true
+        }
       })
-      .addCase(getSaleOffProducts.pending, (state, action) => {
-        state.isLoading = true
-        state.isError = false
+      .addCase(getDetailsProduct.pending, (state, action) => {
+        return {
+          ...state,
+          isLoading: true,
+          isError: false
+        }
       })
-      .addCase(getSaleOffProducts.fulfilled, (state, action) => {
-        state.products = action.payload
-        state.isLoading = false
+      .addCase(getDetailsProduct.fulfilled, (state, action) => {
+        if (action.payload?.status === 200) {
+          return {
+            ...state,
+            detailsProduct: action.payload?.data?.products,
+            isLoading: false
+          }
+        } else {
+          return {
+            ...state,
+            isLoading: false,
+            isError: true
+          }
+        }
       })
-      .addCase(getSaleOffProducts.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
+      .addCase(getDetailsProduct.rejected, (state, action) => {
+        return {
+          ...state,
+          isLoading: false,
+          isError: true
+        }
       })
   }
 })
