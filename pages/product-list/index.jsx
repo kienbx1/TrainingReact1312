@@ -56,7 +56,6 @@ const ProductScreen = () => {
           </div>
           <p className='capitalize font-semibold text-2xl md:text-3xl mt-3'>Khám phá thêm các sản phẩm chúng tôi</p>
         </div>
-        {/* <ShowProducts data={listProduct} isLoading={isLoading} isError={isError} /> */}
         <ShowProducts data={products} isLoading={isLoading} isError={isError} />
       </div>
       <CustomerServicePolicy />

@@ -94,6 +94,19 @@ const DetailProduct = () => {
   }
 
   const inputQuantityHandle = (e) => {
+    if (Number(e.target.value) > detailsProduct.countInStock) {
+      toast.error(maximumCountInStock, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
+      return
+    }
     setQuantityProduct(Number(e.target.value))
   }
 
@@ -127,6 +140,7 @@ const DetailProduct = () => {
       size: isSelectSize,
       price: detailsProduct?.price,
       discount: detailsProduct?.discount,
+      countInStock: detailsProduct?.countInStock,
       quantity: quantityProduct
     }))
     resetInfoProductAddToCart()

@@ -19,8 +19,7 @@
   animation: nextNavSlide 0.4s;
 }
 
-.add__favorite:hover .icon__favorite,
-.add__cart:hover .icon__cart {
+.btn__item:hover .icon__item {
   animation: btnIconSlide 0.4s;
 }
 
