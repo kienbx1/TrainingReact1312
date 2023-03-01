@@ -9,7 +9,7 @@ let totalAmount
 if (typeof window !== 'undefined') {
   cartItems = window.localStorage.getItem('cart') ? JSON.parse(window.localStorage.getItem('cart')) : []
   itemQuantity = window.localStorage.getItem('cartQuantity') ? Number(window.localStorage.getItem('cartQuantity')) : 0
-  totalAmount = window.localStorage.getItem('totalAmount') ? Number(window.localStorage.getItem('totalAmount')) : 0
+  totalAmount = window.localStorage.getItem('cartTotalAmount') ? Number(window.localStorage.getItem('cartTotalAmount')) : 0
 }
 
 const initialState = {
@@ -58,6 +58,7 @@ const cartSlice = createSlice({
     resetCart: (state, action) => {
       state.cartProducts = []
       state.cartTotalQuantity = 0
+      state.cartTotalAmount = 0
     },
     setQuantity: (state, action) => {
       const { id, quantity } = action.payload
@@ -80,5 +81,5 @@ const cartSlice = createSlice({
   }
 })
 
-export const { updateCart, addToCart, resetCart, setQuantity, removeFromCart,sumTotalAmount } = cartSlice.actions
+export const { updateCart, addToCart, resetCart, setQuantity, removeFromCart, sumTotalAmount } = cartSlice.actions
 export default cartSlice.reducer

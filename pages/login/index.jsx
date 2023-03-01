@@ -6,10 +6,10 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import Cookies from 'universal-cookie'
-
 import axios from 'axios'
 import { isEmpty } from 'lodash'
 import { ToastContainer } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
 import { loginUser, resetState } from '../../redux/slices/authSlice'
 
