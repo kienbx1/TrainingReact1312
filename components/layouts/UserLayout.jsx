@@ -1,9 +1,9 @@
 import React from 'react'
+import { Provider } from 'react-redux'
+import store from '../../store'
 import CartSocialFixed from './CartSocialFixed'
 import Footer from './Footer'
 import Header from './Header'
-import { Provider } from 'react-redux'
-import store from '../../store'
 
 const UserLayout = ({ children }) => {
   return (

@@ -64,7 +64,7 @@ const Header = () => {
         <div className='mx-auto md:max-w-[85%] sm:max-w-full h-20 bg-white rounded shadow-3xl fixed left-0 right-0 top-2.5 flex items-center z-[2]'>
           <div className='w-full px-4 md:px-10 flex items-center justify-between'>
             <Link href='/'>
-              <img src='/Images/king-shoes-low-resolution-logo-black-on-transparent-background.png' className='w-20 cursor-pointer hover:scale-110 duration-500' />
+              <img src='/Images/king-shoes-low-resolution-logo-black-on-transparent-background.png' className='w-20 cursor-pointer' />
             </Link>
             <NavBar isOpenMenu={isOpenMenu} />
             <div className='flex flex-row gap-5 md:gap-8 items-center'>

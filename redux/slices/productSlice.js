@@ -3,9 +3,13 @@ import axios from 'axios'
 
 export const getProducts = createAsyncThunk(
   'products/getProducts',
-  async () => {
+  async (params) => {
     try {
       const response = await axios.get('/api/products')
+      if (params === 'sale-off') {
+        const productsSaleOff = response?.data?.products?.filter(product => product?.discount !== 0)
+        return productsSaleOff
+      }
       return response?.data.products
     } catch (error) {
       return error
@@ -17,7 +21,7 @@ export const getProductsBrand = createAsyncThunk(
   'products/getProductsBrand',
   async (params) => {
     try {
-      const response = axios.get(`/api/brand/${params}`)
+      const response = await axios.get(`/api/brand/${params}`)
         .then(async res => {
           if (res) {
             const products = await axios.get(`/api/products/by-brand/${res?.data?.brand?._id}`)
@@ -25,6 +29,18 @@ export const getProductsBrand = createAsyncThunk(
           }
         })
       return response
+    } catch (error) {
+      return error
+    }
+  }
+)
+
+export const getBrand = createAsyncThunk(
+  'products/getBrand',
+  async (params) => {
+    try {
+      const res = await axios.get('/api/brand')
+      return res?.data?.find(item => item?.slug === params)
     } catch (error) {
       return error
     }
@@ -47,6 +63,7 @@ const initialState = {
   isLoading: false,
   isError: false,
   products: [],
+  brand: {},
   detailsProduct: {}
 }
 
@@ -110,6 +127,12 @@ const productSlice = createSlice({
         return {
           ...state,
           isError: true
+        }
+      })
+      .addCase(getBrand.fulfilled, (state, action) => {
+        return {
+          ...state,
+          brand: action.payload
         }
       })
       .addCase(getDetailsProduct.pending, (state, action) => {

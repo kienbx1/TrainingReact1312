@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const upload = require('../../middleware/imageUpload')
 
 const Brand = require('./model')
 
@@ -24,12 +25,31 @@ router.get('/:slug', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
-  let newBrand = new Brand(req.body)
+router.post('/', upload.single('banner'), async (req, res) => {
+  const data = {
+    ...req.body
+  }
+  if (req.file && req.file.path) {
+    data.banner = req.file.path
+  }
+  let newBrand = new Brand(data)
   newBrand = newBrand.save()
   if (!newBrand) { return res.status(404).send('Brand không thể được tạo') }
 
   res.send(newBrand)
 })
+
+// router.post('/', upload.single('logo'), upload.single('banner') , async (req, res, next) => {
+//   if (req.files && req.files.length) {
+//     console.log("router.route ~ req.files:", req.files)
+
+//     req.files.map(item => {
+//       if (item.path) {
+//         images.push(item.path)
+//       }
+//       return item
+//     })
+//   }
+// })
 
 module.exports = router

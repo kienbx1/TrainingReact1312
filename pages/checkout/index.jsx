@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import FormInfoCustomer from '../../components/FormInfoCustomer'
+import FormReceivedWeekly from '../../components/FormReceivedWeekly'
 import InfoOrder from '../../components/InfoOrder'
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
@@ -40,6 +41,7 @@ const Checkout = () => {
               )
         }
       </div>
+      <FormReceivedWeekly />
       <CustomerServicePolicy />
     </>
   )

@@ -2,14 +2,13 @@ const express = require('express')
 const router = express.Router()
 
 const upload = require('../../middleware/imageUpload')
-const auth = require('../../middleware/auth')
 const Products = require('./model')
 
 // @route:  GET /api/products/
 // @desc:   Lấy ra tất cả products trong hệ thống
 router.get('/', async (req, res) => {
   try {
-    const limit = Number(req?.query?.limit || 10)
+    const limit = Number(req?.query?.limit || 100)
     const skip = Number(req?.query?.skip || 0) * limit
     const products = await Products.find().sort({ createdAt: 1 }).skip(skip).limit(limit)
     const count = await Products.count()
@@ -20,11 +19,10 @@ router.get('/', async (req, res) => {
 })
 router.get('/by-brand/:brandId', async (req, res) => {
   try {
-    const limit = Number(req?.query?.limit || 10)
+    const limit = Number(req?.query?.limit || 100)
     const skip = Number(req?.query?.skip || 0) * limit
     const products = await Products.find({ brandId: req.params.brandId }).sort({ createdAt: 1 }).skip(skip).limit(limit)
     const count = await Products.find({ brandId: req.params.brandId }).count()
-    console.log(count, products, 'products')
 
     res.status(200).json({ products, count })
   } catch (err) {
@@ -34,7 +32,7 @@ router.get('/by-brand/:brandId', async (req, res) => {
 
 // @route:  POST /api/products/
 // @desc:   Thêm mới products
-router.post('/', auth, upload.array('images', 10), async (req, res) => {
+router.post('/', upload.array('images', 10), async (req, res) => {
   try {
     const dataProduct = {
       ...req.body

@@ -59,6 +59,7 @@ const cartSlice = createSlice({
       state.cartProducts = []
       state.cartTotalQuantity = 0
       state.cartTotalAmount = 0
+      window.localStorage.clear()
     },
     setQuantity: (state, action) => {
       const { id, quantity } = action.payload
