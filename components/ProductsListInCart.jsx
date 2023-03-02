@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useEffect } from 'react'
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 import { FaTimes } from 'react-icons/fa'
@@ -66,7 +67,9 @@ const ProductsListInCart = () => {
                     <div className='flex-1'>
                       <img src={item?.image} alt={`ảnh giày ${item?.brand}`} className='w-20 h-20 rounded-md object-cover' />
                     </div>
-                    <p className='capitalize p-4 font-semibold flex-[3]'>{item?.name || ''}</p>
+                    <Link href={`/details-product/${item?.id}`} className='flex-[3]'>
+                      <p className='capitalize p-4 font-semibold flex justify-start'>{item?.name || ''}</p>
+                    </Link>
                   </td>
                   <td className='p-4 align-middle items-center'>
                     <p className='capitalize p-4 font-semibold flex-[3]'>{item?.size || ''}</p>

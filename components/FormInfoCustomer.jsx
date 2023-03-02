@@ -16,7 +16,6 @@ const FormInfoCustomer = () => {
     formState: { errors }
   } = useForm()
   const router = useRouter()
-  console.log('FormInfoCustomer ~ router:', router)
 
   const dispatch = useDispatch()
   const { user } = useSelector(state => state?.auth)
