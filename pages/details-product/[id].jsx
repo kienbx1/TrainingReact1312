@@ -1,27 +1,25 @@
 import { isEmpty, size } from 'lodash'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
+import { AiOutlineCheck, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 import { BsBasket } from 'react-icons/bs'
-import { FaTelegramPlane } from 'react-icons/fa'
-import { HiOutlineMailOpen } from 'react-icons/hi'
+import { FaTimes } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast, ToastContainer } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 import Error from '../../components/Error'
+import FormReceivedWeekly from '../../components/FormReceivedWeekly'
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import Loading from '../../components/Loading'
 import ShowProducts from '../../components/ShowProducts'
-import { DEFAULT_IMAGE, emailRegExp } from '../../constant/config'
-import { invalidMessage, loginToAddToCart, maximumCountInStock, outOfStockInStock, requiredMessage } from '../../constant/message'
+import { DEFAULT_IMAGE } from '../../constant/config'
+import { loginToAddToCart, maximumCountInStock, outOfStockInStock } from '../../constant/message'
 import { addToCart } from '../../redux/slices/cartSlice'
-import { getDetailsProduct, getProducts } from '../../redux/slices/productSlice'
+import { getBrand, getDetailsProduct, getProducts } from '../../redux/slices/productSlice'
 
 const DetailProduct = () => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm()
   const { query } = useRouter()
   const { id } = query
 
@@ -34,7 +32,10 @@ const DetailProduct = () => {
   const { isLoading, isError, products, detailsProduct } = useSelector(state => state?.product)
   const { user } = useSelector(state => state?.auth)
 
-  const relatedData = products.filter(item => item?.brand === detailsProduct?.brand).filter(item => item?._id !== detailsProduct?._id)
+  useEffect(() => {
+    dispatch(getBrand())
+  }, [])
+  const relatedData = products.filter(item => item?.brandId === detailsProduct?.brandId).filter(item => item?._id !== detailsProduct?._id)
 
   useEffect(() => {
     if (id) {
@@ -146,10 +147,6 @@ const DetailProduct = () => {
     resetInfoProductAddToCart()
   }
 
-  const onSubmit = (data) => {
-    reset()
-  }
-
   if (isLoading) {
     return (
       <Loading />
@@ -204,10 +201,13 @@ const DetailProduct = () => {
               {
                 detailsProduct?.countInStock > 0
                   ? (
-                    <p className='mt-2 text-xl font-medium text-[#292930]'>Tình trạng: <span className='ml-3 text-[#3577f0] text-base font-medium'>Còn hàng (<span>{detailsProduct?.countInStock}</span>)</span></p>
+                    <div>
+                      <p className='flex items-center'><AiOutlineCheck className='text-[#3577f0] text-lg' /> <span className='ml-3 text-[#3577f0] text-base font-medium'>Còn hàng (<span>{detailsProduct?.countInStock}</span>)</span></p>
+                      <p className='flex items-center'><AiOutlineCheck className='text-[#3577f0] text-lg' /> <span className='ml-3 text-[#3577f0] text-base font-medium'>Giao hàng trong vòng 3 ngày</span></p>
+                    </div>
                     )
                   : (
-                    <p className='mt-2 text-xl font-medium text-[#292930]'>Tình trạng: <span className='ml-3 text-[#ff497c] text-base font-medium'>Hết hàng</span></p>
+                    <p className='flex items-center'><FaTimes className='text-[#ff497c] text-lg' /> <span className='ml-3 text-[#ff497c] text-base font-medium'>Hết hàng</span></p>
                     )
               }
               <div className='flex gap-8 items-center my-4 md:my-2'>
@@ -250,41 +250,7 @@ const DetailProduct = () => {
           <ShowProducts data={relatedData} resetInfoProductAddToCart={resetInfoProductAddToCart} />
         </div>
       </div>
-      <div className='space-two-side'>
-        <div className='pb-12'>
-          <div className='bg-img-newsletter bg-no-repeat px-5 py-10 md:py-[140px] md:px-[100px] rounded-md'>
-            <div>
-              <div className='flex items-center gap-2 mb-3'>
-                <div className='w-6 h-6 bg-[#3577f0] rounded-[50%] flex items-center justify-center'>
-                  <HiOutlineMailOpen className='text-white' />
-                </div>
-                <p className='text-[#3577f0] font-semibold capitalize text-sm'>Tin tức</p>
-              </div>
-              <p className='text-2xl md:text-4xl font-semibold mb-3'>Nhận thông tin cập nhật hằng tuần</p>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='flex flex-col md:flex-row w-full md:w-[50%] gap-3 mt-9'>
-                  <div className='flex-[2] bg-white flex px-6 py-5 rounded-md gap-3'>
-                    <FaTelegramPlane className='text-xl' />
-                    <input
-                      className='w-full focus:outline-none'
-                      {...register('email', {
-                        required: requiredMessage,
-                        pattern: {
-                          value: emailRegExp,
-                          message: invalidMessage
-                        }
-                      })}
-                      placeholder='example@gmail.com'
-                    />
-                  </div>
-                  <button type='submit' className='flex-1 bg-[#3879f0] w-[40%] md:w-full p-5 rounded-md text-white capitalize font-semibold md:hover:scale-105 duration-300'>Đăng ký</button>
-                </div>
-                {errors?.email && <p className='text-red-500 text-sm italic mt-3'>{errors?.email.message}</p>}
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+      <FormReceivedWeekly />
       <CustomerServicePolicy />
     </>
   )

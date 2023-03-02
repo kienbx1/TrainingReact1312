@@ -12,7 +12,7 @@ const NavBar = () => {
   useEffect(() => {
     const fetchBrand = async () => {
       const response = await axios.get('/api/brand')
-      setNavbarOptions(response.data)
+      setNavbarOptions(response?.data)
     }
     fetchBrand()
   }, [])
@@ -39,11 +39,11 @@ const NavBar = () => {
                 <Link
                   href={{
                     pathname: '/product-list',
-                    query: { name: option.slug }
+                    query: { name: option?.slug }
                   }}
                   key={index}
                 >
-                  <li className='p-2 font-medium hover:bg-slate-200 cursor-pointer rounded'>{option.name}</li>
+                  <li className='p-2 font-medium hover:bg-slate-200 cursor-pointer rounded'>{option?.name}</li>
                 </Link>
               )
             })

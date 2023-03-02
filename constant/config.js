@@ -6,3 +6,4 @@ export const SHIP_FEE = 30000
 export const CAL_PRICE = (price, discount) => {
   return price - price * discount / 100
 }
+export const DEFAULT_BANNER = '/Images/Banner_tag/banner.jpg'

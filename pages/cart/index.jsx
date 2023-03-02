@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import Cookies from 'universal-cookie'
+import FormReceivedWeekly from '../../components/FormReceivedWeekly'
 
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
@@ -74,6 +75,7 @@ const Cart = () => {
           </div>
           )
     }
+      <FormReceivedWeekly />
       <CustomerServicePolicy />
     </>
   )

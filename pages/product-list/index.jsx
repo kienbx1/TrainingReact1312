@@ -5,24 +5,29 @@ import { BsBasket } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Error from '../../components/Error'
+import FormReceivedWeekly from '../../components/FormReceivedWeekly'
 import CustomerServicePolicy from '../../components/layouts/body/CustomerServicePolicy'
 import UserLayout from '../../components/layouts/UserLayout'
 import Loading from '../../components/Loading'
 import ShowProducts from '../../components/ShowProducts'
-import { getProducts, getProductsBrand } from '../../redux/slices/productSlice'
+import { DEFAULT_BANNER } from '../../constant/config'
+import { getBrand, getProducts, getProductsBrand } from '../../redux/slices/productSlice'
 
 const ProductScreen = () => {
   const dispatch = useDispatch()
-  const { products, isLoading, isError } = useSelector(state => state?.product)
+  const { products, brand, isLoading, isError } = useSelector(state => state?.product)
   const { query } = useRouter()
 
   useEffect(() => {
     if (query?.name) {
       if (query?.name === 'all-items') {
-        dispatch(getProducts())
+        dispatch(getProducts(query?.name))
+      } else if (query?.name === 'sale-off') {
+        dispatch(getProducts(query?.name))
       } else {
         dispatch(getProductsBrand(query?.name))
       }
+      dispatch(getBrand(query?.name))
     }
   }, [query?.name])
 
@@ -40,7 +45,7 @@ const ProductScreen = () => {
     <>
       <div className='bg-orange-primary py-12 relative overflow-hidden'>
         <div className='w-[80%] md:w-[50%] mx-auto relative z-[1]'>
-          <img src='/Images/Banner_tag/banner--all.jpg' className='w-full rounded shadow-4xl' />
+          <img src={brand?.banner || DEFAULT_BANNER} className='w-full rounded shadow-3xl md:hover:shadow-4xl duration-500' />
         </div>
         <img src='/Images/shape-1.png' className='absolute top-[10%] z-0 left-1/2 -translate-x-2/4' />
         <img src='/Images/shape-2.png' className='absolute z-0 right-0 top-[40%]' />
@@ -57,6 +62,7 @@ const ProductScreen = () => {
         </div>
         <ShowProducts data={products} isLoading={isLoading} isError={isError} />
       </div>
+      <FormReceivedWeekly />
       <CustomerServicePolicy />
     </>
   )

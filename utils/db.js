@@ -3,7 +3,7 @@ const data = {
     image: '/Images/Converse/Chuck Taylor All Star Lugged 2.0 Counter Climate High Top/Black/display.jpg',
     discount: 35,
     id: 3,
-    time: 'Feb 28, 2023 00:00:00'
+    time: 'aug 1, 2023 00:00:00'
   },
   productsInCart: [
     {
