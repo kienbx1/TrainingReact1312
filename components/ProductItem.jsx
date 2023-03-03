@@ -62,11 +62,11 @@ const ProductItem = (props) => {
               ? (
                 <div className='flex flex-col'>
                   <p className='px-3 md:px-0 font-light mt-3 text-gray-900'>{`${(props?.item?.price - props?.item?.price * props?.item?.discount * 0.01).toLocaleString() || ''} VND`}</p>
-                  <p className='px-3 md:px-0 font-light mt-3 text-gray-400 line-through italic'>{`${props?.item?.price.toLocaleString() || ''} VND`}</p>
+                  <p className='px-3 md:px-0 font-light mt-3 text-gray-400 line-through italic'>{`${props?.item?.price?.toLocaleString() || ''} VND`}</p>
                 </div>
                 )
               : (
-                <p className='px-3 md:px-0 font-light mt-3 text-gray-900'>{`${props?.item?.price.toLocaleString() || ''} VND`}</p>
+                <p className='px-3 md:px-0 font-light mt-3 text-gray-900'>{`${props?.item?.price?.toLocaleString() || ''} VND`}</p>
                 )
           }
           {
