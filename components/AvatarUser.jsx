@@ -29,7 +29,7 @@ const AvatarUser = ({ user }) => {
           user?.role === ADMIN &&
             <Link
               href={{
-                pathname: '/Admin/home'
+                pathname: '/admin/home'
               }}
             >
               <li className='p-2 hover:bg-slate-200 cursor-pointer rounded'>Trang quản lý</li>

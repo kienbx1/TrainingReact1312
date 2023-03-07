@@ -61,6 +61,23 @@ router.get('/me', auth, async (req, res) => {
   }
 })
 
+// @route:  GET /api/auth/
+// @desc:   GET all user
+router.get('/', async (req, res) => {
+  try {
+    const limit = Number(req?.query?.limit || 10)
+    const skip = Number(req?.query?.skip || 0) * limit
+    const user = await User.find()
+      .sort({ createdAt: 1 })
+      .skip(skip)
+      .limit(limit)
+    const count = await User.count()
+    res.status(200).json({ user, count })
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' })
+  }
+})
+
 // @route:  POST /api/auth
 // @desc:   Login user
 router.post('/', async (req, res) => {

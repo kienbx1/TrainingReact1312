@@ -1,185 +1,258 @@
 import AdminLayout from '../../../components/layouts/AdminLayout'
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import { DataGrid } from '@mui/x-data-grid'
-import { Button } from '@mui/material'
+import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
+import { Button, Stack } from '@mui/material'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90, editable: false },
-  {
-    field: 'name',
-    headerName: 'Tên sản phẩm',
-    width: 250,
-    editable: false
-  },
-  {
-    field: 'branch',
-    headerName: 'Thương hiệu',
-    width: 200,
-    editable: false
-  },
-  {
-    field: 'price',
-    headerName: 'Giá',
-    type: 'number',
-    width: 110,
-    editable: false
-  },
-
-  {
-    field: 'quantityLeft',
-    headerName: 'Còn lại',
-    type: 'number',
-    width: 150,
-    editable: false
-  },
-  {
-    field: 'quantityInput',
-    headerName: 'Nhập vào',
-    type: 'number',
-    width: 150,
-    editable: false
-  },
-  {
-    field: 'quantitySold',
-    headerName: 'Đã bán',
-    type: 'number',
-    width: 150,
-    editable: false
-  }
-]
-const data = [
-  {
-    id: 2,
-    name: 'Sows',
-    branch: 'Nike',
-    price: 31,
-    quantityLeft: 1212,
-    quantitySold: 1222,
-    quantityInput: 12123
-  },
-  {
-    id: 10,
-    name: 'Snow',
-    branch: 'Nike',
-    price: 35,
-    quantityInput: 1123,
-    quantityLeft: 1232,
-    quantitySold: 122
-  },
-  {
-    id: 14,
-    name: 'Sáhdk',
-    branch: 'Nike',
-    price: 37,
-    quantityLeft: 128765,
-    quantitySold: 12522,
-    quantityInput: 1235123
-  },
-  {
-    id: 4,
-    name: 'sadaas',
-    branch: 'Converse',
-    price: 31,
-    quantityLeft: 123,
-    quantitySold: 1513,
-    quantityInput: 1251
-  },
-  {
-    id: 5,
-    name: 'hảq',
-    branch: 'Converse',
-    price: 31,
-    quantityLeft: 122312,
-    quantitySold: 1222,
-    quantityInput: 1235123
-  },
-  {
-    id: 6,
-    name: 'ghâva',
-    branch: 'Converse',
-    price: 31,
-    quantityLeft: 122312,
-    quantitySold: 1222,
-    quantityInput: 1235123
-  },
-  {
-    id: 7,
-    name: 'ãvvas',
-    branch: 'Adidas',
-    price: 31,
-    quantityLeft: 122312,
-    quantitySold: 1222,
-    quantityInput: 1235123
-  },
-  {
-    id: 8,
-    name: 'Ságasows',
-    branch: 'Adidas',
-    price: 31,
-    quantityLeft: 122312,
-    quantitySold: 1222,
-    quantityInput: 1235123
-  },
-  {
-    id: 9,
-    name: 'jhfd',
-    branch: 'Adidas',
-    price: 31,
-    quantityLeft: 122312,
-    quantitySold: 1222,
-    quantityInput: 1235123
-  }
-]
+import axios from 'axios'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { messageSuccess, messageError } from '../../../components/toastify'
+import 'react-image-lightbox/style.css'
+import Lightbox from 'react-image-lightbox'
 
 const Products = () => {
-  const [selectedRows, setSelectedRows] = useState([])
+  const [selectedRows, setSelectedRows] = useState()
   const router = useRouter()
+  const [infShoes, setInfShoes] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [imgIndex, setImgIndex] = useState(0)
+  const [imageSlide, setImageSlide] = useState([])
+  const columns = [
+    {
+      field: 'name',
+      headerName: 'Tên sản phẩm',
+      minWidth: 200,
+      flex: 1,
+      editable: true
+    },
+    {
+      field: 'images',
+      renderHeader: () => <p>Hình ảnh</p>,
+      minWidth: 110,
+      editable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <img
+              onClick={() => {
+                setIsOpen(true)
+                setImageSlide(params.row.images)
+              }}
+              className='max-w-full cursor-pointer'
+              src={params.row.images[0]}
+            />
+            {isOpen && (
+              <Lightbox
+                imageTitle={params.row.name}
+                mainSrc={imageSlide[imgIndex]}
+                nextSrc={
+                  imageSlide[(imgIndex + 1) % imageSlide.length]
+                }
+                prevSrc={
+                  imageSlide[
+                    (imgIndex + imageSlide.length - 1) %
+                      imageSlide.length
+                  ]
+                }
+                onCloseRequest={() => {
+                  setIsOpen(false)
+                  setImgIndex(0)
+                }}
+                onMoveNextRequest={() =>
+                  setImgIndex((imgIndex + 1) % imageSlide.length)}
+              />
+            )}
+          </>
+        )
+      }
+    },
+    {
+      field: 'brand',
+      headerName: 'Thương hiệu',
+      width: 150,
+      editable: false
+    },
+    {
+      field: 'createdAt',
+      headerName: 'Ngày nhập',
+      width: 150,
+      editable: false,
+      renderCell: (params) => {
+        const date = params.row.createdAt.slice(0, 10)
+        return <p className='font-serif'>{date}</p>
+      }
+    },
+    {
+      field: 'priceInput',
+      headerName: 'Giá nhập',
+      type: 'number',
+      width: 110,
+      editable: true
+    },
+    {
+      field: 'discount',
+      headerName: 'Giảm giá',
+      type: 'number',
+      width: 110,
+      editable: true
+    },
+    {
+      field: 'priceSell',
+      headerName: 'Giá bán',
+      type: 'number',
+      width: 110,
+      editable: true
+    },
+    {
+      field: 'quantity',
+      headerName: 'Nhập vào',
+      type: 'number',
+      width: 150,
+      editable: true
+    },
+    {
+      field: 'quantitySold',
+      headerName: 'Đã bán',
+      type: 'number',
+      width: 100,
+      editable: false
+    },
+    {
+      field: 'quantityLeft',
+      headerName: 'Còn lại',
+      type: 'number',
+      width: 100,
+      editable: false
+    },
+    {
+      field: 'actions',
+      headerName: 'Action',
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <Button
+            onClick={() => {
+              router.push({
+                pathname: '/admin/product/[id]',
+                query: { id: params.rowNode.id }
+              })
+            }}
+          >
+            Xem chi tiết
+          </Button>
+        )
+      }
+    }
+  ]
+
+  const EditToolbar = () => {
+    return (
+      <GridToolbarContainer>
+        <Stack spacing={2} direction='row'>
+          <Link href='/admin/product/addNewProduct'>
+            <Button variant='outlined' startIcon={<FaPlus />}>
+              Thêm mới
+            </Button>
+          </Link>
+          <Button
+            startIcon={<FaTrashAlt />}
+            color='error'
+            variant='outlined'
+            onClick={onHandleDel}
+          >
+            Xoá
+          </Button>
+        </Stack>
+      </GridToolbarContainer>
+    )
+  }
+
+  // Get all data
+  useEffect(() => {
+    axios({
+      url: '/api/products/',
+      method: 'GET'
+    }).then((res) => {
+      setInfShoes(res?.data?.products)
+    })
+  }, [])
+
+  // Update product
+  const processRowUpdate = (newRow) => {
+    const updatedRow = { ...newRow }
+    const field = {
+      name: newRow.name,
+      createdAt: newRow.createdAt,
+      quantity: newRow.quantity,
+      priceSell: newRow.priceSell,
+      discount: newRow.discount,
+      priceInput: newRow.priceInput
+    }
+    setSelectedRows(newRow._id)
+    // Gọi api update row
+    axios({
+      url: `/api/products/${selectedRows}`,
+      method: 'PUT',
+      data: field
+    })
+      .then((res) => {
+        if (res) messageSuccess(res)
+      })
+      .catch((error) => {
+        const err = error?.response?.data?.msg
+        if (error) {
+          messageError(err)
+        }
+      })
+    return updatedRow
+  }
+  // Delete products
+  const onHandleDel = () => {
+    axios({ url: `/api/products/${selectedRows}`, method: 'DELETE' })
+      .then((res) => {
+        if (res) messageSuccess(res)
+      })
+      .catch((error) => {
+        const err = error?.response?.data?.msg
+        if (error) {
+          messageError(err)
+        }
+      })
+  }
 
   return (
-    <div className='p-6'>
-      <p className='uppercase'>Danh sách sản phẩm</p>
+    <div className='p-6 mt-10'>
+      <ToastContainer
+        position='top-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
+      <p className='text-lg uppercase p-2'>Danh sách sản phẩm</p>
       <div>
         <Box sx={{ height: 600, width: '100%' }}>
-          <div className='flex flex-row'>
-            <div className='p-2'>
-              <Link href='/Admin/product/AddNewProduct'>
-                <Button
-                  variant='contained'
-                  color='success'
-                  startIcon={<FaPlus />}
-                >
-                  Thêm mới
-                </Button>
-              </Link>
-            </div>
-            <div className='p-2'>
-              <Button
-                variant='contained'
-                color='error'
-                startIcon={<FaTrashAlt />}
-              >
-                Xoá
-              </Button>
-            </div>
-          </div>
           <DataGrid
-            rows={data}
+            rows={infShoes}
+            getRowId={(row) => row._id}
             columns={columns}
             pageSize={10}
             rowsPerPageOptions={[5]}
             checkboxSelection
+            editMode='row'
+            processRowUpdate={processRowUpdate}
             disableSelectionOnClick
-            onCellDoubleClick={(ids) => {
-              router.push({
-                pathname: '/Admin/product/DetailProduct',
-                query: { id: ids.id, selectedRows }
-              })
-            }}
+            components={{ Toolbar: EditToolbar }}
+            experimentalFeatures={{ newEditingApi: true }}
             onSelectionModelChange={(ids) => {
               setSelectedRows(ids)
             }}
