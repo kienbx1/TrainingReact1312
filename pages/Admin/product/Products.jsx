@@ -11,6 +11,7 @@ import axios from 'axios'
 import { messageSuccess, messageError } from '../../../components/toastify'
 import 'react-image-lightbox/style.css'
 import Lightbox from 'react-image-lightbox'
+import moment from 'moment/moment'
 
 const Products = () => {
   const [selectedRows, setSelectedRows] = useState()
@@ -89,8 +90,8 @@ const Products = () => {
       width: 150,
       editable: false,
       renderCell: (params) => {
-        const date = params?.row?.createdAt?.slice(0, 10)
-        return <p className='font-serif'>{date}</p>
+        const timeOfInput = moment(params?.row?.createdAt).format('DD/MM/YYYY')
+        return <p className='font-serif'>{timeOfInput}</p>
       }
     },
     {

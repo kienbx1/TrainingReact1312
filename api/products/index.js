@@ -7,16 +7,6 @@ const Products = require('./model')
 // @route:  GET /api/products/
 // @desc:   Lấy ra tất cả products trong hệ thống
 router.get('/', async (req, res) => {
-  // try {
-  //   const limit = Number(req?.query?.limit || 100)
-  //   const skip = Number(req?.query?.skip || 0) * limit
-  //   const products = await Products.find().sort({ createdAt: 1 }).skip(skip).limit(limit)
-  //   const count = await Products.count()
-  //   res.status(200).json({ products, count })
-  // } catch (err) {
-  //   res.status(500).json({ msg: 'Server error' })
-  // }
-
   const products = await Products.aggregate([
     {
       $lookup: {
@@ -24,14 +14,6 @@ router.get('/', async (req, res) => {
         localField: 'brandId',
         foreignField: '_id',
         as: 'brand'
-      }
-    },
-    {
-      $lookup: {
-        from: 'products',
-        localField: 'brandOfProducts',
-        foreignField: 'brandId',
-        as: 'product'
       }
     },
     {
@@ -53,6 +35,7 @@ router.get('/', async (req, res) => {
     return res.status(200).json({ msg: 'Danh sách sản phẩm', products })
   }
 })
+
 router.get('/by-brand/:brandId', async (req, res) => {
   try {
     const limit = Number(req?.query?.limit || 100)

@@ -5,7 +5,6 @@ import Tab from '@mui/material/Tab'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import { TabContext } from '@mui/lab'
-import 'react-toastify/dist/ReactToastify.css'
 import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import {
@@ -22,7 +21,7 @@ import {
 import { useRouter } from 'next/router'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 const tabs = [
   { label: 'Người dùng', value: '1' },
@@ -32,13 +31,19 @@ const tabs = [
 const User = () => {
   const columns = [
     {
-      field: 'profilePicUrl',
       headerName: 'Avatar',
       width: 100,
       editable: true,
       renderCell: (params) => {
         return (
-          <Avatar src={params.row.profilePicUrl} />
+          <div className='relative'>
+            <Avatar src={params?.row?.profilePicUrl} />
+            <span
+              className={`top-0 left-7 absolute w-3.5 h-3.5 ${
+                params?.row?.isOnline ? 'bg-green-500' : 'bg-red-500'
+              } border-2 border-white dark:border-gray-800 rounded-full`}
+            />
+          </div>
         )
       }
     },
@@ -113,15 +118,17 @@ const User = () => {
   const [open, setOpen] = useState(false)
   const [inputs, setInputs] = useState({})
   const [inf, setInf] = useState([])
-  const [delId, setDelId] = useState()
+  const [delIdUser, setDelIdUser] = useState()
   const [validationPass, setValidationPass] = useState(false)
   const [validationEmail, setValidationEmail] = useState(false)
   const [validationPhone, setValidationPhone] = useState(false)
+  const router = useRouter()
+
   const handleClose = () => {
     setOpen(false)
     setInputs('')
   }
-  const router = useRouter()
+
   // Toast
   const messageSuccess = (res) => {
     toast.success(res?.data?.msg)
@@ -129,6 +136,7 @@ const User = () => {
   const messageError = (value) => {
     toast.error(value)
   }
+
   // Get all data
   useEffect(() => {
     axios({
@@ -138,7 +146,8 @@ const User = () => {
     }).then((res) => {
       setInf(res?.data?.user)
     })
-  }, [value])
+  }, [delIdUser])
+
   // Get value from textField
   const handleChangeField = (e) => {
     setInputs((prevState) => ({
@@ -146,40 +155,39 @@ const User = () => {
       [e?.target?.name]: e?.target?.value
     }))
   }
+
   // Add new user
   const handleConfirm = () => {
     axios
       .post('/api/auth/signup', inputs)
       .then((res) => {
-        if (res) {
-          messageSuccess(res)
-          setInputs('')
-        }
+        messageSuccess(res)
+        setInputs('')
       })
       .catch((error) => {
-        const err = error?.response?.data?.msg
-        if (error) {
-          messageError(err)
-        }
+        const err = error?.response?.data?.msg || 'Server Error'
+        messageError(err)
       })
   }
-  // Switch tabs
+
+  // Switch tab
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
   // Delete user
   const onHandleDel = () => {
-    axios({ url: `/api/auth/${delId}`, method: 'DELETE' })
+    axios({ url: `/api/auth/${delIdUser}`, method: 'DELETE' })
       .then((res) => {
-        if (res) messageSuccess(res)
+        messageSuccess(res)
+        setDelIdUser('')
       })
       .catch((error) => {
-        const err = error?.response?.data?.msg
-        if (error) {
-          messageError(err)
-        }
+        const err = error?.response?.data?.msg || 'Server Error'
+        messageError(err)
       })
   }
+
   // Update user
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow }
@@ -203,13 +211,12 @@ const User = () => {
         if (res) messageSuccess(res)
       })
       .catch((error) => {
-        const err = error?.response?.data?.msg
-        if (error) {
-          messageError(err)
-        }
+        const err = error?.response?.data?.msg || 'Server Error'
+        messageError(err)
       })
     return updatedRow
   }
+
   const EditToolbar = () => {
     const handleOpen = () => setOpen(true)
     return (
@@ -235,20 +242,9 @@ const User = () => {
       </GridToolbarContainer>
     )
   }
+
   return (
     <div className='mt-16'>
-      <ToastContainer
-        position='top-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
       <Box
         component='form'
         sx={{
@@ -411,7 +407,7 @@ const User = () => {
                 components={{ Toolbar: EditToolbar }}
                 checkboxSelection
                 onSelectionModelChange={(ids) => {
-                  setDelId(ids)
+                  setDelIdUser(ids)
                 }}
               />
             </Box>
@@ -431,7 +427,7 @@ const User = () => {
                 components={{ Toolbar: EditToolbar }}
                 checkboxSelection
                 onSelectionModelChange={(ids) => {
-                  setDelId(ids)
+                  setDelIdUser(ids)
                 }}
               />
             </Box>
