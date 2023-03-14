@@ -10,21 +10,30 @@ const productsSchema = new mongoose.Schema(
       type: Array,
       required: [true, 'Nhập hình ảnh']
     },
-    brand: {
-      type: String,
-      required: [true, 'Nhập tên thương hiệu']
+    // brand: {
+    //   type: String,
+    //   required: [true, 'Nhập tên thương hiệu']
+    // },
+    brandId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Brands'
     },
     priceInput: {
       type: String,
       required: [true, 'Nhập giá sản phẩm nhập vào']
     },
-    priceSell: {
+    price: {
       type: String,
       required: [true, 'Nhập giá sản phẩm bán ra']
     },
     discount: {
       type: Number,
       required: [true, 'Nhập phần trăm giảm giá']
+    },
+    sizes: {
+      type: Array,
+      required: [true, 'Nhập size sản phẩm']
     },
     quantity: {
       type: Number,

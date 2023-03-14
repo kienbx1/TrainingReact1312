@@ -1,15 +1,13 @@
 import AdminLayout from '../../../components/layouts/AdminLayout'
-import * as React from 'react'
 import Box from '@mui/material/Box'
 import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import { Button, Stack } from '@mui/material'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import { BsFillArrowRightCircleFill } from 'react-icons/Bs'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { messageSuccess, messageError } from '../../../components/toastify'
 import 'react-image-lightbox/style.css'
 import Lightbox from 'react-image-lightbox'
@@ -21,6 +19,7 @@ const Products = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [imgIndex, setImgIndex] = useState(0)
   const [imageSlide, setImageSlide] = useState([])
+
   const columns = [
     {
       field: 'name',
@@ -32,30 +31,35 @@ const Products = () => {
     {
       field: 'images',
       renderHeader: () => <p>Hình ảnh</p>,
-      minWidth: 110,
+      minWidth: 210,
       editable: false,
       renderCell: (params) => {
+        const num = params?.row?.images?.length - 1
         return (
           <>
-            <img
+            <img className='w-1/2 rounded-lg' src={params?.row?.images[0]} />
+            <div
+              className='ml-2 flex flex-col cursor-pointer justify-center items-center text-blue-400'
               onClick={() => {
                 setIsOpen(true)
-                setImageSlide(params.row.images)
+                setImageSlide(params?.row?.images)
               }}
-              className='max-w-full cursor-pointer'
-              src={params.row.images[0]}
-            />
+            >
+              <BsFillArrowRightCircleFill
+                className='hover:scale-[105%]'
+                size={20}
+              />
+              <span>Xem thêm {num}</span>
+              hình ảnh
+            </div>
             {isOpen && (
               <Lightbox
                 imageTitle={params.row.name}
                 mainSrc={imageSlide[imgIndex]}
-                nextSrc={
-                  imageSlide[(imgIndex + 1) % imageSlide.length]
-                }
+                nextSrc={imageSlide[(imgIndex + 1) % imageSlide.length]}
                 prevSrc={
                   imageSlide[
-                    (imgIndex + imageSlide.length - 1) %
-                      imageSlide.length
+                    (imgIndex + imageSlide.length - 1) % imageSlide.length
                   ]
                 }
                 onCloseRequest={() => {
@@ -71,10 +75,13 @@ const Products = () => {
       }
     },
     {
-      field: 'brand',
       headerName: 'Thương hiệu',
       width: 150,
-      editable: false
+      editable: false,
+      renderCell: (params) => {
+        const brand = params?.row?.brand[0]?.name
+        return <p className='font-serif'>{brand}</p>
+      }
     },
     {
       field: 'createdAt',
@@ -82,7 +89,7 @@ const Products = () => {
       width: 150,
       editable: false,
       renderCell: (params) => {
-        const date = params.row.createdAt.slice(0, 10)
+        const date = params?.row?.createdAt?.slice(0, 10)
         return <p className='font-serif'>{date}</p>
       }
     },
@@ -101,7 +108,7 @@ const Products = () => {
       editable: true
     },
     {
-      field: 'priceSell',
+      field: 'price',
       headerName: 'Giá bán',
       type: 'number',
       width: 110,
@@ -126,6 +133,13 @@ const Products = () => {
       headerName: 'Còn lại',
       type: 'number',
       width: 100,
+      editable: false
+    },
+    {
+      field: 'sizes',
+      headerName: 'Kích cỡ',
+      type: 'number',
+      width: 200,
       editable: false
     },
     {
@@ -171,7 +185,7 @@ const Products = () => {
     )
   }
 
-  // Get all data
+  // Get all data products
   useEffect(() => {
     axios({
       url: '/api/products/',
@@ -179,12 +193,12 @@ const Products = () => {
     }).then((res) => {
       setInfShoes(res?.data?.products)
     })
-  }, [])
+  }, [selectedRows])
 
   // Update product
   const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow }
     const field = {
+      id: newRow._id,
       name: newRow.name,
       createdAt: newRow.createdAt,
       quantity: newRow.quantity,
@@ -192,56 +206,42 @@ const Products = () => {
       discount: newRow.discount,
       priceInput: newRow.priceInput
     }
-    setSelectedRows(newRow._id)
+
     // Gọi api update row
     axios({
-      url: `/api/products/${selectedRows}`,
+      url: `/api/products/${field.id}`,
       method: 'PUT',
       data: field
     })
       .then((res) => {
-        if (res) messageSuccess(res)
+        messageSuccess(res)
       })
       .catch((error) => {
-        const err = error?.response?.data?.msg
-        if (error) {
-          messageError(err)
-        }
+        const err = error?.response?.data?.msg || 'Server'
+        messageError(err)
       })
-    return updatedRow
   }
+
   // Delete products
   const onHandleDel = () => {
     axios({ url: `/api/products/${selectedRows}`, method: 'DELETE' })
       .then((res) => {
-        if (res) messageSuccess(res)
+        messageSuccess(res)
+        setSelectedRows('')
       })
       .catch((error) => {
-        const err = error?.response?.data?.msg
-        if (error) {
-          messageError(err)
-        }
+        const err = error?.response?.data?.msg || 'Server Error'
+        messageError(err)
       })
   }
 
   return (
     <div className='p-6 mt-10'>
-      <ToastContainer
-        position='top-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
       <p className='text-lg uppercase p-2'>Danh sách sản phẩm</p>
       <div>
         <Box sx={{ height: 600, width: '100%' }}>
           <DataGrid
+            rowHeight={100}
             rows={infShoes}
             getRowId={(row) => row._id}
             columns={columns}

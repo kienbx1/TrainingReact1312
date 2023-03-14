@@ -1,65 +1,44 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../../../components/layouts/AdminLayout'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { Button, MenuItem, TextField, Typography } from '@mui/material'
-import { SiNike, SiAdidas } from 'react-icons/Si'
-import { GiConverseShoe } from 'react-icons/Gi'
+import { Box, Button, MenuItem, TextField, Typography } from '@mui/material'
 import { HiPhotograph } from 'react-icons/Hi'
-import 'react-toastify/dist/ReactToastify.css'
-import { ToastContainer } from 'react-toastify'
 import { messageSuccess, messageError } from '../../../../components/toastify'
 import { MdOutlineCancel } from 'react-icons/Md'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import Select from '@mui/material/Select'
+import Chip from '@mui/material/Chip'
 
-const options = [
-  {
-    value: 'Converse',
-    label: (
-      <div
-        aria-label='delete'
-        size='large'
-        className='text-black flex flex-row'
-      >
-        <GiConverseShoe size={30} />
-        <Typography className='ml-3' variant='h6'>
-          Converse
-        </Typography>
-      </div>
-    )
-  },
-  {
-    value: 'Nike',
-    label: (
-      <div
-        aria-label='delete'
-        size='large'
-        className='text-black flex flex-row'
-      >
-        <SiNike size={30} />{' '}
-        <Typography variant='h6' className='ml-3'>
-          Nike
-        </Typography>
-      </div>
-    )
-  },
-  {
-    value: 'Adidas',
-    label: (
-      <div
-        aria-label='delete'
-        size='large'
-        className='text-black flex flex-row'
-      >
-        <SiAdidas size={30} /> <Typography className='ml-3'>Adidas</Typography>
-      </div>
-    )
+// multiple shoes's size
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
   }
-]
+}
+
+const listSize = ['34', '35', '36', '37', '38', '39', '40', '41', '42', '43']
 
 const AddNewProduct = () => {
   const [dataProduct, setDataProduct] = useState({})
   const router = useRouter()
   const [images, setImages] = useState([])
+  const [infBrand, setInfBrand] = useState([])
+
+  // Get all brand
+  useEffect(() => {
+    axios({
+      url: '/api/brand/',
+      method: 'GET'
+    }).then((res) => {
+      setInfBrand(res?.data)
+    })
+  }, [])
 
   // Get value from textField
   const handleChangeField = (e) => {
@@ -71,31 +50,31 @@ const AddNewProduct = () => {
 
   // Process image
   const handleChangeImage = (e) => {
-    const fileArray = Array.from(e.target.files).map((file) =>
-      URL.createObjectURL(file)
-    )
-    setImages((images) => images.concat(fileArray))
-    Array.from(e.target.files).map((file) => URL.revokeObjectURL(file))
     setDataProduct((prevState) => ({
       ...prevState,
       [e?.target?.name]: e?.target?.files
     }))
+    const fileArray = Array.from(e?.target?.files).map((file) =>
+      URL.createObjectURL(file)
+    )
+    setImages((images) => images.concat(fileArray))
+    Array.from(e?.target?.files).map((file) => URL.revokeObjectURL(file))
   }
 
   // Render images
-  const renderImages = (src) => {
-    return src.map((image, index) => {
+  const renderImage = (src) => {
+    return src?.map((data, index) => {
       return (
         <div key={index} className='relative'>
           <img
             className='w-full object-contain rounded-lg mt-3 drop-shadow-lg'
-            src={image}
+            src={data}
           />
           <MdOutlineCancel
             size={20}
             onClick={() => {
-              const del = images.filter((item) => item !== image)
-              setImages(del)
+              const delAnImageInPreview = images.filter((item) => item !== data)
+              setImages(delAnImageInPreview)
             }}
             className='absolute top-4 right-1 text-red-600 cursor-pointer hover:scale-105'
           />
@@ -104,56 +83,46 @@ const AddNewProduct = () => {
     })
   }
 
-  // Gọi api create product
+  // Call api create product
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = new window.FormData()
-    for (let index = 0; index < dataProduct?.images?.length; index++) {
-      formData.append('images', dataProduct?.images[index])
-    }
-    formData.append('brand', dataProduct?.brand)
+    Array.from(dataProduct?.images).map((file) => {
+      return formData.append('images', file)
+    })
+    formData.append('brandId', dataProduct?.brand)
     formData.append('name', dataProduct?.name)
     formData.append('priceInput', dataProduct?.priceInput)
-    formData.append('priceSell', dataProduct?.priceSell)
+    formData.append('price', dataProduct?.priceSell)
     formData.append('quantity', dataProduct?.quantity)
     formData.append('discount', dataProduct?.discount)
+    Array.from(dataProduct?.sizes).map((size) => {
+      return formData.append('sizes', size)
+    })
     axios({
       url: '/api/products/',
       method: 'POST',
       data: formData
     })
       .then((res) => {
-        if (res) {
-          messageSuccess(res)
-          setDataProduct('')
-          setImages('')
-        }
+        messageSuccess(res)
+        setDataProduct([])
+        setImages([])
       })
       .catch((error) => {
         const err = error?.response?.data?.msg || 'Server Error'
-        if (error) {
-          messageError(err)
-        }
+        messageError(err)
       })
   }
+
+  // Delete data
   const delData = () => {
+    setImages([])
     setDataProduct('')
   }
 
   return (
     <div className='bg-gradient-to-b from-slate-100 p-3 flex flex-col mt-10'>
-      <ToastContainer
-        position='top-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
       <form
         onSubmit={handleSubmit}
         className='p-10 flex flex-col lg:flex-row justify-evenly w-full h-auto'
@@ -184,7 +153,7 @@ const AddNewProduct = () => {
                 </p>
                 )
               : (
-                  renderImages(images)
+                  renderImage(images)
                 )}
           </div>
         </div>
@@ -201,17 +170,54 @@ const AddNewProduct = () => {
             onChange={handleChangeField}
             name='brand'
             required
+            multiple
             select
             value={dataProduct?.brand || ''}
             label='Thương hiệu'
             className='mt-3'
           >
-            {options.map((option, index) => (
-              <MenuItem key={index} value={option.value}>
-                {option.label}
+            {infBrand.map((brand, index) => (
+              <MenuItem key={index} value={brand._id}>
+                <div
+                  aria-label='delete'
+                  size='large'
+                  className='text-black flex flex-row items-center'
+                >
+                  <img className='rounded-lg w-14' src={brand.banner} />
+                  <Typography variant='h6' className='ml-3'>
+                    {brand.name}
+                  </Typography>
+                </div>
               </MenuItem>
             ))}
           </TextField>
+          <Select
+            className='mt-3'
+            required
+            multiple
+            displayEmpty
+            label='Size'
+            name='sizes'
+            value={dataProduct?.sizes || []}
+            onChange={handleChangeField}
+            input={<OutlinedInput id='select-multiple-chip' label='Chip' />}
+            renderValue={(selected) => {
+              return (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected?.map((value, index) => (
+                    <Chip key={index} label={value} />
+                  ))}
+                </Box>
+              )
+            }}
+            MenuProps={MenuProps}
+          >
+            {listSize.map((size, index) => (
+              <MenuItem key={index} value={size}>
+                {size}
+              </MenuItem>
+            ))}
+          </Select>
           <TextField
             onChange={handleChangeField}
             name='priceInput'
@@ -267,10 +273,12 @@ const AddNewProduct = () => {
             </Button>
             <input
               className='border border-separate mb-2 p-2 rounded-lg md:w-32 lg:w-64 bg-red-500 cursor-pointer hover:bg-red-600 hover:scale-105 font-bold text-white'
-              type='submit'
+              type='button'
               value='Huỷ'
               onClick={() => {
                 delData()
+              }}
+              onDoubleClick={() => {
                 router.back()
               }}
             />

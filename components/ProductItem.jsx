@@ -12,8 +12,8 @@ const ProductItem = (props) => {
             <div className='relative flex justify-center'>
               <img
                 className='relative p-3 rounded-2xl md:group-hover:scale-105 ease-linear duration-300 w-[314px] h-[314px] object-cover mx-auto md:mx-0 cursor-pointer'
-                src={props?.item?.image[0] || '/Images/no_img_avaliable.jpg'}
-                alt='product image'
+                src={props?.item?.images[0] || '/Images/no_img_avaliable.jpg'}
+                alt='product images'
                 onClick={props?.resetInfoProductAddToCart}
               />
               {
@@ -70,7 +70,7 @@ const ProductItem = (props) => {
                 )
           }
           {
-            props?.item?.countInStock > 0
+            props?.item?.quantity > 0
               ? (
                 <p className='text-[#3577F0] pl-3 md:pl-0 mt-2'>Còn hàng</p>
                 )

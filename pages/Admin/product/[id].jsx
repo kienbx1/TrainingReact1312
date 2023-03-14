@@ -71,10 +71,10 @@ const DetailProduct = () => {
             </p>
           </div>
           <div className='grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 h-auto gap-3'>
-            {infShoe?.images?.map((image, index) => (
+            {infShoe?.images?.map((data, index) => (
               <img
                 key={index}
-                src={image}
+                src={data}
                 alt='Avatar'
                 className='w-24 rounded-lg m-2 drop-shadow-lg hover:scale-105'
               />
