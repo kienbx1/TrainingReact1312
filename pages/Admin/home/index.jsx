@@ -211,7 +211,7 @@ const Home = () => {
     },
     {
       text: 'Khách hàng mới',
-      color: 'blue-500',
+      color: 'blue-400',
       icon: <BiUserPlus size={40} />,
       newOrders: 351,
       quantityDifference: 70,
@@ -220,7 +220,7 @@ const Home = () => {
 
     {
       text: 'Lượt truy cập',
-      color: 'red-500',
+      color: 'red-400',
       icon: <GoDeviceDesktop size={40} />,
       newOrders: 2163,
       quantityDifference: 130,
@@ -228,7 +228,7 @@ const Home = () => {
     },
     {
       text: 'Doanh thu',
-      color: 'blue-500',
+      color: 'green-400',
       icon: <TbReportMoney size={40} />,
       newOrders: 514000,
       quantityDifference: 30,
@@ -241,7 +241,7 @@ const Home = () => {
       name: 'Facebook',
       follower: 2415,
       feeds: 412,
-      color: 'blue-500',
+      color: 'blue-400',
       icon: <TiSocialFacebook size={40} />
     },
     {
@@ -255,7 +255,7 @@ const Home = () => {
       name: 'Twitter',
       follower: 5216,
       feeds: 261,
-      color: 'blue-500',
+      color: 'blue-400',
       icon: <TiSocialTwitter size={40} />
     },
     {

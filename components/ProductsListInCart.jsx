@@ -25,10 +25,10 @@ const ProductsListInCart = () => {
     dispatch(updateCart(result))
   }
 
-  const increaseProductHandle = (id, countInStock) => {
+  const increaseProductHandle = (id, quantity) => {
     const result = cartProducts.map(item => ({
       ...item,
-      quantity: item.id === id && item.quantity < countInStock ? item.quantity + 1 : item.quantity
+      quantity: item.id === id && item.quantity < quantity ? item.quantity + 1 : item.quantity
     }))
     dispatch(updateCart(result))
   }
@@ -65,7 +65,7 @@ const ProductsListInCart = () => {
                   </td>
                   <td className='p-4 flex items-center'>
                     <div className='flex-1'>
-                      <img src={item?.image} alt={`ảnh giày ${item?.brand}`} className='w-20 h-20 rounded-md object-cover' />
+                      <img src={item?.images} alt={`ảnh giày ${item?.brand}`} className='w-20 h-20 rounded-md object-cover' />
                     </div>
                     <Link href={`/details-product/${item?.id}`} className='flex-[3]'>
                       <p className='capitalize p-4 font-semibold flex justify-start'>{item?.name || ''}</p>
@@ -99,7 +99,7 @@ const ProductsListInCart = () => {
                       <p className='font-semibold'>{item?.quantity}</p>
                       <div
                         className='w-7 h-7 bg-[#F6F7FB] flex justify-center items-center rounded-[50%] cursor-pointer hover:border border-solid border-[#3577f0]'
-                        onClick={() => increaseProductHandle(item?.id, item?.countInStock)}
+                        onClick={() => increaseProductHandle(item?.id, item?.quantity)}
                       >
                         <AiOutlinePlus />
                       </div>
@@ -127,7 +127,7 @@ const ProductsListInCart = () => {
               return (
                 <tr className='flex gap-8 mt-3 md:mt-0 py-2 items-center border-b-[2px] border-solid border-b-[#F6F7FB]' key={item._id}>
                   <td className='flex-1'>
-                    <img src={item?.image || DEFAULT_IMAGE} alt={`ảnh giày ${item?.brand}`} className='w-20 h-20 rounded-md object-cover' />
+                    <img src={item?.images || DEFAULT_IMAGE} alt={`ảnh giày ${item?.brand}`} className='w-20 h-20 rounded-md object-cover' />
                   </td>
                   <td className='flex-[3]'>
                     <div className='flex items-center justify-between pb-3 border-b-[2px] border-solid border-b-[#F6F7FB]'>
@@ -167,7 +167,7 @@ const ProductsListInCart = () => {
                           </div>
                           <p className='font-semibold text-sm'>{item?.quantity}</p>
                           <div
-                            className='w-6 h-6 bg-[#F6F7FB] flex justify-center items-center rounded-[50%] cursor-pointer hover:opacity-80' onClick={() => increaseProductHandle(item?.id, item?.countInStock)}
+                            className='w-6 h-6 bg-[#F6F7FB] flex justify-center items-center rounded-[50%] cursor-pointer hover:opacity-80' onClick={() => increaseProductHandle(item?.id, item?.quantity)}
                           >
                             <AiOutlinePlus className='text-sm' />
                           </div>

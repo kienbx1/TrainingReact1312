@@ -95,7 +95,7 @@ const detailUser = () => {
       {detailOrder.map((detail) => (
         <div key={detail.id} className='rounded-sm mt-2 bg-white w-full border-black p-2 flex flex-row justify-between items-center'>
           <div className='flex flex-row items-center p-2'>
-            <img className='w-28 rounded-sm' src={detail.image} />
+            <img className='w-28 rounded-sm' src={detail.images} />
             <div className='flex flex-col ml-2'>
               <p className='uppercase text-xl m-2 font-bold'>{detail.name}</p>
               <p className='uppercase text-lg m-1'>

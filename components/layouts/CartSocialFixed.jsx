@@ -39,7 +39,7 @@ const SocialFixed = () => {
                 productsInMiniCart?.map(product => {
                   return (
                     <div className='flex py-3 border-b border-dashed gap-4' key={product?.id}>
-                      <img src={product?.image || DEFAULT_IMAGE} className='w-20 h-20 object-contain' />
+                      <img src={product?.images || DEFAULT_IMAGE} className='w-20 h-20 object-contain' />
                       <div className='w-full'>
                         <p className='text-xs font-semibold capitalize'>{product?.name || ''}</p>
                         <p className='mt-2 text-xs font-semibold'>{product?.price.toLocaleString() || ''} VNĐ</p>

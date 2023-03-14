@@ -21,37 +21,46 @@ import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import { BsFillMenuAppFill, BsFillMenuButtonWideFill } from 'react-icons/Bs'
 import { ImExit } from 'react-icons/Im'
+import { SiBrandfolder } from 'react-icons/Si'
+
+const sizeIcon = 20
 const menu = [
   {
     path: '/admin/home',
     des: 'Trang chủ',
-    icon: <FaHome size={30} className='mr-2 text-red-500' />,
+    icon: <FaHome size={sizeIcon} className='mr-2 text-red-500' />,
     color: 'gray-400',
     txtColor: 'text-red-500'
   },
   {
     path: '/admin/user/users',
     des: 'Người dùng',
-    icon: <FaUser size={30} className='mr-2 text-yellow-500' />,
+    icon: <FaUser size={sizeIcon} className='mr-2 text-yellow-500' />,
     txtColor: 'text-yellow-500',
     expand: ['Admin', 'User']
   },
   {
     path: '/admin/statistical',
     des: 'Đơn hàng',
-    icon: <FaHandHoldingUsd size={30} className='mr-2 text-green-500' />,
+    icon: <FaHandHoldingUsd size={sizeIcon} className='mr-2 text-green-500' />,
     txtColor: 'text-green-500'
   },
   {
     path: '/admin/product/products',
     des: 'Sản phẩm',
-    icon: <GiConverseShoe size={30} className='mr-2 text-blue-500' />,
+    icon: <GiConverseShoe size={sizeIcon} className='mr-2 text-blue-500' />,
+    txtColor: 'text-blue-900'
+  },
+  {
+    path: '/admin/brand',
+    des: 'Thương hiệu',
+    icon: <SiBrandfolder size={sizeIcon} className='mr-2 text-violet-500' />,
     txtColor: 'text-blue-900'
   },
   {
     path: '/',
     des: 'Thoát',
-    icon: <ImExit size={30} className='mr-2 text-red-500' />,
+    icon: <ImExit size={sizeIcon} className='mr-2 text-red-500' />,
     txtColor: 'text-red-900'
   }
 ]

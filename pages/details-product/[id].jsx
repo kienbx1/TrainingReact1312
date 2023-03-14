@@ -54,7 +54,7 @@ const DetailProduct = () => {
   }
 
   const selectSizeHandle = (size) => {
-    if (detailsProduct.countInStock === 0) {
+    if (detailsProduct.quantity === 0) {
       toast.error(outOfStockInStock, {
         position: 'top-right',
         autoClose: 2000,
@@ -78,7 +78,7 @@ const DetailProduct = () => {
   }
 
   const increaseProductHandle = () => {
-    if (quantityProduct < detailsProduct.countInStock) {
+    if (quantityProduct < detailsProduct.quantity) {
       setQuantityProduct(prevCount => prevCount + 1)
     } else {
       toast.error(maximumCountInStock, {
@@ -95,7 +95,7 @@ const DetailProduct = () => {
   }
 
   const inputQuantityHandle = (e) => {
-    if (Number(e.target.value) > detailsProduct.countInStock) {
+    if (Number(e.target.value) > detailsProduct.quantity) {
       toast.error(maximumCountInStock, {
         position: 'top-right',
         autoClose: 2000,
@@ -137,7 +137,7 @@ const DetailProduct = () => {
     dispatch(addToCart({
       id: detailsProduct?._id,
       name: detailsProduct?.name,
-      image: detailsProduct?.image[0],
+      images: detailsProduct?.images[0],
       size: isSelectSize,
       price: detailsProduct?.price,
       discount: detailsProduct?.discount,
@@ -165,13 +165,13 @@ const DetailProduct = () => {
           <div className='flex flex-col md:flex-row gap-10 md:gap-20 py-12'>
             <div className='flex-1 px-4 md:px-0'>
               <div className='hidden md:block w-[60%] mx-auto mt-0 mb-6 rounded-md overflow-hidden shadow-3xl'>
-                <img src={detailsProduct?.image?.[displayProduct] || DEFAULT_IMAGE} alt='image product' />
+                <img src={detailsProduct?.images?.[displayProduct] || DEFAULT_IMAGE} alt='image product' />
               </div>
               <div className='grid grid-cols-2 md:flex gap-5'>
-                {detailsProduct?.image?.map((img, index) => {
+                {detailsProduct?.images?.map((img, index) => {
                   return (
                     <div key={index} className='hover:shadow-3xl hover:cursor-pointer' onClick={() => clickExtraImgHandle(index)}>
-                      <img src={img} alt='extra image' className='hover:scale-105 duration-300' />
+                      <img src={img} alt='extra images' className='hover:scale-105 duration-300' />
                     </div>
                   )
                 })}
@@ -199,7 +199,7 @@ const DetailProduct = () => {
               </div>
               <p className='my-5 text-base text-[#777777]'>{detailsProduct?.description || ''}</p>
               {
-                detailsProduct?.countInStock > 0
+                detailsProduct?.quantity > 0
                   ? (
                     <div>
                       <p className='flex items-center'><AiOutlineCheck className='text-[#3577f0] text-lg' /> <span className='ml-3 text-[#3577f0] text-base font-medium'>Còn hàng (<span>{detailsProduct?.countInStock}</span>)</span></p>
