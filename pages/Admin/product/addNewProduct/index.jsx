@@ -9,6 +9,10 @@ import { MdOutlineCancel } from 'react-icons/Md'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Select from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
+import CircularProgress from '@mui/material/CircularProgress'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
 
 // multiple shoes's size
 const ITEM_HEIGHT = 48
@@ -29,6 +33,7 @@ const AddNewProduct = () => {
   const router = useRouter()
   const [images, setImages] = useState([])
   const [infBrand, setInfBrand] = useState([])
+  const [openModal, setOpenModal] = useState(false)
 
   // Get all brand
   useEffect(() => {
@@ -73,7 +78,9 @@ const AddNewProduct = () => {
           <MdOutlineCancel
             size={20}
             onClick={() => {
-              const delAnImageInPreview = images.filter((item) => item !== data)
+              const delAnImageInPreview = images.filter(
+                (item) => item !== data
+              )
               setImages(delAnImageInPreview)
             }}
             className='absolute top-4 right-1 text-red-600 cursor-pointer hover:scale-105'
@@ -86,6 +93,7 @@ const AddNewProduct = () => {
   // Call api create product
   const handleSubmit = (e) => {
     e.preventDefault()
+    setOpenModal(!openModal)
     const formData = new window.FormData()
     Array.from(dataProduct?.images).map((file) => {
       return formData.append('images', file)
@@ -105,12 +113,14 @@ const AddNewProduct = () => {
       data: formData
     })
       .then((res) => {
+        setOpenModal(false)
         messageSuccess(res)
         setDataProduct([])
         setImages([])
       })
       .catch((error) => {
         const err = error?.response?.data?.msg || 'Server Error'
+        setOpenModal(false)
         messageError(err)
       })
   }
@@ -122,7 +132,22 @@ const AddNewProduct = () => {
   }
 
   return (
-    <div className='bg-gradient-to-b from-slate-100 p-3 flex flex-col mt-10'>
+    <div className='bg-gradient-to-b from-slate-100 rounded-t-2xl p-3 flex flex-col pt-16'>
+      <Dialog
+        open={openModal}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogContent>
+          <DialogContentText
+            className='text-gray-500 mt-4 flex flex-row items-center justify-around'
+            id='alert-dialog-description'
+          >
+            <CircularProgress />
+            <span className='ml-3'>Loading... </span>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
       <form
         onSubmit={handleSubmit}
         className='p-10 flex flex-col lg:flex-row justify-evenly w-full h-auto'

@@ -17,12 +17,14 @@ import {
   Stack,
   TextField,
   Avatar,
-  MenuItem
+  MenuItem,
+  DialogContentText
 } from '@mui/material'
 import { useRouter } from 'next/router'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
+import customNoRowsOverlay from '../../../components/noRowInDataGrid'
 
 const tabs = [
   { label: 'Người dùng', value: '1' },
@@ -37,9 +39,7 @@ const User = () => {
       width: 100,
       editable: true,
       renderCell: (params) => {
-        return (
-          <Avatar src={params.row.profilePicUrl} />
-        )
+        return <Avatar src={params.row.profilePicUrl} />
       }
     },
     {
@@ -111,6 +111,7 @@ const User = () => {
   const cookies = new Cookies()
   const [value, setValue] = useState('1')
   const [open, setOpen] = useState(false)
+  const [openAlertDelRow, setOpenAlertDelRow] = useState(false)
   const [inputs, setInputs] = useState({})
   const [inf, setInf] = useState([])
   const [delId, setDelId] = useState()
@@ -216,7 +217,7 @@ const User = () => {
       <GridToolbarContainer>
         <Stack spacing={2} direction='row'>
           <Button
-            startIcon={<FaPlus />}
+            startIcon={<FaPlus size={15} />}
             color='primary'
             variant='outlined'
             onClick={handleOpen}
@@ -224,10 +225,10 @@ const User = () => {
             Thêm mới
           </Button>
           <Button
-            startIcon={<FaTrashAlt />}
+            startIcon={<FaTrashAlt size={15} />}
             color='error'
             variant='outlined'
-            onClick={onHandleDel}
+            onClick={() => { setOpenAlertDelRow(true) }}
           >
             Xoá
           </Button>
@@ -236,208 +237,274 @@ const User = () => {
     )
   }
   return (
-    <div className='mt-16'>
-      <ToastContainer
-        position='top-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
-      <Box
-        component='form'
-        sx={{
-          height: 500,
-          width: '100%',
-          '& .actions': {
-            color: 'text.secondary'
-          },
-          '& .textPrimary': {
-            color: 'text.primary'
-          }
-        }}
-      >
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby='modal-modal-title'
-          aria-describedby='modal-modal-description'
+    <div className='mt-20 p-6 bg-slate-200 h-full'>
+      <div className='p-2 bg-[#f9f9f9] rounded-xl'>
+        <Box
+          component='form'
+          sx={{
+            p: 3,
+            height: 850,
+            width: '100%',
+            '& .actions': {
+              color: 'text.secondary'
+            },
+            '& .textPrimary': {
+              color: 'text.primary'
+            }
+          }}
         >
-          <Box>
-            <DialogTitle id='modal-modal-title' variant='h5' component='h2'>
-              Thêm mới tài khoản
+          <Dialog
+            open={openAlertDelRow}
+            aria-labelledby='alert-dialog-title'
+            aria-describedby='alert-dialog-description'
+          >
+            <DialogTitle
+              sx={{
+                background: '#ff0000a0',
+                color: 'white'
+              }}
+              id='alert-dialog-title'
+              className='flex flex-row items-center justify-between'
+            >
+              <span> Xoá User</span>
+              <FaTrashAlt size={20} />
             </DialogTitle>
             <DialogContent>
-              <Box
-                id='modal-modal-description'
-                component='form'
-                sx={{
-                  '& .MuiTextField-root': { m: 1, width: '100%' }
-                }}
-              >
-                <TextField
-                  label='Email'
-                  value={inputs ? inputs.email : ''}
-                  variant='outlined'
-                  error={validationEmail}
-                  onChange={(e) => {
-                    if (
-                      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-                        e.target.value
-                      )
-                    ) {
-                      setValidationEmail(false)
-                      handleChangeField(e)
-                    } else {
-                      setValidationEmail(true)
-                    }
-                  }}
-                  name='email'
-                  required
-                />
-                <TextField
-                  label='Mật khẩu'
-                  value={inputs ? inputs.password : ''}
-                  variant='outlined'
-                  required
-                  onChange={(e) => {
-                    if (e.target.value.length >= 6) {
-                      setValidationPass(false)
-                      setInputs((prevState) => ({
-                        ...prevState,
-                        [e.target.name]: e.target.value
-                      }))
-                    } else {
-                      setInputs((prevState) => ({
-                        ...prevState,
-                        [e.target.name]: e.target.value
-                      }))
-                      setValidationPass(true)
-                    }
-                  }}
-                  name='password'
-                  error={validationPass}
-                />
-                <TextField
-                  key='Tên người dùng'
-                  value={inputs ? inputs.name : ''}
-                  label='Tên người dùng'
-                  variant='outlined'
-                  onChange={handleChangeField}
-                  name='name'
-                />
-                <TextField
-                  label='Số điện thoại'
-                  value={inputs ? inputs.phoneNumber : ''}
-                  variant='outlined'
-                  error={validationPhone}
-                  onChange={(e) => {
-                    if (e.target.value.length === 10) {
-                      setValidationPhone(false)
-                      setInputs((prevState) => ({
-                        ...prevState,
-                        [e.target.name]: e.target.value
-                      }))
-                    } else {
-                      setValidationPhone(true)
-                      setInputs((prevState) => ({
-                        ...prevState,
-                        [e.target.name]: e.target.value
-                      }))
-                    }
-                  }}
-                  name='phoneNumber'
-                />
-                <TextField
-                  label='Địa chỉ'
-                  value={inputs ? inputs.address : ''}
-                  variant='outlined'
-                  onChange={handleChangeField}
-                  name='address'
-                />
-                <TextField
-                  label='Quản trị'
-                  value={inputs ? inputs.role : ''}
-                  variant='outlined'
-                  select
-                  defaultValue='user'
-                  onChange={handleChangeField}
-                  name='role'
-                >
-                  <MenuItem value='user'>User</MenuItem>
-                  <MenuItem value='admin'>Admin</MenuItem>
-                </TextField>
-              </Box>
+              <DialogContentText className='text-gray-500 mt-4' id='alert-dialog-description'>
+                {delId
+                  ? 'Bạn có chắc muốn xoá người dùng này'
+                  : 'Chưa có người dùng được chọn'}
+              </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button variant='outlined' color='error' onClick={handleClose}>
-                Huỷ bỏ
-              </Button>
+              <Button onClick={() => (setOpenAlertDelRow(false))}>Huỷ</Button>
               <Button
-                variant='outlined'
-                color='success'
-                onClick={handleConfirm}
+                onClick={() => {
+                  setOpenAlertDelRow(false)
+                  if (delId) onHandleDel()
+                }}
+                autoFocus
               >
                 Xác nhận
               </Button>
             </DialogActions>
-          </Box>
-        </Dialog>
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange}>
-              {tabs.map((tab) => (
-                <Tab key={tab.value} label={tab.label} value={tab.value} />
-              ))}
-            </TabList>
-          </Box>
-          <TabPanel value='1'>
-            <Box sx={{ height: 650, width: '100%' }}>
-              <DataGrid
-                rows={inf?.filter((data) => data.role === 'user')}
-                getRowId={(row) => row._id}
-                columns={columns}
-                pageSize={10}
-                rowsPerPageOptions={[10]}
-                disableSelectionOnClick
-                editMode='row'
-                processRowUpdate={processRowUpdate}
-                experimentalFeatures={{ newEditingApi: true }}
-                components={{ Toolbar: EditToolbar }}
-                checkboxSelection
-                onSelectionModelChange={(ids) => {
-                  setDelId(ids)
-                }}
-              />
+          </Dialog>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby='modal-modal-title'
+            aria-describedby='modal-modal-description'
+          >
+            <Box>
+              <DialogTitle id='modal-modal-title' variant='h5' component='h2'>
+                Thêm mới tài khoản
+              </DialogTitle>
+              <DialogContent>
+                <Box
+                  id='modal-modal-description'
+                  component='form'
+                  sx={{
+                    '& .MuiTextField-root': { m: 1, width: '100%' }
+                  }}
+                >
+                  <TextField
+                    label='Email'
+                    value={inputs ? inputs.email : ''}
+                    variant='outlined'
+                    error={validationEmail}
+                    onChange={(e) => {
+                      if (
+                        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                          e.target.value
+                        )
+                      ) {
+                        setValidationEmail(false)
+                        handleChangeField(e)
+                      } else {
+                        setValidationEmail(true)
+                      }
+                    }}
+                    name='email'
+                    required
+                  />
+                  <TextField
+                    label='Mật khẩu'
+                    value={inputs ? inputs.password : ''}
+                    variant='outlined'
+                    required
+                    onChange={(e) => {
+                      if (e.target.value.length >= 6) {
+                        setValidationPass(false)
+                        setInputs((prevState) => ({
+                          ...prevState,
+                          [e.target.name]: e.target.value
+                        }))
+                      } else {
+                        setInputs((prevState) => ({
+                          ...prevState,
+                          [e.target.name]: e.target.value
+                        }))
+                        setValidationPass(true)
+                      }
+                    }}
+                    name='password'
+                    error={validationPass}
+                  />
+                  <TextField
+                    key='Tên người dùng'
+                    value={inputs ? inputs.name : ''}
+                    label='Tên người dùng'
+                    variant='outlined'
+                    onChange={handleChangeField}
+                    name='name'
+                  />
+                  <TextField
+                    label='Số điện thoại'
+                    value={inputs ? inputs.phoneNumber : ''}
+                    variant='outlined'
+                    error={validationPhone}
+                    onChange={(e) => {
+                      if (e.target.value.length === 10) {
+                        setValidationPhone(false)
+                        setInputs((prevState) => ({
+                          ...prevState,
+                          [e.target.name]: e.target.value
+                        }))
+                      } else {
+                        setValidationPhone(true)
+                        setInputs((prevState) => ({
+                          ...prevState,
+                          [e.target.name]: e.target.value
+                        }))
+                      }
+                    }}
+                    name='phoneNumber'
+                  />
+                  <TextField
+                    label='Địa chỉ'
+                    value={inputs ? inputs.address : ''}
+                    variant='outlined'
+                    onChange={handleChangeField}
+                    name='address'
+                  />
+                  <TextField
+                    label='Quản trị'
+                    value={inputs ? inputs.role : ''}
+                    variant='outlined'
+                    select
+                    defaultValue='user'
+                    onChange={handleChangeField}
+                    name='role'
+                  >
+                    <MenuItem value='user'>User</MenuItem>
+                    <MenuItem value='admin'>Admin</MenuItem>
+                  </TextField>
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button variant='outlined' color='error' onClick={handleClose}>
+                  Huỷ bỏ
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='success'
+                  onClick={handleConfirm}
+                >
+                  Xác nhận
+                </Button>
+              </DialogActions>
             </Box>
-          </TabPanel>
-          <TabPanel value='2'>
-            <Box sx={{ height: 650, width: '100%' }}>
-              <DataGrid
-                rows={inf?.filter((data) => data.role === 'admin')}
-                getRowId={(row) => row._id}
-                columns={columns}
-                pageSize={10}
-                rowsPerPageOptions={[10]}
-                disableSelectionOnClick
-                editMode='row'
-                processRowUpdate={processRowUpdate}
-                experimentalFeatures={{ newEditingApi: true }}
-                components={{ Toolbar: EditToolbar }}
-                checkboxSelection
-                onSelectionModelChange={(ids) => {
-                  setDelId(ids)
-                }}
-              />
+          </Dialog>
+          <TabContext value={value}>
+            <Box>
+              <TabList onChange={handleChange}>
+                {tabs.map((tab) => (
+                  <Tab key={tab.value} label={tab.label} value={tab.value} />
+                ))}
+              </TabList>
             </Box>
-          </TabPanel>
-        </TabContext>
-      </Box>
+            <TabPanel value='1'>
+              <div>
+                <Box>
+                  <DataGrid
+                    sx={{
+                      border: 'none',
+                      '& .Mui-table-action': {
+                        cursor: 'pointer'
+                      },
+                      '& .MuiDataGrid-cell:hover': {
+                        color: 'primary.main'
+                      },
+                      '& .MuiDataGrid-columnSeparator--sideRight': {
+                        display: 'none'
+                      },
+                      height: 750,
+                      width: '100%'
+                    }}
+                    rows={inf?.filter((data) => data.role === 'user')}
+                    getRowId={(row) => row._id}
+                    columns={columns}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
+                    disableSelectionOnClick
+                    editMode='row'
+                    processRowUpdate={processRowUpdate}
+                    experimentalFeatures={{ newEditingApi: true }}
+                    components={{
+                      Toolbar: EditToolbar,
+                      NoRowsOverlay: customNoRowsOverlay,
+                      NoResultsOverlay: customNoRowsOverlay
+                    }}
+                    checkboxSelection
+                    onSelectionModelChange={(ids) => {
+                      setDelId(ids)
+                    }}
+                  />
+                </Box>
+              </div>
+            </TabPanel>
+            <TabPanel
+              value='2'
+              sx={{
+                height: 'calc(100vh - 280px)'
+              }}
+            >
+              <Box>
+                <DataGrid
+                  sx={{
+                    border: 'none',
+                    '& .Mui-table-action': {
+                      cursor: 'pointer'
+                    },
+                    '& .MuiDataGrid-cell:hover': {
+                      color: 'primary.main'
+                    },
+                    '& .MuiDataGrid-columnSeparator--sideRight': {
+                      display: 'none'
+                    },
+                    height: 'calc(100vh - 20px)',
+                    width: '100%'
+                  }}
+                  rows={inf?.filter((data) => data.role === 'admin')}
+                  getRowId={(row) => row._id}
+                  columns={columns}
+                  pageSize={10}
+                  rowsPerPageOptions={[10]}
+                  disableSelectionOnClick
+                  editMode='row'
+                  processRowUpdate={processRowUpdate}
+                  experimentalFeatures={{ newEditingApi: true }}
+                  components={{ Toolbar: EditToolbar }}
+                  checkboxSelection
+                  onSelectionModelChange={(ids) => {
+                    setDelId(ids)
+                  }}
+                />
+              </Box>
+            </TabPanel>
+          </TabContext>
+        </Box>
+      </div>
     </div>
   )
 }

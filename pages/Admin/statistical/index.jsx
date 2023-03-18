@@ -149,8 +149,8 @@ const Statistical = () => {
               <DataGrid
                 rows={data.filter((data) => data.status === 'Đang chờ')}
                 columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
                 disableSelectionOnClick
               />
             </Box>
@@ -160,8 +160,8 @@ const Statistical = () => {
               <DataGrid
                 rows={data.filter((data) => data.status === 'Đã xác nhận')}
                 columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
                 disableSelectionOnClick
               />
             </Box>
@@ -171,8 +171,8 @@ const Statistical = () => {
               <DataGrid
                 rows={data.filter((data) => data.status === 'Đã huỷ')}
                 columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
                 disableSelectionOnClick
               />
             </Box>
@@ -182,6 +182,7 @@ const Statistical = () => {
     </div>
   )
 }
+
 Statistical.getLayout = function getLayout (page) {
   return <AdminLayout>{page}</AdminLayout>
 }
