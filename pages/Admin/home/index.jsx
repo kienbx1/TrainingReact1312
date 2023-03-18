@@ -12,8 +12,6 @@ import {
   Line,
   Legend
 } from 'recharts'
-import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import { Box, Divider } from '@mui/material'
 import CountUp from '../../../components/CountUp'
 import { RiBillLine } from 'react-icons/Ri'
 import { AiOutlinePlus } from 'react-icons/Ai'
@@ -26,81 +24,7 @@ import {
   TiSocialYoutube,
   TiSocialPinterest
 } from 'react-icons/Ti'
-
-const rows = [
-  {
-    id: 1,
-    shoe: 'Nike Retro',
-    branch: 'Nike',
-    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
-    purchases: 315,
-    total: '1.234.456'
-  },
-  {
-    id: 2,
-    shoe: 'Nike Air',
-    branch: 'Nike',
-    image: '/Images/Nike/AirForce1XUNDEFEATED/AirForce1XUNDEFEATED_1.webp',
-    purchases: 142,
-    total: '1.234.456'
-  },
-  {
-    id: 3,
-    shoe: 'Nike Max',
-    branch: 'Nike',
-    image: '/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp',
-    purchases: 125,
-    total: '1.234.456'
-  },
-  {
-    id: 4,
-    shoe: 'Nike Jordan',
-    branch: 'Nike',
-    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
-    purchases: 116,
-    total: '1.234.456'
-  },
-  {
-    id: 5,
-    shoe: 'Nike 90',
-    branch: 'Nike',
-    image: '/Images/Nike/AirForce1XUNDEFEATED/AirForce1XUNDEFEATED_1.webp',
-    purchases: 111,
-    total: '1.234.456'
-  },
-  {
-    id: 6,
-    shoe: 'Nike',
-    branch: 'Nike',
-    image: '/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp',
-    purchases: 89,
-    total: '1.234.456'
-  },
-  {
-    id: 7,
-    shoe: 'Nike Air Jordan 1 Mid',
-    branch: 'Nike',
-    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
-    purchases: 44,
-    total: '1.234.456'
-  },
-  {
-    id: 8,
-    shoe: 'Nike Air Max 97',
-    branch: 'Nike',
-    image: '/Images/Nike/AirJordanXXXVIISP/AirJordanXXXVIISP_1.webp',
-    purchases: 36,
-    total: '1.234.456'
-  },
-  {
-    id: 9,
-    shoe: 'Nike Dunk',
-    branch: 'Nike',
-    image: '/Images/Nike/AirJordan7RetroSe/AirJordan7RetroSe_1.webp',
-    purchases: 5,
-    total: '1.234.456'
-  }
-]
+import { Divider } from '@mui/material'
 
 const data = [
   { name: 'Jan', Nike: 4100, Adidas: 400, Converse: 2400 },
@@ -151,55 +75,6 @@ const gender = [
 ]
 
 const Home = () => {
-  const columns = [
-    {
-      field: 'shoe',
-      headerClassName: 'super-app-theme--header',
-      width: 200,
-      editable: false,
-      flex: 1,
-      renderHeader: () => <p className='font-bold'>Tên giày</p>
-    },
-    {
-      field: 'branch',
-      renderHeader: () => <p className='font-bold'>Thương hiệu</p>,
-      headerClassName: 'super-app-theme--header',
-      maxWidth: 160,
-      editable: false,
-      flex: 1
-    },
-    {
-      field: 'image',
-      renderHeader: () => <p className='font-bold'>Hình ảnh</p>,
-      headerClassName: 'super-app-theme--header',
-      maxWidth: 160,
-      editable: false,
-      renderCell: (params) => {
-        return <img src={params.value} />
-      }
-    },
-    {
-      field: 'purchases',
-      renderHeader: () => <p className='font-bold'>Lượt mua</p>,
-      headerClassName: 'super-app-theme--header',
-      type: 'number',
-      width: 160,
-      flex: 1,
-      editable: false
-    },
-    {
-      field: 'total',
-      renderHeader: () => <p className='font-bold'>Tổng tiền</p>,
-      headerClassName: 'super-app-theme--header',
-      width: 200,
-      flex: 1,
-      editable: false,
-      renderCell: (params) => {
-        return <span>{params.value} VND</span>
-      }
-    }
-  ]
-
   const overviews = [
     {
       text: 'Đơn hàng mới',
@@ -268,171 +143,148 @@ const Home = () => {
   ]
 
   return (
-    <div className='bg-slate-300 mt-10'>
-      <div className='grid grid-cols-1 gap-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-center mx-2'>
-        {overviews.map((overview, index) => (
-          <div
-            key={index}
-            className='mt-14 bg-white sm:w-full md:w-[90%] lg:w-[90%] h-44 rounded-2xl relative drop-shadow-lg'
-          >
-            <div className='flex flex-row'>
+    <div className='pt-14 rounded-t-2xl'>
+      <div className='bg-slate-300 p-5'>
+        <div className='grid grid-cols-1 gap-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-center'>
+          {overviews.map((overview, index) => (
+            <div
+              key={index}
+              className='mt-14 justify-center bg-white sm:w-full md:w-[90%] lg:w-[90%] h-44 rounded-2xl relative drop-shadow-lg'
+            >
+              <div className='flex flex-row'>
+                <div
+                  className={`bg-${overview?.color} w-16 h-16 ml-4 rounded-lg -mt-3 text-white drop-shadow-lg flex flex-col justify-around items-center`}
+                >
+                  {overview?.icon}
+                </div>
+                <div className='mt-2 right-6 absolute flex flex-col items-end'>
+                  <span className='font-thin md:text-lg text-base text-gray-400'>
+                    {overview.text}
+                  </span>
+                  <span className={`font-bold text-3xl text-${overview.color}`}>
+                    <CountUp end={overview?.newOrders} />
+                  </span>
+                </div>
+              </div>
+              <div>
+                <Divider className='text-black mt-7' variant='middle' />
+                <div className='flex flex-row font-bold items-center bottom-0 mt-14 ml-3'>
+                  <AiOutlinePlus className='text-xl text-green-600' size={20} />
+                  <span className='text-xl text-green-600'>
+                    <CountUp end={overview.quantityDifference} />
+                  </span>
+                  <span className='text-base font-thin text-gray-400 ml-1'>
+                    {overview.compareWith}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className='sm:flex sm:flex-col lg:flex-row md:justify-evenly drop-shadow-lg mt-10'>
+          <div className='flex flex-col border p-8 bg-white rounded-lg md:w-[100%] lg:w-[50%] lg:m-1 my-1'>
+            <ResponsiveContainer width='95%' height={200}>
+              <AreaChart
+                width='100%'
+                height={400}
+                data={data}
+                margin={{
+                  top: 10
+                }}
+              >
+                <CartesianGrid strokeDasharray='3 3' />
+                <XAxis dataKey='name' />
+                <YAxis />
+                <Tooltip />
+                <Area
+                  type='monotone'
+                  dataKey='Nike'
+                  stackId='1'
+                  stroke='#8884d8'
+                  fill='#8884d8'
+                />
+                <Area
+                  type='monotone'
+                  dataKey='Adidas'
+                  stackId='1'
+                  stroke='#82ca9d'
+                  fill='#82ca9d'
+                />
+                <Area
+                  type='monotone'
+                  dataKey='Converse'
+                  stackId='1'
+                  stroke='#ffc658'
+                  fill='#ffc658'
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+            <Divider className='text-black mt-7' variant='middle' />
+            <span className='lg:text-xl text-base md:text-lg font-bold mt-3'>
+              Thống kê doanh thu theo tháng
+            </span>
+            <span className='lg:text-xl text-base md:text-lg font-thin text-gray-500'>
+              <span className='font-bold'>(+15%)</span> Doanh số hôm nay
+            </span>
+          </div>
+          <div className='flex flex-col border p-8 bg-white rounded-lg md:w-[100%] lg:w-[50%] lg:m-1 my-1'>
+            <ResponsiveContainer width='95%' height={200}>
+              <LineChart
+                layout='vertical'
+                width={500}
+                height={300}
+                data={gender}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: 5
+                }}
+              >
+                <CartesianGrid strokeDasharray='3 3' />
+                <XAxis type='number' />
+                <YAxis dataKey='name' type='category' />
+                <Tooltip />
+                <Legend />
+                <Line dataKey='male' stroke='#47ff04' />
+                <Line dataKey='female' stroke='#ff10f3' />
+              </LineChart>
+            </ResponsiveContainer>
+            <Divider className='text-black mt-7' variant='middle' />
+            <span className='lg:text-xl text-base md:text-lg font-bold mt-3'>
+              Thống kê số lượt mua theo giới tính
+            </span>
+          </div>
+        </div>
+        <div className='grid grid-cols-1 gap-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-center'>
+          {social.map((overview, index) => (
+            <div
+              key={index}
+              className='mt-14 bg-white sm:w-full md:w-[90%] lg:w-[90%] h-44 rounded-2xl flex flex-col justify-around items-center relative drop-shadow-lg'
+            >
               <div
-                className={`bg-${overview?.color} w-16 h-16 ml-4 rounded-lg -mt-3 text-white drop-shadow-lg flex flex-col justify-around items-center`}
+                className={`bg-${overview?.color} w-[90%] flex flex-col justify-around items-center drop-shadow-xl h-16 rounded-xl -mt-10 text-white`}
               >
                 {overview?.icon}
               </div>
-              <div className='mt-2 right-6 absolute flex flex-col items-end'>
-                <p className='font-thin md:text-lg text-base text-gray-400'>
-                  {overview.text}
-                </p>
-                <p className={`font-bold text-3xl text-${overview.color}`}>
-                  <CountUp end={overview?.newOrders} />
-                </p>
-              </div>
-            </div>
-            <div>
-              <Divider className='text-black mt-7' variant='middle' />
-              <div className='flex flex-row font-bold items-center bottom-0 mt-14 ml-3'>
-                <AiOutlinePlus className='text-xl text-green-600' size={20} />
-                <p className='text-xl text-green-600'>
-                  <CountUp end={overview.quantityDifference} />
-                </p>
-                <p className='text-base font-thin text-gray-400 ml-1'>
-                  {overview.compareWith}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className='sm:flex sm:flex-col lg:flex-row md:justify-evenly drop-shadow-lg mt-10'>
-        <div className='flex flex-col border p-8 bg-white rounded-lg md:w-[100%] lg:w-[50%] lg:m-1 my-1'>
-          <ResponsiveContainer width='95%' height={200}>
-            <AreaChart
-              width='100%'
-              height={400}
-              data={data}
-              margin={{
-                top: 10
-              }}
-            >
-              <CartesianGrid strokeDasharray='3 3' />
-              <XAxis dataKey='name' />
-              <YAxis />
-              <Tooltip />
-              <Area
-                type='monotone'
-                dataKey='Nike'
-                stackId='1'
-                stroke='#8884d8'
-                fill='#8884d8'
-              />
-              <Area
-                type='monotone'
-                dataKey='Adidas'
-                stackId='1'
-                stroke='#82ca9d'
-                fill='#82ca9d'
-              />
-              <Area
-                type='monotone'
-                dataKey='Converse'
-                stackId='1'
-                stroke='#ffc658'
-                fill='#ffc658'
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-          <Divider className='text-black mt-7' variant='middle' />
-          <p className='lg:text-xl text-base md:text-lg font-bold mt-3'>
-            Thống kê doanh thu theo tháng
-          </p>
-          <p className='lg:text-xl text-base md:text-lg font-thin text-gray-500'>
-            <span className='font-bold'>(+15%)</span> Doanh số hôm nay
-          </p>
-        </div>
-        <div className='flex flex-col border p-8 bg-white rounded-lg md:w-[100%] lg:w-[50%] lg:m-1 my-1'>
-          <ResponsiveContainer width='95%' height={200}>
-            <LineChart
-              layout='vertical'
-              width={500}
-              height={300}
-              data={gender}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5
-              }}
-            >
-              <CartesianGrid strokeDasharray='3 3' />
-              <XAxis type='number' />
-              <YAxis dataKey='name' type='category' />
-              <Tooltip />
-              <Legend />
-              <Line dataKey='male' stroke='#47ff04' />
-              <Line dataKey='female' stroke='#ff10f3' />
-            </LineChart>
-          </ResponsiveContainer>
-          <Divider className='text-black mt-7' variant='middle' />
-          <p className='lg:text-xl text-base md:text-lg font-bold mt-3'>
-            Thống kê số lượt mua theo giới tính
-          </p>
-        </div>
-      </div>
-      <div className='grid grid-cols-1 gap-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-center mx-2'>
-        {social.map((overview, index) => (
-          <div
-            key={index}
-            className='mt-14 bg-white sm:w-full md:w-[90%] lg:w-[90%] h-44 rounded-2xl flex flex-col justify-around items-center relative drop-shadow-lg'
-          >
-            <div
-              className={`bg-${overview?.color} w-[90%] flex flex-col justify-around items-center drop-shadow-xl h-16 rounded-xl -mt-10 text-white`}
-            >
-              {overview?.icon}
-            </div>
-            <div>
-              <Divider className='text-black' variant='middle' />
-              <div className='flex flex-row font-bold bottom-0 mt-5 ml-3'>
-                <div className='flex flex-col m-3 lg:text-2xl md:text-xl sm:text-lg text-base'>
-                  <CountUp end={overview.follower} />
-                  <p className='font-thin text-slate-500'>Follower</p>
-                </div>
-                <div className='flex flex-col m-3 lg:text-2xl md:text-xl sm:text-lg text-base'>
-                  <p>
-                    {' '}
-                    <CountUp end={overview.feeds} />
-                  </p>
-                  <p className='font-thin text-slate-500'>Posts</p>
+              <div>
+                <Divider className='text-black' variant='middle' />
+                <div className='flex flex-row font-bold bottom-0 mt-5 ml-3'>
+                  <div className='flex flex-col m-3 lg:text-2xl md:text-xl sm:text-lg text-base'>
+                    <CountUp end={overview.follower} />
+                    <span className='font-thin text-slate-500'>Follower</span>
+                  </div>
+                  <div className='flex flex-col m-3 lg:text-2xl md:text-xl sm:text-lg text-base'>
+                    <span>
+                      <CountUp end={overview.feeds} />
+                    </span>
+                    <span className='font-thin text-slate-500'>Posts</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div className='p-2 m-4 bg-slate-50 rounded-lg justify-around items-center flex flex-col drop-shadow-lg'>
-        <Box
-          sx={{
-            height: 700,
-            width: '100%',
-            '& .super-app-theme--header': {
-              backgroundColor: 'rgb(135,206,250)'
-            }
-          }}
-        >
-          <DataGrid
-            getRowHeight={() => 'auto'}
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            disableSelectionOnClick
-            components={{
-              Toolbar: GridToolbar
-            }}
-            experimentalFeatures={{ newEditingApi: true }}
-          />
-        </Box>
+          ))}
+        </div>
       </div>
     </div>
   )

@@ -34,9 +34,11 @@ router.post('/', upload.single('banner'), async (req, res) => {
   }
   let newBrand = new Brand(data)
   newBrand = newBrand.save()
-  if (!newBrand) { return res.status(404).send('Brand không thể được tạo') }
-
-  res.send(newBrand)
+  if (!newBrand) {
+    return res.status(404).send('Brand không thể được tạo')
+  } else {
+    return res.status(200).send('Tạo mới thành công')
+  }
 })
 
 // router.post('/', upload.single('logo'), upload.single('banner') , async (req, res, next) => {
