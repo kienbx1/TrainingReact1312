@@ -10,7 +10,8 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { messageSuccess, messageError } from '../../../components/toastify'
 import moment from 'moment/moment'
-import { MenuItem, Select } from '@mui/material'
+import { Divider, MenuItem, Select } from '@mui/material'
+import customNoRowsOverlay from '../../../components/noRowInDataGrid'
 
 const tabs = [
   { label: 'Đang chờ', value: '1' },
@@ -66,6 +67,12 @@ const Statistical = () => {
       renderCell: (params) => {
         return (
           <Select
+            sx={{
+              boxShadow: 'none',
+              '.MuiOutlinedInput-notchedOutline': { border: 0 }
+            }}
+            disableUnderline
+            variant='outlined'
             defaultValue={params?.row?.status}
             className='pr-3 text-black flex flex-row justify-center'
           >
@@ -159,61 +166,130 @@ const Statistical = () => {
   }, [])
 
   return (
-    <div className='mt-20'>
-      <Box
-        component='form'
-        mt={2}
-        sx={{ width: '100%', height: '500px', typography: 'body1' }}
-      >
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange}>
-              {tabs.map((item, index) => (
-                <Tab label={item.label} value={item.value} key={index} />
-              ))}
-            </TabList>
-          </Box>
-          <TabPanel value='1'>
-            <Box sx={{ height: 400, width: '100%' }}>
-              <DataGrid
-                rows={infOrders.filter((data) => data.status === 'Waiting')}
-                columns={columns}
-                getRowId={(row) => row._id}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                disableSelectionOnClick
-              />
+    <div className='p-6 h-full h-screen mt-20 bg-slate-200'>
+      <div className='p-2 bg-[#f9f9f9] rounded-xl'>
+        <Box
+          component='form'
+          mt={2}
+          sx={{ width: '100%', height: '100%', typography: 'body1' }}
+        >
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleChange}>
+                {tabs.map((item, index) => (
+                  <Tab
+                    sx={{ fontSize: 20 }}
+                    label={item.label}
+                    value={item.value}
+                    key={index}
+                  />
+                ))}
+              </TabList>
+              <Divider sx={{ mt: 3 }} />
             </Box>
-          </TabPanel>
-          <TabPanel value='2'>
-            <Box sx={{ height: 400, width: '100%' }}>
-              <DataGrid
-                rows={infOrders.filter((data) => data.status === 'Accepted')}
-                columns={columns}
-                getRowId={(row) => row._id}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                disableSelectionOnClick
-              />
-            </Box>
-          </TabPanel>
-          <TabPanel value='3'>
-            <Box sx={{ height: 400, width: '100%' }}>
-              <DataGrid
-                rows={infOrders.filter((data) => data.status === 'Denied')}
-                columns={columns}
-                getRowId={(row) => row._id}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                disableSelectionOnClick
-              />
-            </Box>
-          </TabPanel>
-        </TabContext>
-      </Box>
+            <TabPanel value='1'>
+              <Box sx={{ height: 600, width: '100%' }}>
+                <DataGrid
+                  rows={infOrders.filter((data) => data.status === 'Waiting')}
+                  columns={columns}
+                  sx={{
+                    border: 'none',
+                    '& .Mui-table-action': {
+                      cursor: 'pointer'
+                    },
+                    '& .MuiDataGrid-cell:hover': {
+                      color: 'primary.main'
+                    },
+                    '& .MuiDataGrid-columnSeparator--sideRight': {
+                      display: 'none'
+                    },
+                    '& .MuiDataGrid-columnHeaderTitle': {
+                      fontFamily: 'revert-layer',
+                      fontSize: 18
+                    }
+                  }}
+                  pageSize={10}
+                  getRowId={(row) => row._id}
+                  rowsPerPageOptions={[10]}
+                  disableSelectionOnClick
+                  components={{
+                    NoRowsOverlay: customNoRowsOverlay,
+                    NoResultsOverlay: customNoRowsOverlay
+                  }}
+                />
+              </Box>
+            </TabPanel>
+            <TabPanel value='2'>
+              <Box sx={{ height: 600, width: '100%' }}>
+                <DataGrid
+                  rows={infOrders.filter((data) => data.status === 'Accepted')}
+                  columns={columns}
+                  sx={{
+                    border: 'none',
+                    '& .Mui-table-action': {
+                      cursor: 'pointer'
+                    },
+                    '& .MuiDataGrid-cell:hover': {
+                      color: 'primary.main'
+                    },
+                    '& .MuiDataGrid-columnSeparator--sideRight': {
+                      display: 'none'
+                    },
+                    '& .MuiDataGrid-columnHeaderTitle': {
+                      fontFamily: 'revert-layer',
+                      fontSize: 18
+                    }
+                  }}
+                  pageSize={10}
+                  getRowId={(row) => row._id}
+                  rowsPerPageOptions={[10]}
+                  disableSelectionOnClick
+                  components={{
+                    NoRowsOverlay: customNoRowsOverlay,
+                    NoResultsOverlay: customNoRowsOverlay
+                  }}
+                />
+              </Box>
+            </TabPanel>
+            <TabPanel value='3'>
+              <Box sx={{ height: 600, width: '100%' }}>
+                <DataGrid
+                  rows={infOrders.filter((data) => data.status === 'Denied')}
+                  columns={columns}
+                  sx={{
+                    border: 'none',
+                    '& .Mui-table-action': {
+                      cursor: 'pointer'
+                    },
+                    '& .MuiDataGrid-cell:hover': {
+                      color: 'primary.main'
+                    },
+                    '& .MuiDataGrid-columnSeparator--sideRight': {
+                      display: 'none'
+                    },
+                    '& .MuiDataGrid-columnHeaderTitle': {
+                      fontFamily: 'revert-layer',
+                      fontSize: 18
+                    }
+                  }}
+                  pageSize={10}
+                  getRowId={(row) => row._id}
+                  rowsPerPageOptions={[10]}
+                  disableSelectionOnClick
+                  components={{
+                    NoRowsOverlay: customNoRowsOverlay,
+                    NoResultsOverlay: customNoRowsOverlay
+                  }}
+                />
+              </Box>
+            </TabPanel>
+          </TabContext>
+        </Box>
+      </div>
     </div>
   )
 }
+
 Statistical.getLayout = function getLayout (page) {
   return <AdminLayout>{page}</AdminLayout>
 }

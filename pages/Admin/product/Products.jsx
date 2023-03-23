@@ -12,6 +12,13 @@ import { messageSuccess, messageError } from '../../../components/toastify'
 import 'react-image-lightbox/style.css'
 import Lightbox from 'react-image-lightbox'
 import moment from 'moment/moment'
+import customNoRowsOverlay from '../../../components/noRowInDataGrid'
+
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 const Products = () => {
   const [selectedRows, setSelectedRows] = useState()
@@ -20,19 +27,29 @@ const Products = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [imgIndex, setImgIndex] = useState(0)
   const [imageSlide, setImageSlide] = useState([])
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleClickOpenModal = () => {
+    setOpenModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
 
   const columns = [
     {
       field: 'name',
       headerName: 'Tên sản phẩm',
-      minWidth: 200,
+      minWidth: 150,
       flex: 1,
       editable: true
     },
     {
       field: 'images',
-      renderHeader: () => <p>Hình ảnh</p>,
+      headerName: 'Hình ảnh',
       minWidth: 210,
+      sortable: false,
       editable: false,
       renderCell: (params) => {
         const num = params?.row?.images?.length - 1
@@ -76,18 +93,19 @@ const Products = () => {
       }
     },
     {
+      field: 'brand',
       headerName: 'Thương hiệu',
       width: 150,
       editable: false,
       renderCell: (params) => {
-        const brand = params?.row?.brand[0]?.name
+        const brand = params?.row?.brand[0].name
         return <p className='font-serif'>{brand}</p>
       }
     },
     {
       field: 'createdAt',
       headerName: 'Ngày nhập',
-      width: 150,
+      width: 100,
       editable: false,
       renderCell: (params) => {
         const timeOfInput = moment(params?.row?.createdAt).format('DD/MM/YYYY')
@@ -98,28 +116,28 @@ const Products = () => {
       field: 'priceInput',
       headerName: 'Giá nhập',
       type: 'number',
-      width: 110,
+      width: 100,
       editable: true
     },
     {
       field: 'discount',
       headerName: 'Giảm giá',
       type: 'number',
-      width: 110,
+      width: 100,
       editable: true
     },
     {
       field: 'price',
       headerName: 'Giá bán',
       type: 'number',
-      width: 110,
+      width: 100,
       editable: true
     },
     {
       field: 'quantity',
       headerName: 'Nhập vào',
       type: 'number',
-      width: 150,
+      width: 100,
       editable: true
     },
     {
@@ -140,8 +158,21 @@ const Products = () => {
       field: 'sizes',
       headerName: 'Kích cỡ',
       type: 'number',
-      width: 200,
-      editable: false
+      width: 150,
+      editable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            {params.row.sizes.map((value, index) => (
+              <div key={index}>
+                <span className='bg-gray-300 rounded-full p-1 mx-1'>
+                  {value}
+                </span>
+              </div>
+            ))}
+          </>
+        )
+      }
     },
     {
       field: 'actions',
@@ -167,20 +198,28 @@ const Products = () => {
   const EditToolbar = () => {
     return (
       <GridToolbarContainer>
-        <Stack spacing={2} direction='row'>
-          <Link href='/admin/product/addNewProduct'>
-            <Button variant='outlined' startIcon={<FaPlus />}>
-              Thêm mới
-            </Button>
-          </Link>
-          <Button
-            startIcon={<FaTrashAlt />}
-            color='error'
-            variant='outlined'
-            onClick={onHandleDel}
-          >
-            Xoá
-          </Button>
+        <Stack direction='column' padding={2}>
+          <Stack className='w-full'>
+            <span className='font-medium text-2xl mb-2'>
+              Danh sách sản phẩm
+            </span>
+            <Stack spacing={1} direction='row' justifyContent='space-between'>
+              <Link href='/admin/product/addNewProduct'>
+                <Button variant='outlined' startIcon={<FaPlus size={12} />}>
+                  Thêm mới
+                </Button>
+              </Link>
+              <Button
+                startIcon={<FaTrashAlt size={12} />}
+                color='error'
+                variant='outlined'
+                onClick={handleClickOpenModal}
+              >
+                Xoá
+              </Button>
+            </Stack>
+            <Stack />
+          </Stack>
         </Stack>
       </GridToolbarContainer>
     )
@@ -237,22 +276,94 @@ const Products = () => {
   }
 
   return (
-    <div className='p-6 mt-10'>
-      <p className='text-lg uppercase p-2'>Danh sách sản phẩm</p>
-      <div>
-        <Box sx={{ height: 600, width: '100%' }}>
+    <div className='p-6 h-full mt-20 bg-slate-200'>
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle
+          className='flex flex-row justify-between items-center'
+          sx={{
+            background: '#d24a4a',
+            color: 'white'
+          }}
+          id='alert-dialog-title'
+        >
+          <span>Xoá sản phẩm</span>
+          <FaTrashAlt size={20} />
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            className='text-gray-500 mt-4'
+            id='alert-dialog-description'
+          >
+            {selectedRows
+              ? 'Bạn có chắc muốn xoá sản phẩm này'
+              : 'Chưa có sản phẩm được chọn'}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal}>Huỷ</Button>
+          <Button
+            onClick={() => {
+              handleCloseModal()
+              if (selectedRows) onHandleDel()
+            }}
+            autoFocus
+          >
+            Xác nhận
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <div className='p-2 bg-[#f9f9f9] rounded-xl'>
+        <Box sx={{ height: 800, width: '100%' }}>
           <DataGrid
+            sx={{
+              border: 'none',
+              '& .Mui-table-action': {
+                cursor: 'pointer'
+              },
+              '& .MuiDataGrid-cell:hover': {
+                color: 'primary.main'
+              },
+              '& .MuiDataGrid-columnSeparator--sideRight': {
+                display: 'none'
+              },
+              '& .MuiDataGrid-columnHeaderTitle': {
+                fontFamily: 'revert-layer',
+                fontSize: 18
+              }
+            }}
             rowHeight={100}
             rows={infShoes}
             getRowId={(row) => row._id}
             columns={columns}
             pageSize={10}
-            rowsPerPageOptions={[5]}
+            rowsPerPageOptions={[10]}
             checkboxSelection
             editMode='row'
             processRowUpdate={processRowUpdate}
             disableSelectionOnClick
-            components={{ Toolbar: EditToolbar }}
+            components={{
+              Toolbar: EditToolbar,
+              NoRowsOverlay: customNoRowsOverlay,
+              NoResultsOverlay: customNoRowsOverlay
+            }}
+            componentsProps={{
+              panel: {
+                sx: {
+                  '& .MuiTypography-root': {
+                    color: 'dodgerblue',
+                    fontSize: 20
+                  },
+                  '& .MuiDataGrid-filterForm': {
+                    bgcolor: 'lightblue'
+                  }
+                }
+              }
+            }}
             experimentalFeatures={{ newEditingApi: true }}
             onSelectionModelChange={(ids) => {
               setSelectedRows(ids)

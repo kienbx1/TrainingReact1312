@@ -37,8 +37,8 @@ const DetailProduct = () => {
   )
 
   return (
-    <div className='flex flex-col items-start mt-10 p-6 bg-slate-100'>
-      <div className='rounded-sm bg-white w-full border-black p-2 flex flex-row justify-between drop-shadow-lg'>
+    <div className='flex flex-col items-start mt-16 p-6 bg-slate-100'>
+      <div className='rounded-xl bg-white w-full border-black p-2 flex flex-row justify-between drop-shadow-lg'>
         <div>
           <div className='flex flex-row items-center p-2 drop-shadow-lg'>
             <img
