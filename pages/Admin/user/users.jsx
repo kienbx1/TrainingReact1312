@@ -47,14 +47,12 @@ const User = () => {
       field: 'email',
       headerName: 'Tài khoản',
       width: 200,
-      flex: 1,
       editable: true
     },
     {
       field: 'pass',
       headerName: 'Mật khẩu',
-      flex: 1,
-      width: 200,
+      width: 100,
       renderCell: (params) => {
         return <Button>Reset</Button>
       }
@@ -62,28 +60,24 @@ const User = () => {
     {
       field: 'name',
       headerName: 'Tên người dùng',
-      flex: 1,
       width: 150,
       editable: true
     },
     {
       field: 'phoneNumber',
       headerName: 'Số điện thoại',
-      flex: 1,
       width: 150,
       editable: true
     },
     {
       field: 'address',
       headerName: 'Địa chỉ',
-      flex: 1,
       width: 250,
       editable: true
     },
     {
       field: 'role',
       headerName: 'Quản trị',
-      flex: 1,
       width: 100,
       editable: true
     },
@@ -91,7 +85,6 @@ const User = () => {
       field: 'actions',
       headerName: 'Action',
       width: 150,
-      flex: 1,
       renderCell: (params) => {
         return (
           <Button
@@ -241,7 +234,7 @@ const User = () => {
     )
   }
   return (
-    <div className='mt-20 p-6 bg-slate-200 h-full'>
+    <div className='mt-20 p-6 bg-slate-200 h-screen'>
       <div className='p-2 bg-[#f9f9f9] rounded-xl'>
         <Box
           component='form'
@@ -303,9 +296,10 @@ const User = () => {
             aria-describedby='modal-modal-description'
           >
             <Box>
-              <DialogTitle id='modal-modal-title' variant='h5' component='h2'>
+              <DialogTitle sx={{ fontSize: 22 }} id='modal-modal-title' variant='h5' component='h2'>
                 Thêm mới tài khoản
               </DialogTitle>
+              <Divider />
               <DialogContent>
                 <Box
                   id='modal-modal-description'
@@ -437,49 +431,47 @@ const User = () => {
               <Divider sx={{ mt: 3 }} />
             </Box>
             <TabPanel value='1'>
-              <div>
-                <Box>
-                  <DataGrid
-                    sx={{
-                      border: 'none',
-                      '& .Mui-table-action': {
-                        cursor: 'pointer'
-                      },
-                      '& .MuiDataGrid-cell:hover': {
-                        color: 'primary.main'
-                      },
-                      '& .MuiDataGrid-columnSeparator--sideRight': {
-                        display: 'none'
-                      },
-                      height: 750,
-                      width: '100%'
-                    }}
-                    rows={inf?.filter((data) => data.role === 'user')}
-                    getRowId={(row) => row._id}
-                    columns={columns}
-                    pageSize={10}
-                    rowsPerPageOptions={[10]}
-                    disableSelectionOnClick
-                    editMode='row'
-                    processRowUpdate={processRowUpdate}
-                    experimentalFeatures={{ newEditingApi: true }}
-                    components={{
-                      Toolbar: EditToolbar,
-                      NoRowsOverlay: customNoRowsOverlay,
-                      NoResultsOverlay: customNoRowsOverlay
-                    }}
-                    checkboxSelection
-                    onSelectionModelChange={(ids) => {
-                      setDelId(ids)
-                    }}
-                  />
-                </Box>
-              </div>
+              <Box>
+                <DataGrid
+                  sx={{
+                    border: 'none',
+                    '& .Mui-table-action': {
+                      cursor: 'pointer'
+                    },
+                    '& .MuiDataGrid-cell:hover': {
+                      color: 'primary.main'
+                    },
+                    '& .MuiDataGrid-columnSeparator--sideRight': {
+                      display: 'none'
+                    },
+                    height: 550,
+                    width: '100%'
+                  }}
+                  rows={inf?.filter((data) => data.role === 'user')}
+                  getRowId={(row) => row._id}
+                  columns={columns}
+                  pageSize={10}
+                  rowsPerPageOptions={[10]}
+                  disableSelectionOnClick
+                  editMode='row'
+                  processRowUpdate={processRowUpdate}
+                  experimentalFeatures={{ newEditingApi: true }}
+                  components={{
+                    Toolbar: EditToolbar,
+                    NoRowsOverlay: customNoRowsOverlay,
+                    NoResultsOverlay: customNoRowsOverlay
+                  }}
+                  checkboxSelection
+                  onSelectionModelChange={(ids) => {
+                    setDelId(ids)
+                  }}
+                />
+              </Box>
             </TabPanel>
             <TabPanel
               value='2'
               sx={{
-                height: 'calc(100vh - 280px)'
+                height: '100%'
               }}
             >
               <Box>
@@ -495,7 +487,7 @@ const User = () => {
                     '& .MuiDataGrid-columnSeparator--sideRight': {
                       display: 'none'
                     },
-                    height: 'calc(100vh - 20px)',
+                    height: 550,
                     width: '100%'
                   }}
                   rows={inf?.filter((data) => data.role === 'admin')}
