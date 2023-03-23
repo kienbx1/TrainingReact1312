@@ -31,6 +31,7 @@ import Popover from '@mui/material/Popover'
 
 const colorSideBar = '#f9f9f9'
 const sizeIcon = 20
+
 const menu = [
   {
     title: '',
@@ -90,21 +91,17 @@ const menu = [
   }
 ]
 
-const infNoti = [
+const notifications = [
   {
-    img: 'https://www.gravatar.com/avatar/?d=mp',
     text: 'Tuấn vừa cập nhật thông tin'
   },
   {
-    img: 'https://www.gravatar.com/avatar/?d=mp',
     text: 'Tuấn vừa cập nhật thông tin'
   },
   {
-    img: 'https://www.gravatar.com/avatar/?d=mp',
     text: 'Tuấn vừa cập nhật thông tin'
   },
   {
-    img: 'https://www.gravatar.com/avatar/?d=mp',
     text: 'Tuấn vừa cập nhật thông tin'
   }
 ]
@@ -160,18 +157,16 @@ export default function PersistentDrawerLeft () {
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('Trang chủ')
   const { user } = useSelector((state) => state?.auth)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [openLisNotification, setOpenLisNotification] = useState(false)
+  const selectedPage = useSelector(selectActiveSideBar)
 
-  const handleClickNoti = (event) => {
-    setAnchorEl(event.currentTarget)
+  const handleClickNotification = (event) => {
+    setOpenLisNotification(event.currentTarget)
   }
-  const handleCloseNoti = () => {
-    setAnchorEl(null)
+  const handleCloseNotification = () => {
+    setOpenLisNotification(null)
   }
 
-  const openNoti = Boolean(anchorEl)
-
-  const selected = useSelector(selectActiveSideBar)
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -183,34 +178,30 @@ export default function PersistentDrawerLeft () {
 
   return (
     <Box sx={{ display: 'flex', zIndex: 10 }}>
-      <div>
-        <Popover
-          open={openNoti}
-          anchorEl={anchorEl}
-          onClose={handleCloseNoti}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left'
-          }}
-        >
-          {infNoti.map((notification, index) => (
-            <div key={index} className='flex flex-row items-center'>
-              <div className='w-1/3 ml-3'>
-                <img
-                  className='p-1 rounded-full w-2/3'
-                  src={notification.img}
-                />
-              </div>
-              <div className='w3/4 flex flex-col'>
-                <Typography className='p-1 text-ellipsis'>
-                  {notification.text}
-                </Typography>
-                <Divider />
-              </div>
+      <Popover
+        open={openLisNotification}
+        anchorEl={openLisNotification}
+        onClose={handleCloseNotification}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+      >
+        <Typography sx={{ p: 2, fontSize: 22, fontStyle: 'bold' }}>
+          Thông báo
+        </Typography>
+        <Divider />
+        {notifications.map((notification, index) => (
+          <div key={index} className='flex flex-row items-center'>
+            <div className='w3/4 flex flex-col'>
+              <Typography sx={{ fontSize: 20, p: 2, color: 'gray' }}>
+                {notification?.text || ''}
+              </Typography>
+              <Divider sx={{ mx: 3 }} />
             </div>
-          ))}
-        </Popover>
-      </div>
+          </div>
+        ))}
+      </Popover>
       <CssBaseline />
       <AppBar
         elevation={0}
@@ -268,7 +259,7 @@ export default function PersistentDrawerLeft () {
               <FiBell
                 className='cursor-pointer'
                 size={20}
-                onClick={handleClickNoti}
+                onClick={handleClickNotification}
               />
             </Badge>
           </div>
@@ -332,7 +323,7 @@ export default function PersistentDrawerLeft () {
                         router.push(child.path)
                         setTitle(child.des)
                       }}
-                      selected={selected === child.path}
+                      selected={selectedPage === child.path}
                       sx={{
                         justifyContent: open ? 'initial' : 'center',
                         px: 2.5,
