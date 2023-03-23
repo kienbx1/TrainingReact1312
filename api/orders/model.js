@@ -50,8 +50,8 @@ const ordersSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'Đang chờ',
-      enum: ['Đang chờ', 'Xác nhận']
+      default: 'Waiting',
+      enum: ['Waiting', 'Accepted', 'Denied']
     },
     isCancel: {
       type: Boolean,

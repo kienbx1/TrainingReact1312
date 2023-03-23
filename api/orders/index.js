@@ -59,18 +59,56 @@ router.route('/').post(async (req, res, next) => {
     return res.status(500).json({ msg: 'Lỗi hệ thống' })
   }
 })
-
 router.route('/check').post(async (req, res, next) => {
   // @route:  POST /api/orders/check
   // @desc:   Kiểm tra tình trạng đơn hàng
   const { productId } = req.body
-  const product = await Product.findOne({ _id: Mongoose.Types.ObjectId(productId) }).lean()
-  const ordered = await Order.find({ productId: Mongoose.Types.ObjectId(productId), isCancel: false }).lean()
+  const product = await Product.findOne({
+    _id: Mongoose.Types.ObjectId(productId)
+  }).lean()
+  const ordered = await Order.find({
+    productId: Mongoose.Types.ObjectId(productId),
+    isCancel: false
+  }).lean()
   const available = product.amount - ordered.length
   if (available === 0) {
     return res.status(400).json({ msg: 'Sản phầm hết hàng', available })
   }
-  return res.status(200).json({ msg: 'Bạn có muốn tiến hành đặt hàng không?', available })
+  return res
+    .status(200)
+    .json({ msg: 'Bạn có muốn tiến hành đặt hàng không?', available })
+})
+
+router.get('/', async (req, res) => {
+  const order = await Order.aggregate([
+    {
+      $lookup: {
+        from: 'products',
+        localField: 'productId',
+        foreignField: '_id',
+        as: 'products'
+      }
+    },
+    {
+      $project: {
+        room: 1,
+        quantityProduct: 1,
+        userName: 1,
+        email: 1,
+        phone: 1,
+        city: 1,
+        district: 1,
+        address: 1,
+        totalPrice: 1,
+        status: 1,
+        createdAt: 1,
+        products: { name: 1 }
+      }
+    }
+  ])
+  if (order.length > 0) {
+    return res.status(200).json({ msg: 'Danh sách đơn hàng', order })
+  }
 })
 
 router.route('/all-of-user').get(auth, async (req, res, next) => {
@@ -112,13 +150,15 @@ router.route('/all-of-user').get(auth, async (req, res, next) => {
     }
   ])
   if (order.length > 0) {
-    return res.status(200).json({ msg: 'Danh sách đơn hàng thành công', order })
+    return res
+      .status(200)
+      .json({ msg: 'Danh sách đơn hàng thành công', order })
   }
   return res.status(200).json({ msg: 'Chưa có đơn hàng nào được tạo' })
 })
 
 router.route('/:id').get(auth, async (req, res, next) => {
-// @route:  GET /api/orders/:id
+  // @route:  GET /api/orders/:id
   // @desc:   Lấy thông tin đơn hàng cụ thể
   const { id } = req.params
   const order = await Order.aggregate([

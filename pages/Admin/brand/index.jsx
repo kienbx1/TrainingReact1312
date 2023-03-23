@@ -126,7 +126,7 @@ const brand = () => {
               key={index}
               className='bg-white p-3 flex flex-row items-center mt-2 rounded-lg drop-shadow-lg'
             >
-              <img className='rounded-xl mr-3' src={data?.banner} />
+              <img className='rounded-xl mr-3 w-60' src={data?.banner} />
               <TextField required type='text' value={data?.name} />
             </li>
           ))}

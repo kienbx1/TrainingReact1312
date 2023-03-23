@@ -27,7 +27,7 @@ const FlashSale = () => {
           </Link>
         </div>
         <div className='flex-1'>
-          <img src={data?.productFlashSale?.images} className='w-[450px]' />
+          <img src={data?.productFlashSale?.image} className='w-[450px]' />
         </div>
       </div>
     </div>
