@@ -59,16 +59,6 @@ router.post('/', upload.array('images', 10), async (req, res) => {
     const dataProduct = {
       ...req.body
     }
-    const images = []
-    if (req.files && req.files.length) {
-      req.files.map((item) => {
-        if (item.path) {
-          images.push(item.path)
-        }
-        return item
-      })
-    }
-    dataProduct.images = images
     if (!dataProduct) {
       res.status(400).json({ msg: 'Vui lòng nhập đầy đủ thông tin' })
     }
