@@ -1,6 +1,20 @@
 import AdminLayout from '../../../components/layouts/AdminLayout'
-import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
-import { Button, IconButton, Stack } from '@mui/material'
+import {
+  DataGrid,
+  gridPageCountSelector,
+  gridPageSelector,
+  GridToolbarContainer,
+  useGridApiContext,
+  useGridSelector
+} from '@mui/x-data-grid'
+import {
+  Button,
+  InputAdornment,
+  Pagination,
+  PaginationItem,
+  Stack,
+  TextField
+} from '@mui/material'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import { BsFillArrowRightCircleFill } from 'react-icons/Bs'
 import { useState, useEffect } from 'react'
@@ -11,13 +25,12 @@ import { messageSuccess, messageError } from '../../../components/toastify'
 import 'react-image-lightbox/style.css'
 import Lightbox from 'react-image-lightbox'
 import customNoRowsOverlay from '../../../components/noRowInDataGrid'
-
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import { AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineEdit, AiOutlineSearch } from 'react-icons/ai'
 
 const Products = () => {
   const [selectedRows, setSelectedRows] = useState()
@@ -34,15 +47,6 @@ const Products = () => {
 
   const columns = [
     {
-      field: 'name',
-      headerName: 'Tên sản phẩm',
-      minWidth: 150,
-      editable: true,
-      flex: 1,
-      align: 'center',
-      headerAlign: 'center'
-    },
-    {
       field: 'images',
       headerName: 'Hình ảnh',
       minWidth: 210,
@@ -55,7 +59,7 @@ const Products = () => {
         const num = params?.row?.images?.length - 1
         return (
           <>
-            <img className='w-1/2 rounded-lg' src={params?.row?.images[0]} />
+            <img className='w-1/3 rounded-lg' src={params?.row?.images[0]} />
             <div
               className='ml-2 flex flex-col cursor-pointer justify-center items-center text-blue-400'
               onClick={() => {
@@ -93,6 +97,16 @@ const Products = () => {
       }
     },
     {
+      field: 'name',
+      headerName: 'Tên sản phẩm',
+      minWidth: 150,
+      editable: true,
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center'
+    },
+
+    {
       field: 'brand',
       align: 'center',
       headerAlign: 'center',
@@ -106,25 +120,6 @@ const Products = () => {
       }
     },
     {
-      field: 'priceInput',
-      headerName: 'Giá nhập',
-      align: 'center',
-      headerAlign: 'center',
-      type: 'number',
-      width: 100,
-      editable: true
-    },
-    {
-      field: 'discount',
-      headerName: 'Giảm giá',
-      type: 'number',
-      align: 'center',
-      headerAlign: 'center',
-      flex: 1,
-      width: 100,
-      editable: true
-    },
-    {
       field: 'price',
       headerName: 'Giá bán',
       type: 'number',
@@ -136,7 +131,7 @@ const Products = () => {
     },
     {
       field: 'quantity',
-      headerName: 'Nhập vào',
+      headerName: 'Số lượng nhập vào',
       headerAlign: 'center',
       align: 'center',
       flex: 1,
@@ -155,16 +150,29 @@ const Products = () => {
       width: 150,
       renderCell: (params) => {
         return (
-          <IconButton
-            onClick={() => {
-              router.push({
-                pathname: '/admin/product/addNewProduct',
-                query: { id: params.row._id }
-              })
-            }}
-          >
-            <AiOutlineEdit />
-          </IconButton>
+          <div>
+            <div className='flex flex-row'>
+              <Button
+                onClick={() => {
+                  router.push({
+                    pathname: '/admin/product/addNewProduct',
+                    query: { id: params.row._id }
+                  })
+                }}
+              >
+                <AiOutlineEdit size={20} />
+              </Button>
+              <Button
+                onClick={() => {
+                  handleClickOpenModal()
+                  setSelectedRows(params.row._id)
+                }}
+                className='flex flex-row justify-start'
+              >
+                <FaTrashAlt size={20} />
+              </Button>
+            </div>
+          </div>
         )
       }
     }
@@ -173,30 +181,57 @@ const Products = () => {
   const EditToolbar = () => {
     return (
       <GridToolbarContainer>
-        <Stack direction='column' padding={2}>
-          <Stack className='w-full'>
+        <div className='w-full p-4'>
+          <div className='w-full flex flex-row justify-between items-center'>
             <span className='font-medium text-2xl mb-2'>
               Danh sách sản phẩm
             </span>
-            <Stack spacing={1} direction='row' justifyContent='space-between'>
+            <div className='flex flex-row'>
+              <TextField
+                size='small'
+                id='search'
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <AiOutlineSearch />
+                    </InputAdornment>
+                  )
+                }}
+                className='w-1/2 mr-3'
+              />
               <Link href='/admin/product/addNewProduct'>
-                <Button variant='outlined' startIcon={<FaPlus size={12} />}>
+                <Button sx={{ marginLeft: 2 }} variant='outlined' startIcon={<FaPlus size={12} />}>
                   Thêm mới
                 </Button>
               </Link>
-              <Button
-                startIcon={<FaTrashAlt size={12} />}
-                color='error'
-                variant='outlined'
-                onClick={handleClickOpenModal}
-              >
-                Xoá
-              </Button>
-            </Stack>
-            <Stack />
-          </Stack>
-        </Stack>
+            </div>
+          </div>
+          <Stack
+            spacing={1}
+            direction='row'
+            justifyContent='space-between'
+          />
+          <Stack />
+        </div>
       </GridToolbarContainer>
+    )
+  }
+
+  const CustomPagination = () => {
+    const apiRef = useGridApiContext()
+    const page = useGridSelector(apiRef, gridPageSelector)
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector)
+
+    return (
+      <Pagination
+        color='primary'
+        variant='outlined'
+        shape='rounded'
+        page={page + 1}
+        count={pageCount}
+        renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
     )
   }
 
@@ -246,7 +281,7 @@ const Products = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText
-            className='text-gray-500 mt-4'
+            className='text-gray-500 mt-10'
             id='alert-dialog-description'
           >
             {selectedRows
@@ -292,9 +327,8 @@ const Products = () => {
               fontFamily: 'revert-layer',
               fontSize: 18,
               fontWeight: 500,
-              color: 'gray'
-            },
-            boxShadow: 2
+              color: 'black'
+            }
           }}
           rowHeight={100}
           rows={infShoes}
@@ -302,14 +336,14 @@ const Products = () => {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[10]}
-          checkboxSelection
           editMode={false}
           disableSelectionOnClick
           hideFooterSelectedRowCount
           components={{
             Toolbar: EditToolbar,
             NoRowsOverlay: customNoRowsOverlay,
-            NoResultsOverlay: customNoRowsOverlay
+            NoResultsOverlay: customNoRowsOverlay,
+            Pagination: CustomPagination
           }}
           componentsProps={{
             panel: {
@@ -325,9 +359,6 @@ const Products = () => {
             }
           }}
           experimentalFeatures={{ newEditingApi: true }}
-          onSelectionModelChange={(ids) => {
-            setSelectedRows(ids)
-          }}
         />
       </div>
     </div>
