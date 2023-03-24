@@ -98,7 +98,7 @@ const Products = () => {
       width: 150,
       editable: false,
       renderCell: (params) => {
-        const brand = params?.row?.brand[0].name
+        const brand = params?.row?.brand[0]?.name
         return <p className='font-serif'>{brand}</p>
       }
     },
