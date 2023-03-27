@@ -143,7 +143,7 @@ const Home = () => {
   ]
 
   return (
-    <div className='pt-14 rounded-t-2xl'>
+    <div className='pt-14 rounded-t-2xl z-0'>
       <div className='bg-slate-300 p-5'>
         <div className='grid grid-cols-1 gap-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-center'>
           {overviews.map((overview, index) => (
@@ -151,13 +151,13 @@ const Home = () => {
               key={index}
               className='mt-14 justify-center bg-white sm:w-full md:w-[90%] lg:w-[90%] h-44 rounded-2xl relative drop-shadow-lg'
             >
-              <div className='flex flex-row'>
+              <div className='flex flex-row justify-between'>
                 <div
                   className={`bg-${overview?.color} w-16 h-16 ml-4 rounded-lg -mt-3 text-white drop-shadow-lg flex flex-col justify-around items-center`}
                 >
                   {overview?.icon}
                 </div>
-                <div className='mt-2 right-6 absolute flex flex-col items-end'>
+                <div className='p-2 right-6 flex flex-col items-end'>
                   <span className='font-thin md:text-lg text-base text-gray-400'>
                     {overview.text}
                   </span>
@@ -167,13 +167,13 @@ const Home = () => {
                 </div>
               </div>
               <div>
-                <Divider className='text-black mt-7' variant='middle' />
-                <div className='flex flex-row font-bold items-center bottom-0 mt-14 ml-3'>
+                <Divider className='text-black' variant='middle' />
+                <div className='flex flex-row font-bold items-center mt-10 ml-3'>
                   <AiOutlinePlus className='text-xl text-green-600' size={20} />
                   <span className='text-xl text-green-600'>
                     <CountUp end={overview.quantityDifference} />
                   </span>
-                  <span className='text-base font-thin text-gray-400 ml-1'>
+                  <span className='text-base  font-thin text-gray-400 ml-1'>
                     {overview.compareWith}
                   </span>
                 </div>
