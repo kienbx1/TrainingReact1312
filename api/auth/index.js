@@ -9,7 +9,8 @@ const upload = require('../../middleware/imageUpload')
 // @route:  POST /api/auth/signup
 // @desc:   Register a new user
 router.post('/signup', async (req, res) => {
-  const { name, email, password, role, address, phoneNumber } = req.body
+  const { name, email, password, role, address, phoneNumber, districts, city } =
+    req.body
 
   if (password.length < 6) {
     return res.status(400).json({ msg: 'Mật khẩu tối thiểu 6 ký tự' })
@@ -31,7 +32,9 @@ router.post('/signup', async (req, res) => {
       password,
       role,
       address,
-      phoneNumber
+      phoneNumber,
+      districts,
+      city
     })
     const error = user.validateSync()
     if (error) {
@@ -176,6 +179,40 @@ router.put('/me', auth, upload.single('profilePic'), async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(500).json({ msg: 'Server error', error })
+  }
+})
+// @route:  put /api/auth/:id
+// @desc:   Cập nhật thông tin user
+router.put('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return res.status(404).json({ msg: 'Người dùng không tồn tại' })
+    }
+    const updateUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    )
+    res
+      .status(201)
+      .json({ products: updateUser, msg: 'Cập nhật thành công' })
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' })
+  }
+})
+
+// @route:  GET /api/products/:id
+// @desc:   Lấy thông tin chi tiết của products
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return res.status(404).json({ msg: 'Người dùng không tồn tại' })
+    }
+    res.status(200).json({ user })
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' })
   }
 })
 
