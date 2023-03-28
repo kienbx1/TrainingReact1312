@@ -20,6 +20,7 @@ nextApp.prepare().then(() => {
   app.use('/api/products', require('./api/products'))
   app.use('/api/orders', require('./api/orders'))
   app.use('/api/brand', require('./api/brand'))
+  app.use('/api/upload', require('./api/upload'))
 
   app.all('*', (req, res) => handle(req, res))
   server.listen(PORT, (err) => {
