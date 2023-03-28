@@ -5,82 +5,74 @@ import Cookies from 'universal-cookie'
 
 const cookies = new Cookies()
 
-export const signUpUser = createAsyncThunk(
-  'auth/signUpUser',
-  async (data) => {
-    try {
-      const response = await axios.post('/api/auth/signup', data)
-      if (response) {
-        toast.success(response.data.msg, {
-          position: 'top-right',
-          autoClose: 3500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light'
-        })
-      }
-      return response
-    } catch (error) {
-      if (error) {
-        toast.error(error.response.data.msg, {
-          position: 'top-right',
-          autoClose: 3500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light'
-        })
-      }
-      return error.response
-    }
-  }
-)
-
-export const loginUser = createAsyncThunk(
-  'auth/loginUser',
-  async (data) => {
-    try {
-      const response = await axios.post('/api/auth', data)
-      cookies.set('token', response.data.token)
-      return response
-    } catch (error) {
-      if (error) {
-        toast.error(error.response.data.msg, {
-          position: 'top-right',
-          autoClose: 3500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light'
-        })
-      }
-      return error.response
-    }
-  }
-)
-
-export const getMe = createAsyncThunk(
-  'auth/getMe',
-  async (token) => {
-    try {
-      const response = await axios.get('/api/auth/me', {
-        headers: {
-          Authorization: token
-        }
+export const signUpUser = createAsyncThunk('auth/signUpUser', async (data) => {
+  try {
+    const response = await axios.post('/api/auth/signup', data)
+    if (response) {
+      toast.success(response.data.msg, {
+        position: 'top-right',
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
       })
-      return response
-    } catch (error) {
-      return error.response
     }
+    return response
+  } catch (error) {
+    if (error) {
+      toast.error(error.response.data.msg, {
+        position: 'top-right',
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
+    }
+    return error.response
   }
-)
+})
+
+export const loginUser = createAsyncThunk('auth/loginUser', async (data) => {
+  try {
+    const response = await axios.post('/api/auth', data)
+    cookies.set('token', response.data.token)
+    // cookies.set('role', response.data.role)
+    return response
+  } catch (error) {
+    if (error) {
+      toast.error(error.response.data.msg, {
+        position: 'top-right',
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light'
+      })
+    }
+    return error.response
+  }
+})
+
+export const getMe = createAsyncThunk('auth/getMe', async (token) => {
+  try {
+    const response = await axios.get('/api/auth/me', {
+      headers: {
+        Authorization: token
+      }
+    })
+    return response
+  } catch (error) {
+    return error.response
+  }
+})
 
 const initialState = {
   user: {},
@@ -146,6 +138,7 @@ const authSlice = createSlice({
           state.msg = action.payload.data.msg
         } else {
           state.error = false
+
           state.msg = action.payload.data.msg
         }
       })

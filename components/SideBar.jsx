@@ -21,13 +21,14 @@ import { SiBrandfolder } from 'react-icons/si'
 import { SlMenu } from 'react-icons/Sl'
 import { FiBell } from 'react-icons/fi'
 import { ImExit } from 'react-icons/Im'
-import { InputBase, ListItem, Paper } from '@mui/material'
-import { BsSearch } from 'react-icons/Bs'
+import { resetState } from '../redux/slices/authSlice'
+import { ListItem } from '@mui/material'
 import {
   addTask,
   selectActiveSideBar
 } from '../redux/slices/isActiveSideBarSlice'
 import Popover from '@mui/material/Popover'
+import Cookies from 'universal-cookie'
 
 const colorSideBar = '#f9f9f9'
 const sizeIcon = 20
@@ -109,7 +110,7 @@ const notifications = [
 const drawerWidth = 240
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
-    flexGrow: 1,
+    flexGrow: 0,
     padding: theme.spacing(0),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
@@ -154,11 +155,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft () {
   const theme = useTheme()
   const dispatch = useDispatch()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const [title, setTitle] = useState('Trang chủ')
   const { user } = useSelector((state) => state?.auth)
   const [openLisNotification, setOpenLisNotification] = useState(false)
   const selectedPage = useSelector(selectActiveSideBar)
+  const cookies = new Cookies()
 
   const handleClickNotification = (event) => {
     setOpenLisNotification(event.currentTarget)
@@ -217,7 +219,7 @@ export default function PersistentDrawerLeft () {
               onClick={handleDrawerOpen}
               edge='start'
               sx={{
-                marginRight: 5,
+                marginRight: 0,
                 ...(open && { display: 'none' })
               }}
             >
@@ -232,26 +234,6 @@ export default function PersistentDrawerLeft () {
               {title}
             </Typography>
           </div>
-          <Paper
-            component='form'
-            sx={{
-              p: '2px 4px',
-              display: 'flex',
-              alignItems: 'center',
-              width: '30%'
-            }}
-          >
-            <IconButton sx={{ p: '10px' }} aria-label='menu'>
-              <BsSearch size={15} />
-            </IconButton>
-            <Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder='Tìm kiếm'
-              inputProps={{ 'aria-label': 'Tìm kiếm' }}
-            />
-            <IconButton type='button' sx={{ p: '10px' }} aria-label='search' />
-          </Paper>
           <div className='flex flex-row text-black items-center'>
             <Typography>{user?.name || ''}</Typography>
             <img className='rounded-full w-10 mx-4' src={user?.profilePicUrl} />
@@ -302,13 +284,13 @@ export default function PersistentDrawerLeft () {
         </DrawerHeader>
         {menu.map((item, index) => {
           return (
-            <div className='mt-4' key={index}>
+            <div key={index}>
               <List>
                 {item.title && (
                   <ListItemText
                     primary={item.title}
                     primaryTypographyProps={{ fontSize: 20 }}
-                    sx={{ opacity: open ? 1 : 0, p: 2 }}
+                    sx={{ opacity: open ? 1 : 0, px: 2 }}
                   />
                 )}
                 {item.children.map((child, index) => (
@@ -318,10 +300,16 @@ export default function PersistentDrawerLeft () {
                     sx={{ display: 'block' }}
                   >
                     <ListItemButton
-                      onClick={(event) => {
-                        dispatch(addTask(child.path))
-                        router.push(child.path)
-                        setTitle(child.des)
+                      onClick={() => {
+                        if (child.path === '/') {
+                          dispatch(resetState())
+                          cookies.remove('token')
+                          if (cookies.get('token') === undefined) { router.push('/login') }
+                        } else {
+                          dispatch(addTask(child.path))
+                          router.push(child.path)
+                          setTitle(child.des)
+                        }
                       }}
                       selected={selectedPage === child.path}
                       sx={{
