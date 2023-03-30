@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const upload = require('../../middleware/imageUpload')
+const uploadFile = require('../../middleware/imageUpload')
 
 // @route:  POST /api/upload/
 // @desc:   Thêm mới upload
-router.post('/', upload.array('images', 10), async (req, res) => {
+router.post('/', uploadFile.array('images', 10), async (req, res) => {
   try {
     const images = []
     if (req.files && req.files.length) {
@@ -19,10 +19,10 @@ router.post('/', upload.array('images', 10), async (req, res) => {
     if (!images?.length) {
       res.status(400).json({ msg: 'Vui lòng nhập đầy đủ thông tin' })
     }
-    return res
-      .status(201)
-      .json({ images, msg: 'Upload thành công' })
+    return res.status(201).json({ images, msg: 'Upload thành công' })
   } catch (err) {
     res.status(500).json({ msg: 'Server error' })
   }
 })
+
+module.exports = router
