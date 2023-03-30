@@ -41,6 +41,29 @@ router.post('/', upload.single('banner'), async (req, res) => {
   }
 })
 
+router.put('/:id', auth, async (req, res) => {
+  try {
+    resp = await Brand.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    res.status(200).json({ msg: 'Update thành công' })
+  } catch (error) {
+    res.status(500).json({ msg: 'Server error', error })
+  }
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const brand = await Brand.findById(req.params.id)
+    if (!brand) {
+      return res.status(404).json({ msg: 'Thương hiệu không tồn tại' })
+    }
+    await Brand.findByIdAndDelete(req.params.id)
+
+    res.status(201).json({ msg: 'xóa thương hiệu thành công' })
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' })
+  }
+})
+
 // router.post('/', upload.single('logo'), upload.single('banner') , async (req, res, next) => {
 //   if (req.files && req.files.length) {
 //     console.log("router.route ~ req.files:", req.files)
