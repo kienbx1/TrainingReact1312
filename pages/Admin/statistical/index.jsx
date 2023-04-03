@@ -5,13 +5,28 @@ import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import AdminLayout from '../../../components/layouts/AdminLayout'
 import { useEffect, useState } from 'react'
-import { DataGrid } from '@mui/x-data-grid'
+import {
+  DataGrid,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector
+} from '@mui/x-data-grid'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { messageSuccess, messageError } from '../../../components/toastify'
 import moment from 'moment/moment'
-import { Divider, MenuItem, Select } from '@mui/material'
+import {
+  Divider,
+  InputAdornment,
+  MenuItem,
+  Pagination,
+  PaginationItem,
+  Select,
+  TextField
+} from '@mui/material'
 import customNoRowsOverlay from '../../../components/noRowInDataGrid'
+import { AiOutlineSearch } from 'react-icons/ai'
 
 const tabs = [
   { label: 'Đang chờ', value: '1' },
@@ -43,11 +58,13 @@ const Statistical = () => {
   }
 
   const columns = [
-    { field: '_id', headerName: 'ID', width: 90, editable: false },
     {
       field: 'productName',
       headerName: 'Tên sản phẩm',
       width: 180,
+      headerAlign: 'left',
+      flex: 1,
+      align: 'left',
       editable: false,
       renderCell: (params) => {
         const nameOfProduct = params?.row?.products.map((item) => item.name)
@@ -57,13 +74,17 @@ const Statistical = () => {
     {
       field: 'userName',
       headerName: 'Tên người mua',
-      width: 150,
+      flex: 1,
+      width: 180,
       editable: false
     },
     {
       field: 'status',
       headerName: 'Trạng thái',
+      flex: 1,
       width: 150,
+      headerAlign: 'left',
+      align: 'left',
       renderCell: (params) => {
         return (
           <Select
@@ -72,7 +93,7 @@ const Statistical = () => {
               '.MuiOutlinedInput-notchedOutline': { border: 0 }
             }}
             disableUnderline
-            variant='outlined'
+            variant='standard'
             defaultValue={params?.row?.status}
             className='pr-3 text-black flex flex-row justify-center'
           >
@@ -92,34 +113,38 @@ const Statistical = () => {
       }
     },
     {
-      field: 'quantityProduct',
-      headerName: 'Số lượng',
-      width: 110,
-      editable: false
-    },
-    {
-      field: 'totalPrice',
-      headerName: 'Tổng tiền',
-      type: 'number',
-      width: 110,
-      editable: false
-    },
-    {
-      field: 'address',
-      headerName: 'Địa chỉ',
-      type: 'number',
-      width: 350,
-      editable: false
-    },
-    {
       field: 'createdAt',
       headerName: 'Thời gian đặt hàng',
-      width: 150,
+      width: 200,
+      headerAlign: 'left',
+      flex: 1,
+      align: 'left',
       editable: false,
       renderCell: (params) => {
         const timeOfOrder = moment(params?.row?.createdAt).format('DD/MM/YYYY')
         return <p className='font-serif'>{timeOfOrder}</p>
       }
+    },
+    {
+      field: 'totalPrice',
+      headerName: 'Tổng tiền',
+      type: 'number',
+      headerAlign: 'left',
+      align: 'left',
+      width: 200,
+      editable: false,
+      renderCell: (params) => {
+        return (
+          <span className='flex flex-row'>{params.row?.totalPrice} VND</span>
+        )
+      }
+    },
+    {
+      field: 'address',
+      headerName: 'Địa chỉ',
+      type: 'number',
+      width: 430,
+      editable: false
     }
   ]
 
@@ -153,6 +178,23 @@ const Statistical = () => {
         messageError(err)
       })
   }
+  function CustomPagination () {
+    const apiRef = useGridApiContext()
+    const page = useGridSelector(apiRef, gridPageSelector)
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector)
+
+    return (
+      <Pagination
+        color='primary'
+        variant='outlined'
+        shape='rounded'
+        page={page + 1}
+        count={pageCount}
+        renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+    )
+  }
 
   // Get all data
   useEffect(() => {
@@ -166,7 +208,7 @@ const Statistical = () => {
   }, [])
 
   return (
-    <div className='p-6 h-full h-screen mt-20 bg-slate-200'>
+    <div className='p-6 h-fit mt-20 bg-slate-200'>
       <div className='p-2 bg-[#f9f9f9] rounded-xl'>
         <Box
           component='form'
@@ -174,7 +216,14 @@ const Statistical = () => {
           sx={{ width: '100%', height: '100%', typography: 'body1' }}
         >
           <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box
+              sx={{
+                borderBottom: 0,
+                borderColor: 'divider',
+                display: 'flex',
+                justifyContent: 'space-between'
+              }}
+            >
               <TabList onChange={handleChange}>
                 {tabs.map((item, index) => (
                   <Tab
@@ -185,10 +234,21 @@ const Statistical = () => {
                   />
                 ))}
               </TabList>
-              <Divider sx={{ mt: 3 }} />
+              <TextField
+                id='search'
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <AiOutlineSearch />
+                    </InputAdornment>
+                  )
+                }}
+                className='w-1/4 mx-3'
+              />
             </Box>
+            <Divider sx={{ marginTop: 2 }} />
             <TabPanel value='1'>
-              <Box sx={{ height: 600, width: '100%' }}>
+              <Box sx={{ height: 640, width: '100%' }}>
                 <DataGrid
                   rows={infOrders.filter((data) => data.status === 'Waiting')}
                   columns={columns}
@@ -205,7 +265,8 @@ const Statistical = () => {
                     },
                     '& .MuiDataGrid-columnHeaderTitle': {
                       fontFamily: 'revert-layer',
-                      fontSize: 18
+                      fontSize: 19,
+                      color: 'black'
                     }
                   }}
                   pageSize={10}
@@ -214,13 +275,14 @@ const Statistical = () => {
                   disableSelectionOnClick
                   components={{
                     NoRowsOverlay: customNoRowsOverlay,
-                    NoResultsOverlay: customNoRowsOverlay
+                    NoResultsOverlay: customNoRowsOverlay,
+                    Pagination: CustomPagination
                   }}
                 />
               </Box>
             </TabPanel>
             <TabPanel value='2'>
-              <Box sx={{ height: 600, width: '100%' }}>
+              <Box sx={{ height: 640, width: '100%' }}>
                 <DataGrid
                   rows={infOrders.filter((data) => data.status === 'Accepted')}
                   columns={columns}
@@ -237,7 +299,8 @@ const Statistical = () => {
                     },
                     '& .MuiDataGrid-columnHeaderTitle': {
                       fontFamily: 'revert-layer',
-                      fontSize: 18
+                      fontSize: 19,
+                      color: 'black'
                     }
                   }}
                   pageSize={10}
@@ -246,13 +309,14 @@ const Statistical = () => {
                   disableSelectionOnClick
                   components={{
                     NoRowsOverlay: customNoRowsOverlay,
-                    NoResultsOverlay: customNoRowsOverlay
+                    NoResultsOverlay: customNoRowsOverlay,
+                    Pagination: CustomPagination
                   }}
                 />
               </Box>
             </TabPanel>
             <TabPanel value='3'>
-              <Box sx={{ height: 600, width: '100%' }}>
+              <Box sx={{ height: 640, width: '100%' }}>
                 <DataGrid
                   rows={infOrders.filter((data) => data.status === 'Denied')}
                   columns={columns}
@@ -269,7 +333,8 @@ const Statistical = () => {
                     },
                     '& .MuiDataGrid-columnHeaderTitle': {
                       fontFamily: 'revert-layer',
-                      fontSize: 18
+                      fontSize: 19,
+                      color: 'black'
                     }
                   }}
                   pageSize={10}
@@ -278,7 +343,8 @@ const Statistical = () => {
                   disableSelectionOnClick
                   components={{
                     NoRowsOverlay: customNoRowsOverlay,
-                    NoResultsOverlay: customNoRowsOverlay
+                    NoResultsOverlay: customNoRowsOverlay,
+                    Pagination: CustomPagination
                   }}
                 />
               </Box>
