@@ -27,6 +27,12 @@ const userSchema = new mongoose.Schema(
     phoneNumber: {
       type: String
     },
+    city: {
+      type: String
+    },
+    districts: {
+      type: String
+    },
     address: {
       type: String
     },

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const upload = require('../../middleware/imageUpload')
+const auth = require('../../middleware/auth')
 
 const Brand = require('./model')
 
@@ -43,7 +44,10 @@ router.post('/', upload.single('banner'), async (req, res) => {
 
 router.put('/:id', auth, async (req, res) => {
   try {
-    resp = await Brand.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const resp = await Brand.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    if (!resp) {
+      return res.status(404).json({ msg: 'Không tìm thấy thương hiệu' })
+    }
     res.status(200).json({ msg: 'Update thành công' })
   } catch (error) {
     res.status(500).json({ msg: 'Server error', error })

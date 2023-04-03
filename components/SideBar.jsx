@@ -64,7 +64,7 @@ const menu = [
         txtColor: 'text-green-500'
       },
       {
-        path: '/admin/product/products',
+        path: '/admin/product/Products',
         des: 'Sản phẩm',
         icon: <GiConverseShoe size={sizeIcon} className='mr-2 text-blue-500' />,
         txtColor: 'text-blue-900'
@@ -320,7 +320,7 @@ export default function PersistentDrawerLeft () {
                         borderRadius: 3,
                         '&.Mui-selected': {
                           backgroundColor: '#B2BEB5',
-                          boxShadow: 10
+                          boxShadow: 4
                         },
                         ':hover': {
                           backgroundColor: '#D3D3D3'
@@ -340,8 +340,8 @@ export default function PersistentDrawerLeft () {
                         primary={child.des}
                         sx={{
                           opacity: open ? 1 : 0,
-                          fontSize: 17,
-                          fontWeight: 10
+                          fontSize: 22,
+                          fontWeight: 20
                         }}
                       />
                     </ListItemButton>

@@ -6,7 +6,8 @@ import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import { TabContext } from '@mui/lab'
 import 'react-toastify/dist/ReactToastify.css'
-import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
+import { AiOutlineEdit, AiOutlineSearch } from 'react-icons/ai'
+import { DataGrid } from '@mui/x-data-grid'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import {
   Button,
@@ -15,14 +16,14 @@ import {
   DialogContent,
   DialogTitle,
   Stack,
-  TextField,
   Avatar,
-  MenuItem,
   DialogContentText,
-  Divider
+  Divider,
+  Pagination,
+  TextField,
+  InputAdornment
 } from '@mui/material'
 import { useRouter } from 'next/router'
-import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import customNoRowsOverlay from '../../../components/noRowInDataGrid'
@@ -47,39 +48,24 @@ const User = () => {
       field: 'email',
       headerName: 'Tài khoản',
       width: 200,
+      flex: 1,
+      editable: true
+    },
+    {
+      field: 'name',
+      headerName: 'Tên người dùng',
+      width: 150,
+      flex: 1,
       editable: true
     },
     {
       field: 'pass',
       headerName: 'Mật khẩu',
       width: 100,
+      flex: 1,
       renderCell: (params) => {
         return <Button>Reset</Button>
       }
-    },
-    {
-      field: 'name',
-      headerName: 'Tên người dùng',
-      width: 150,
-      editable: true
-    },
-    {
-      field: 'phoneNumber',
-      headerName: 'Số điện thoại',
-      width: 150,
-      editable: true
-    },
-    {
-      field: 'address',
-      headerName: 'Địa chỉ',
-      width: 250,
-      editable: true
-    },
-    {
-      field: 'role',
-      headerName: 'Quản trị',
-      width: 100,
-      editable: true
     },
     {
       field: 'actions',
@@ -87,36 +73,61 @@ const User = () => {
       width: 150,
       renderCell: (params) => {
         return (
-          <Button
-            onClick={() => {
-              router.push({
-                pathname: '/Admin/user/[id]',
-                query: { id: params.id }
-              })
-            }}
-          >
-            Xem chi tiết
-          </Button>
+          <div>
+            <Button
+              onClick={() => {
+                router.push({
+                  pathname: '/admin/addnewuser',
+                  query: { id: params.id }
+                })
+              }}
+            >
+              <AiOutlineEdit size={20} className='cursor-pointer' />
+            </Button>
+            <Button
+              className='cursor-pointer'
+              onClick={() => {
+                setDelId(params.id)
+                setOpenAlertDelRow(true)
+              }}
+            >
+              <FaTrashAlt size={20} />
+            </Button>
+
+          </div>
         )
       }
     }
   ]
 
-  const cookies = new Cookies()
   const [value, setValue] = useState('1')
-  const [open, setOpen] = useState(false)
   const [openAlertDelRow, setOpenAlertDelRow] = useState(false)
-  const [inputs, setInputs] = useState({})
-  const [inf, setInf] = useState([])
+  const [infUser, setInfUser] = useState([])
   const [delId, setDelId] = useState()
-  const [validationPass, setValidationPass] = useState(false)
-  const [validationEmail, setValidationEmail] = useState(false)
-  const [validationPhone, setValidationPhone] = useState(false)
-  const handleClose = () => {
-    setOpen(false)
-    setInputs('')
-  }
   const router = useRouter()
+
+  const PAGE_SIZE = 5
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: PAGE_SIZE,
+    page: 0
+  })
+  const [skip, setSkip] = useState(0)
+
+  function RoundedPagination () {
+    return (
+      <Pagination
+        color='primary'
+        variant='outlined'
+        shape='rounded'
+        page={skip + 1}
+        count={skip + 2}
+        onChange={(event, value) => {
+          setSkip(value - 1)
+        }}
+      />
+    )
+  }
+
   // Toast
   const messageSuccess = (res) => {
     toast.success(res?.data?.msg)
@@ -129,35 +140,11 @@ const User = () => {
     axios({
       url: '/api/auth/',
       method: 'GET',
-      data: inputs
+      params: { skip: skip }
     }).then((res) => {
-      setInf(res?.data?.user)
+      setInfUser(res?.data?.user)
     })
-  }, [delId])
-  // Get value from textField
-  const handleChangeField = (e) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [e?.target?.name]: e?.target?.value
-    }))
-  }
-  // Add new user
-  const handleConfirm = () => {
-    axios
-      .post('/api/auth/signup', inputs)
-      .then((res) => {
-        if (res) {
-          messageSuccess(res)
-          setInputs('')
-        }
-      })
-      .catch((error) => {
-        const err = error?.response?.data?.msg
-        if (error) {
-          messageError(err)
-        }
-      })
-  }
+  }, [skip])
   // Switch tabs
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -166,8 +153,11 @@ const User = () => {
   const onHandleDel = () => {
     axios({ url: `/api/auth/${delId}`, method: 'DELETE' })
       .then((res) => {
-        if (res) messageSuccess(res)
-        setDelId('')
+        if (res) {
+          messageSuccess(res)
+          setInfUser(infUser.filter((data) => data._id !== delId))
+          setDelId('')
+        }
       })
       .catch((error) => {
         const err = error?.response?.data?.msg
@@ -176,65 +166,10 @@ const User = () => {
         }
       })
   }
-  // Update user
-  const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow }
-    const field = {
-      name: newRow.name,
-      email: newRow.email,
-      password: newRow.password,
-      role: newRow.role,
-      address: newRow.address,
-      phoneNumber: newRow.phoneNumber,
-      profilePicUrl: newRow.profilePicUrl
-    }
-    // Gọi api update row
-    axios({
-      url: '/api/auth/me',
-      method: 'PUT',
-      data: field,
-      headers: { Authorization: `${cookies.get('token')}` }
-    })
-      .then((res) => {
-        if (res) messageSuccess(res)
-      })
-      .catch((error) => {
-        const err = error?.response?.data?.msg
-        if (error) {
-          messageError(err)
-        }
-      })
-    return updatedRow
-  }
-  const EditToolbar = () => {
-    const handleOpen = () => setOpen(true)
-    return (
-      <GridToolbarContainer>
-        <Stack spacing={2} direction='row'>
-          <Button
-            startIcon={<FaPlus size={15} />}
-            color='primary'
-            variant='outlined'
-            onClick={handleOpen}
-          >
-            Thêm mới
-          </Button>
-          <Button
-            startIcon={<FaTrashAlt size={15} />}
-            color='error'
-            variant='outlined'
-            onClick={() => {
-              setOpenAlertDelRow(true)
-            }}
-          >
-            Xoá
-          </Button>
-        </Stack>
-      </GridToolbarContainer>
-    )
-  }
+
   return (
-    <div className='mt-20 p-6 bg-slate-200 h-screen'>
+    <div className='mt-20 p-6 bg-slate-200 h-fit'>
+
       <div className='p-2 bg-[#f9f9f9] rounded-xl'>
         <Box
           component='form'
@@ -271,9 +206,7 @@ const User = () => {
                 className='text-gray-500 mt-4'
                 id='alert-dialog-description'
               >
-                {delId
-                  ? 'Bạn có chắc muốn xoá người dùng này'
-                  : 'Chưa có người dùng được chọn'}
+                Bạn có chắc muốn xoá người dùng này
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -289,135 +222,8 @@ const User = () => {
               </Button>
             </DialogActions>
           </Dialog>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby='modal-modal-title'
-            aria-describedby='modal-modal-description'
-          >
-            <Box>
-              <DialogTitle sx={{ fontSize: 22 }} id='modal-modal-title' variant='h5' component='h2'>
-                Thêm mới tài khoản
-              </DialogTitle>
-              <Divider />
-              <DialogContent>
-                <Box
-                  id='modal-modal-description'
-                  component='form'
-                  sx={{
-                    '& .MuiTextField-root': { m: 1, width: '100%' }
-                  }}
-                >
-                  <TextField
-                    label='Email'
-                    value={inputs ? inputs.email : ''}
-                    variant='outlined'
-                    error={validationEmail}
-                    onChange={(e) => {
-                      if (
-                        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-                          e.target.value
-                        )
-                      ) {
-                        setValidationEmail(false)
-                        handleChangeField(e)
-                      } else {
-                        setValidationEmail(true)
-                      }
-                    }}
-                    name='email'
-                    required
-                  />
-                  <TextField
-                    label='Mật khẩu'
-                    value={inputs ? inputs.password : ''}
-                    variant='outlined'
-                    required
-                    onChange={(e) => {
-                      if (e.target.value.length >= 6) {
-                        setValidationPass(false)
-                        setInputs((prevState) => ({
-                          ...prevState,
-                          [e.target.name]: e.target.value
-                        }))
-                      } else {
-                        setInputs((prevState) => ({
-                          ...prevState,
-                          [e.target.name]: e.target.value
-                        }))
-                        setValidationPass(true)
-                      }
-                    }}
-                    name='password'
-                    error={validationPass}
-                  />
-                  <TextField
-                    key='Tên người dùng'
-                    value={inputs ? inputs.name : ''}
-                    label='Tên người dùng'
-                    variant='outlined'
-                    onChange={handleChangeField}
-                    name='name'
-                  />
-                  <TextField
-                    label='Số điện thoại'
-                    value={inputs ? inputs.phoneNumber : ''}
-                    variant='outlined'
-                    error={validationPhone}
-                    onChange={(e) => {
-                      if (e.target.value.length === 10) {
-                        setValidationPhone(false)
-                        setInputs((prevState) => ({
-                          ...prevState,
-                          [e.target.name]: e.target.value
-                        }))
-                      } else {
-                        setValidationPhone(true)
-                        setInputs((prevState) => ({
-                          ...prevState,
-                          [e.target.name]: e.target.value
-                        }))
-                      }
-                    }}
-                    name='phoneNumber'
-                  />
-                  <TextField
-                    label='Địa chỉ'
-                    value={inputs ? inputs.address : ''}
-                    variant='outlined'
-                    onChange={handleChangeField}
-                    name='address'
-                  />
-                  <TextField
-                    label='Quản trị'
-                    value={inputs ? inputs.role : ''}
-                    variant='outlined'
-                    select
-                    defaultValue='user'
-                    onChange={handleChangeField}
-                    name='role'
-                  >
-                    <MenuItem value='user'>User</MenuItem>
-                    <MenuItem value='admin'>Admin</MenuItem>
-                  </TextField>
-                </Box>
-              </DialogContent>
-              <DialogActions>
-                <Button variant='outlined' color='error' onClick={handleClose}>
-                  Huỷ bỏ
-                </Button>
-                <Button
-                  variant='outlined'
-                  color='success'
-                  onClick={handleConfirm}
-                >
-                  Xác nhận
-                </Button>
-              </DialogActions>
-            </Box>
-          </Dialog>
           <TabContext value={value}>
-            <Box>
+            <Box className='flex flex-row justify-between'>
               <TabList onChange={handleChange}>
                 {tabs.map((tab) => (
                   <Tab
@@ -428,7 +234,30 @@ const User = () => {
                   />
                 ))}
               </TabList>
-              <Divider sx={{ mt: 3 }} />
+              <Stack spacing={2} direction='row'>
+                <TextField
+                  id='search'
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <AiOutlineSearch />
+                      </InputAdornment>
+                    )
+                  }}
+                  className='w-1/2 mr-3'
+                />
+                <Button
+                  startIcon={<FaPlus size={15} />}
+                  color='primary'
+                  variant='outlined'
+                  onClick={() => {
+                    router.push('/admin/addnewuser')
+                  }}
+                >
+                  Thêm mới
+                </Button>
+                <Divider sx={{ mt: 3 }} />
+              </Stack>
             </Box>
             <TabPanel value='1'>
               <Box>
@@ -444,26 +273,30 @@ const User = () => {
                     '& .MuiDataGrid-columnSeparator--sideRight': {
                       display: 'none'
                     },
-                    height: 550,
+                    '& .MuiDataGrid-columnHeaderTitle': {
+                      fontFamily: 'revert-layer',
+                      fontSize: 19,
+                      fontWeight: 500,
+                      color: 'black'
+                    },
+                    height: 700,
                     width: '100%'
                   }}
-                  rows={inf?.filter((data) => data.role === 'user')}
+                  rows={infUser?.filter((data) => data.role === 'user')}
                   getRowId={(row) => row._id}
                   columns={columns}
+                  rowHeight={60}
                   pageSize={10}
                   rowsPerPageOptions={[10]}
                   disableSelectionOnClick
-                  editMode='row'
-                  processRowUpdate={processRowUpdate}
+                  paginationModel={paginationModel}
+                  onPaginationModelChange={setPaginationModel}
+                  pageSizeOptions={[PAGE_SIZE]}
                   experimentalFeatures={{ newEditingApi: true }}
                   components={{
-                    Toolbar: EditToolbar,
                     NoRowsOverlay: customNoRowsOverlay,
-                    NoResultsOverlay: customNoRowsOverlay
-                  }}
-                  checkboxSelection
-                  onSelectionModelChange={(ids) => {
-                    setDelId(ids)
+                    NoResultsOverlay: customNoRowsOverlay,
+                    Pagination: RoundedPagination
                   }}
                 />
               </Box>
@@ -487,22 +320,26 @@ const User = () => {
                     '& .MuiDataGrid-columnSeparator--sideRight': {
                       display: 'none'
                     },
+                    '& .MuiDataGrid-columnHeaderTitle': {
+                      fontFamily: 'revert-layer',
+                      fontSize: 19,
+                      fontWeight: 500,
+                      color: 'black'
+                    },
                     height: 550,
                     width: '100%'
                   }}
-                  rows={inf?.filter((data) => data.role === 'admin')}
+                  rows={infUser?.filter((data) => data.role === 'admin')}
                   getRowId={(row) => row._id}
                   columns={columns}
                   pageSize={10}
                   rowsPerPageOptions={[10]}
                   disableSelectionOnClick
-                  editMode='row'
-                  processRowUpdate={processRowUpdate}
                   experimentalFeatures={{ newEditingApi: true }}
-                  components={{ Toolbar: EditToolbar }}
-                  checkboxSelection
-                  onSelectionModelChange={(ids) => {
-                    setDelId(ids)
+                  components={{
+                    NoRowsOverlay: customNoRowsOverlay,
+                    NoResultsOverlay: customNoRowsOverlay,
+                    Pagination: RoundedPagination
                   }}
                 />
               </Box>

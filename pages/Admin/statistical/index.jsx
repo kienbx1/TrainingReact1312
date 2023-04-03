@@ -105,7 +105,7 @@ const Statistical = () => {
       editable: false
     },
     {
-      field: 'add',
+      field: 'address',
       headerName: 'Địa chỉ',
       type: 'number',
       width: 350,
@@ -158,8 +158,8 @@ const Statistical = () => {
   useEffect(() => {
     axios.get('/api/orders/').then((res) => {
       res?.data?.order?.map((item) => {
-        item.add = `${item.address}, ${item.district}, ${item.city}`
-        return item.add
+        item.address = `${item.address}, ${item.district}, ${item.city}`
+        return item.address
       })
       setInfOrders(res?.data?.order)
     })

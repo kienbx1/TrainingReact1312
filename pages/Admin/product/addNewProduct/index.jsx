@@ -88,10 +88,7 @@ const AddNewProduct = () => {
       .then((res) => {
         setOpenModal(false)
         messageSuccess(res)
-        setDataProduct((prevState) => ({
-          ...prevState,
-          images: res.data.images
-        }))
+        if (productID) { dataProduct.images = [...dataProduct.images, ...res?.data?.images] } else dataProduct.images = [...res?.data?.images]
       })
       .catch((error) => {
         const err = error?.response?.data?.msg || 'Server Error'
@@ -172,7 +169,7 @@ const AddNewProduct = () => {
   }
 
   return (
-    <div className='bg-gray-200 h-screen rounded-t-2xl p-3 flex flex-col pt-24'>
+    <div className='bg-gray-200 h-fit rounded-t-2xl p-3 flex flex-col pt-24'>
       <Dialog
         open={openModal}
         aria-labelledby='alert-dialog-title'
@@ -188,7 +185,7 @@ const AddNewProduct = () => {
           </DialogContentText>
         </DialogContent>
       </Dialog>
-      <div className='bg-white rounded-xl p-3 h-screen'>
+      <div className='bg-white rounded-xl p-3 h-fit'>
         <span className='w-full text-xl p-5 flex flex-row items-center'>
           <MdOutlineArrowBackIosNew
             className='mr-2 cursor-pointer'
@@ -215,7 +212,7 @@ const AddNewProduct = () => {
                 handleChangeImage(e)
               }}
             />
-            <label>
+            <label htmlFor='name'>
               <Button
                 className='bg-slate-200 lg:p-12 md:p-8 border-2 border-dashed rounded-lg'
                 component='span'
@@ -224,13 +221,11 @@ const AddNewProduct = () => {
                 Thêm hình ảnh
               </Button>
             </label>
-            <div className='grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3 h-auto gap-3 border-r-black'>
+            <div className='grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 h-auto gap-3 border-r-black'>
               {renderImage(images)}
             </div>
           </div>
-          <label className='mt-3'>
-            Tên sản phẩm
-          </label>
+          <label className='mt-3'>Tên sản phẩm</label>
           <div className='flex flex-col bg-white rounded-xl'>
             <TextField
               onChange={handleChangeField}
@@ -239,9 +234,7 @@ const AddNewProduct = () => {
               className='mt-3'
               value={dataProduct?.name || ''}
             />
-            <label className='mt-3'>
-              Thương hiệu
-            </label>
+            <label className='mt-3'>Thương hiệu</label>
             <TextField
               onChange={handleChangeField}
               name='brandId'
@@ -267,9 +260,7 @@ const AddNewProduct = () => {
                 )
               })}
             </TextField>
-            <label className='mt-3'>
-              Kích cỡ
-            </label>
+            <label className='mt-3'>Kích cỡ</label>
             <Select
               className='mt-3'
               required
@@ -299,9 +290,7 @@ const AddNewProduct = () => {
             </Select>
             <div className='flex flex-row w-full'>
               <div className='flex flex-col w-full'>
-                <label className='mt-3'>
-                  Giá nhập
-                </label>
+                <label className='mt-3'>Giá nhập</label>
                 <TextField
                   onChange={handleChangeField}
                   name='priceInput'
@@ -312,9 +301,7 @@ const AddNewProduct = () => {
                 />
               </div>
               <div className='flex flex-col w-full'>
-                <label className='mt-3'>
-                  Giá bán
-                </label>
+                <label className='mt-3'>Giá bán</label>
                 <TextField
                   onChange={handleChangeField}
                   name='price'
@@ -327,9 +314,7 @@ const AddNewProduct = () => {
             </div>
             <div className='flex flex-row'>
               <div className='flex flex-col w-full'>
-                <label className='mt-3'>
-                  Giảm giá (%)
-                </label>
+                <label className='mt-3'>Giảm giá (%)</label>
                 <TextField
                   onChange={(e) => {
                     setDataProduct((prevState) => ({
@@ -338,16 +323,14 @@ const AddNewProduct = () => {
                     }))
                   }}
                   name='discount'
-                  required
+                  inputProps={{ min: 0, max: 100 }}
                   value={dataProduct?.discount || ''}
                   type='number'
                   className='mt-2 w-full pr-1'
                 />
               </div>
               <div className='flex flex-col w-full'>
-                <label className='mt-3'>
-                  Số lượng nhập
-                </label>
+                <label className='mt-3'>Số lượng nhập</label>
                 <TextField
                   onChange={(e) => {
                     setDataProduct((prevState) => ({
