@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const upload = require('../../middleware/imageUpload')
 const auth = require('../../middleware/auth')
-
 const Brand = require('./model')
 
 router.get('/', async (req, res) => {
